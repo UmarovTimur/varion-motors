@@ -36,8 +36,16 @@ export function ArrowIcon({
               "transition-transform duration-(--dur-base) ease-out group-hover:translate-x-0",
           )}
         >
-          <ArrowRight className="size-[18px] shrink-0" strokeWidth={2} aria-hidden />
-          <ArrowRight className="size-[18px] shrink-0" strokeWidth={2} aria-hidden />
+          <ArrowRight
+            className="size-[18px] shrink-0"
+            strokeWidth={2}
+            aria-hidden
+          />
+          <ArrowRight
+            className="size-[18px] shrink-0"
+            strokeWidth={2}
+            aria-hidden
+          />
         </span>
       </span>
     </span>

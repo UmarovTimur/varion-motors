@@ -144,7 +144,7 @@ body {
   background-image: linear-gradient(
     180deg,
     rgb(0 0 0 / 0.2) 0%,
-    rgb(0 0 0 / 0.5) 64%,
+    rgb(0 0 0 / 0.5) 72%,
     rgb(0 0 0 / 0.8) 100%
   );
 }
@@ -173,4 +173,29 @@ body {
 
 @utility animate-accordion-up {
   animation: accordion-up 0.2s ease-out;
+}
+
+/* Search Micro-Animation (Framer S73595blv) — three 6px Greys/Grey dots that
+ * cycle through four variants. The XML never carries the per-variant deltas
+ * (see the MCP limits), so the cycle is rendered as a staggered pulse on the
+ * project's own ease-out curve. */
+@keyframes search-dot-pulse {
+  0%,
+  60%,
+  100% {
+    background-color: var(--color-grey);
+  }
+  30% {
+    background-color: var(--color-grey-dark);
+  }
+}
+
+@utility animate-search-dot {
+  animation: search-dot-pulse 1.2s var(--ease-out) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-search-dot {
+    animation: none;
+  }
 }

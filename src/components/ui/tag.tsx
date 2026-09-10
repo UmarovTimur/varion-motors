@@ -1,6 +1,9 @@
 import { cn } from "@/lib/utils";
 
-/** Section eyebrow using the TAG text style (§14). */
+/**
+ * Section eyebrow using the TAG text style (§14): 16px / 1.5, medium, uppercase,
+ * no extra tracking and no bullet — Framer's Section Tag is the text alone.
+ */
 export function Tag({
   children,
   className,
@@ -11,12 +14,11 @@ export function Tag({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 text-tag tracking-[0.08em] uppercase",
+        "inline-flex items-center text-tag uppercase",
         "text-ink-subtle",
         className,
       )}
     >
-      <span aria-hidden className="size-1.5 rounded-full bg-current" />
       {children}
     </span>
   );

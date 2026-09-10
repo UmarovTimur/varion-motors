@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { TeamMember } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
 /**
  * Team Member Card — ported from the Framer component `Team Card`.
@@ -7,10 +8,21 @@ import type { TeamMember } from "@/lib/content";
  * Photo on top with its bottom corners rounded, name and role in dark text on
  * the card's own #FAFAFA below it — not an overlay caption on the photo.
  */
-export function TeamMemberCard({ member }: { member: TeamMember }) {
+export function TeamMemberCard({
+  member,
+  className,
+}: {
+  member: TeamMember;
+  className?: string;
+}) {
   return (
-    <article className="flex flex-col justify-end overflow-clip rounded-md bg-background-mid">
-      <div className="relative aspect-[406/244] w-full overflow-clip rounded-b-md">
+    <article
+      className={cn(
+        "flex flex-1 flex-col justify-end overflow-clip rounded-md bg-background-mid",
+        className,
+      )}
+    >
+      <div className="relative aspect-[406/244] w-full flex-1 overflow-clip rounded-b-md">
         <Image
           src={member.image}
           alt={member.name}

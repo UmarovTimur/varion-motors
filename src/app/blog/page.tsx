@@ -4,6 +4,7 @@ import { Container } from "@/components/ui/container";
 import { Media } from "@/components/ui/media";
 import { PageHeader } from "@/components/ui/page-header";
 import { formatDate, posts } from "@/lib/content";
+import { typo } from "@/lib/utils";
 
 export const metadata: Metadata = { title: "Blog" };
 
@@ -32,11 +33,14 @@ export default function BlogPage() {
                   />
                 </div>
                 <div className="flex flex-col gap-3 p-6">
-                  <time dateTime={post.date} className="text-body-xs text-ink-subtle">
+                  <time
+                    dateTime={post.date}
+                    className="text-body-xs text-ink-subtle"
+                  >
                     {formatDate(post.date)}
                   </time>
                   <h2 className="text-balance text-h4 font-semibold">
-                    {post.title}
+                    {typo(post.title)}
                   </h2>
                 </div>
               </Link>

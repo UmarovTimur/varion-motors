@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
 
 export const metadata: Metadata = {
   title: {
-    default: `${site.name} — Washington's Premier Luxury Dealership`,
+    default: `${site.name} — авто из Китая и Кореи под ключ`,
     template: `%s — ${site.name}`,
   },
   description: site.tagline,
@@ -27,7 +27,9 @@ export default function RootLayout({
     <html lang="en" className={spaceGrotesk.variable}>
       <body className="font-sans antialiased">
         <Nav />
-        <main>{children}</main>
+        <main className="flex flex-col gap-24 tablet:gap-32 desktop:gap-36">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

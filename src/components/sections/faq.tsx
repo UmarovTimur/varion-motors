@@ -5,27 +5,29 @@ import { ChevronDown } from "lucide-react";
 import { Container } from "@/components/ui/container";
 import { Tag } from "@/components/ui/tag";
 import { faqs } from "@/lib/content";
+import { typo } from "@/lib/utils";
 
 /** FAQ (§10) */
 export function Faq() {
   return (
-    <section className="bg-surface-mid py-24">
-      <Container className="flex flex-col gap-12 desktop:flex-row desktop:justify-between">
-        <div className="flex max-w-[420px] flex-col gap-4">
-          <Tag>FAQ</Tag>
-          <h2 className="text-balance text-h2">
-            Everything You Need Here
+    <section className="bg-background">
+      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
+        <div className="flex flex-col gap-4 desktop:flex-[445]">
+          <Tag>Частые вопросы</Tag>
+          <h2 className="max-w-[480px] text-balance text-h2">
+            {typo("Что обычно спрашивают")}
           </h2>
-          <p className="text-body-l text-ink-muted">
-            Everything you need to know about financing, warranties, delivery,
-            and buying with confidence.
+          <p className="text-body text-ink-muted">
+            Оплата, сроки, растаможка и что будет, если что-то пойдёт не так.
+            Отвечаем так же, как в переписке: 🇺🇿 и 🇰🇬 разведены по странам,
+            потому что правила там разные.
           </p>
         </div>
 
         <Accordion.Root
           type="single"
           collapsible
-          className="w-full desktop:max-w-[620px]"
+          className="w-full desktop:flex-[891]"
         >
           {faqs.map((faq) => (
             <Accordion.Item

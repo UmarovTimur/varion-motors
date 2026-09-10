@@ -1,25 +1,44 @@
-import { Star } from "lucide-react";
 import { Container } from "@/components/ui/container";
+import { GoogleRating } from "@/components/ui/google-rating";
 import { SectionTop } from "@/components/ui/section-top";
 import { TestimonialCarousel } from "@/components/ui/testimonial-carousel";
 import { testimonials } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
-function MetricTile({ metric, label }: { metric: string; label: string }) {
+/**
+ * Testimonials (§6).
+ *
+ * Desktop row is 548px tall and bottom-aligned: the carousel takes 619 of the
+ * 1416px frame, the right group 773 — two dark stat tiles of unequal height
+ * (60% and 80% of the row, which is what gives the staircase) and the Google
+ * rating in the last 139px.
+ */
+function MetricTile({
+  metric,
+  label,
+  className,
+}: {
+  metric: string;
+  label: string;
+  className?: string;
+}) {
   return (
-    <div className="flex flex-col justify-between gap-6 rounded-card bg-ink p-8 text-paper">
-      <span className="text-metric font-medium tracking-normal">
-        {metric}
-      </span>
-      <span className="text-body-l text-paper-muted">{label}</span>
+    <div
+      className={cn(
+        "flex flex-1 flex-col justify-between gap-6 rounded-card bg-ink-soft p-6",
+        className,
+      )}
+    >
+      <span className="text-metric text-grey-dark">{metric}</span>
+      <span className="text-body text-ink-muted">{label}</span>
     </div>
   );
 }
 
-/** Testimonials (§6) */
 export function Testimonials() {
   return (
-    <section className="bg-surface py-24">
-      <Container className="flex flex-col gap-14">
+    <section className="bg-background">
+      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
         <SectionTop
           tag="Testimonials"
           title="Great Numbers, Happy Owners."
@@ -27,26 +46,26 @@ export function Testimonials() {
           action={{ label: "Browse Inventory", href: "/inventory" }}
         />
 
-        <div className="grid gap-6 desktop:grid-cols-[1fr_360px]">
-          <TestimonialCarousel items={testimonials} />
+        {/* Container */}
+        <div className="flex flex-col gap-6 desktop:h-[548px] desktop:flex-row desktop:items-end">
+          <TestimonialCarousel
+            items={testimonials}
+            className="desktop:h-full desktop:flex-[619]"
+          />
 
-          <div className="grid gap-6">
-            <MetricTile metric="20+" label="Years of Experience" />
-            <MetricTile metric="800+" label="Happy Owners" />
-            <div className="flex flex-col gap-2 rounded-card bg-paper p-8">
-              <div className="flex items-center gap-3">
-                <span className="text-h3 font-semibold">5,0</span>
-                <span className="flex gap-0.5" aria-hidden>
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <Star key={i} className="size-4 fill-current" />
-                  ))}
-                </span>
-              </div>
-              <p className="text-body text-ink-subtle">
-                <span className="sr-only">Google rating 5 out of 5. </span>
-                From +4000 reviews
-              </p>
-            </div>
+          {/* Right */}
+          <div className="flex flex-row items-end gap-6 desktop:h-full desktop:flex-[773]">
+            <MetricTile
+              metric="20+"
+              label="Years of Experience"
+              className="h-[240px] desktop:h-[60%]"
+            />
+            <MetricTile
+              metric="800+"
+              label="Happy Owners"
+              className="h-[320px] desktop:h-[80%]"
+            />
+            <GoogleRating className="w-[139px] shrink-0" />
           </div>
         </div>
       </Container>

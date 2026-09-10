@@ -78,6 +78,21 @@ export function Button(props: AnchorProps | NativeProps) {
 
   if (rest.href !== undefined) {
     const { href, ...anchorRest } = rest as AnchorProps;
+    // External destinations (Telegram, maps) skip next/link: it parses the href
+    // as a route, so anything with brackets in it is read as a dynamic segment.
+    if (/^[a-z]+:/i.test(href)) {
+      return (
+        <a
+          href={href}
+          className={classes}
+          target="_blank"
+          rel="noreferrer noopener"
+          {...(anchorRest as React.ComponentPropsWithoutRef<"a">)}
+        >
+          {content}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={classes} {...anchorRest}>
         {content}

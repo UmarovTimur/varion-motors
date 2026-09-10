@@ -6,13 +6,13 @@ import { cars } from "@/lib/content";
 /** Featured Vehicles (§4) */
 export function FeaturedVehicles() {
   return (
-    <section className="bg-surface py-24">
-      <Container className="flex flex-col gap-14">
+    <section className="bg-background">
+      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
         <SectionTop
-          tag="Featured cars"
-          title="Performance Meets Prestige"
-          body="Handpicked from our collection. Each one represents the pinnacle of automotive excellence today."
-          action={{ label: "Browse Inventory", href: "/inventory" }}
+          tag="Портфолио"
+          title="Машины, которые мы привезли"
+          body="Каждая карточка — закрытая сделка: маршрут, срок доставки и итоговая цена под ключ. Так же будет выглядеть и ваша."
+          action={{ label: "Все машины", href: "/inventory" }}
         />
 
         <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">

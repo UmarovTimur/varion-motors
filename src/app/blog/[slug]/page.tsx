@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/container";
 import { Media } from "@/components/ui/media";
 import { formatDate, posts } from "@/lib/content";
+import { typo } from "@/lib/utils";
 
 type Params = { params: Promise<{ slug: string }> };
 
@@ -27,9 +28,7 @@ export default async function PostPage({ params }: Params) {
         <time dateTime={post.date} className="text-body-xs text-ink-subtle">
           {formatDate(post.date)}
         </time>
-        <h1 className="text-balance text-h1">
-          {post.title}
-        </h1>
+        <h1 className="text-balance text-h1">{typo(post.title)}</h1>
         <div className="relative aspect-[16/9] overflow-hidden rounded-card">
           <Media src={post.image} alt={post.title} priority />
         </div>

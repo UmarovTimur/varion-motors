@@ -7,65 +7,246 @@
 export type NavLink = { label: string; href: string };
 
 export const navLinks: NavLink[] = [
-  { label: "Inventory", href: "/inventory" },
-  { label: "Trade-In", href: "/trade-in" },
-  { label: "Financing", href: "/financing" },
-  { label: "About-us", href: "/about-us" },
-  { label: "Contact", href: "/contact" },
+  { label: "Портфолио", href: "/inventory" },
+  { label: "Как мы работаем", href: "/trade-in" },
+  { label: "Проверка", href: "/financing" },
+  { label: "О команде", href: "/about-us" },
+  { label: "Контакты", href: "/contact" },
 ];
 
 export const footerLinksLeft: NavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Inventory", href: "/inventory" },
-  { label: "Trade-In", href: "/trade-in" },
-  { label: "Financing", href: "/financing" },
+  { label: "Главная", href: "/" },
+  { label: "Портфолио", href: "/inventory" },
+  { label: "Как мы работаем", href: "/trade-in" },
+  { label: "Проверка", href: "/financing" },
 ];
 
 export const footerLinksRight: NavLink[] = [
-  { label: "About", href: "/about-us" },
-  { label: "Contact", href: "/contact" },
-  { label: "Blog", href: "/blog" },
+  { label: "О команде", href: "/about-us" },
+  { label: "Контакты", href: "/contact" },
+  { label: "Блог", href: "/blog" },
 ];
 
 export const legalLinks: NavLink[] = [
-  { label: "Terms & Conditions", href: "/terms" },
-  { label: "Privacy Policy", href: "/privacy" },
-  { label: "Cookie Policy", href: "/cookies" },
+  { label: "Договор-оферта 🇺🇿", href: "/terms" },
+  { label: "Договор-оферта 🇰🇬", href: "/cookies" },
+  { label: "Политика обработки персональных данных", href: "/privacy" },
 ];
 
 /* --- Inventories collection → /inventory/:slug (§4) --- */
+export type Spec = { label: string; value: string };
+
+/**
+ * Facets the /inventory filters run on. Framer filters by Make / Condition /
+ * Year / Max Mileage; none of those exist for a portfolio of closed deals, so
+ * the same controls carry the facets this business actually has.
+ */
+export const countries = ["Китай", "Корея"] as const;
+export type Country = (typeof countries)[number];
+
+export const cities = ["Ташкент", "Бишкек"] as const;
+
+/** The Tabs Filter taxonomy — fixed, so a tab may legitimately match nothing. */
+export const bodyTypes = [
+  "Седан",
+  "Кроссовер",
+  "Внедорожник",
+  "Минивэн",
+] as const;
+export type BodyType = (typeof bodyTypes)[number];
+
+/**
+ * Price Range checkboxes. `max` is exclusive; a car whose price is still 0
+ * (unknown, the placeholder state) is never filtered out by a range.
+ */
+export const priceRanges = [
+  { id: "lt15", label: "до $15 000", max: 15000 },
+  { id: "15-30", label: "$15 000 – 30 000", min: 15000, max: 30000 },
+  { id: "gt30", label: "больше $30 000", min: 30000 },
+] as const;
+
 export type Car = {
   slug: string;
   name: string;
   price: number;
+  /** Shown instead of the formatted price while the real figures are unknown. */
+  priceLabel?: string;
   year: number;
+  /** Route and delivery time, e.g. "Гуанчжоу → Ташкент, [XX] дней". */
   badge?: string;
+  /** Filter facets on /inventory: country of purchase, handover city, body type. */
+  country?: Country;
+  city?: string;
+  bodyType?: BodyType;
   image: string;
+  /**
+   * Walk-around clip for the detail page. `src` is an mp4; `poster` defaults to
+   * the card image. The three demo files are placeholders generated from the
+   * car photo — replace them with the real walk-arounds.
+   */
+  video?: { src: string; poster?: string };
+  /** Detail page ("Портфолио → кейс") — everything below is per-deal. */
+  preHeader?: string[];
+  description?: string;
+  vin?: string;
+  dealNo?: string;
+  /** Quick Infos: the price tile plus the four small ones. */
+  quick?: Spec[];
+  specs?: Spec[];
+  gallery?: string[];
+  details?: { title: string; body: string }[];
 };
 
 export const cars: Car[] = [
   {
-    slug: "dreznak-karov",
-    name: "Dreznak Karov",
-    price: 145000,
+    slug: "case-01",
+    name: "[Марка Модель]",
+    price: 0,
+    priceLabel: "$[X] под ключ",
     year: 2024,
+    badge: "Гуанчжоу → Ташкент, [XX] дней",
+    country: "Китай",
+    city: "Ташкент",
+    bodyType: "Кроссовер",
     image: "/media/cars/dreznak-karov.png",
+    video: { src: "/media/cars/dreznak-karov.mp4" },
+    preHeader: ["Портфолио", "Кроссовер", "Ташкент"],
+    description:
+      "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
+    vin: "[VIN]",
+    dealNo: "[№ сделки]",
+    quick: [
+      { label: "Цена под ключ", value: "$[X]" },
+      { label: "Год", value: "2024" },
+      { label: "Кузов", value: "Кроссовер" },
+      { label: "Топливо", value: "[Бензин]" },
+      { label: "Владельцев", value: "[X]" },
+    ],
+    specs: [
+      { label: "Цена под ключ ($)", value: "[X]" },
+      { label: "Пробег", value: "[XX XXX] км" },
+      { label: "Год", value: "2024" },
+      { label: "Кузов", value: "Кроссовер" },
+      { label: "Модель", value: "[Модель]" },
+      { label: "Комплектация", value: "[Комплектация]" },
+      { label: "Топливо", value: "[Бензин]" },
+      { label: "Владельцев", value: "[X]" },
+    ],
+    gallery: ["/media/cars/dreznak-karov.png"],
+    details: [
+      {
+        title: "Технические данные",
+        body: "[Двигатель, коробка, привод, расход — из аукционного листа.]",
+      },
+      {
+        title: "Состояние и история",
+        body: "[Что показал аукционный лист и диагностика: пробег, окрасы, ДТП. Пишем и то, что нашли плохого.]",
+      },
+      {
+        title: "Что вошло в цену",
+        body: "Стоимость авто, доставка до границы, экспедирование, растаможка, наша комиссия. [Разбивка по статьям.]",
+      },
+    ],
   },
   {
-    slug: "zethrux-infernum",
-    name: "Zethrux Infernum",
-    price: 241350,
+    slug: "case-02",
+    name: "[Марка Модель]",
+    price: 0,
+    priceLabel: "$[X] под ключ",
     year: 2023,
-    badge: "Performance Icon",
+    badge: "Инчхон → Бишкек, [XX] дней",
+    country: "Корея",
+    city: "Бишкек",
+    bodyType: "Седан",
     image: "/media/cars/zethrux-infernum.webp",
+    video: { src: "/media/cars/zethrux-infernum.mp4" },
+    preHeader: ["Портфолио", "Седан", "Бишкек"],
+    description:
+      "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
+    vin: "[VIN]",
+    dealNo: "[№ сделки]",
+    quick: [
+      { label: "Цена под ключ", value: "$[X]" },
+      { label: "Год", value: "2023" },
+      { label: "Кузов", value: "Седан" },
+      { label: "Топливо", value: "[Бензин]" },
+      { label: "Владельцев", value: "[X]" },
+    ],
+    specs: [
+      { label: "Цена под ключ ($)", value: "[X]" },
+      { label: "Пробег", value: "[XX XXX] км" },
+      { label: "Год", value: "2023" },
+      { label: "Кузов", value: "Седан" },
+      { label: "Модель", value: "[Модель]" },
+      { label: "Комплектация", value: "[Комплектация]" },
+      { label: "Топливо", value: "[Бензин]" },
+      { label: "Владельцев", value: "[X]" },
+    ],
+    gallery: ["/media/cars/zethrux-infernum.webp"],
+    details: [
+      {
+        title: "Технические данные",
+        body: "[Двигатель, коробка, привод, расход — из аукционного листа.]",
+      },
+      {
+        title: "Состояние и история",
+        body: "[Что показал аукционный лист и диагностика: пробег, окрасы, ДТП. Пишем и то, что нашли плохого.]",
+      },
+      {
+        title: "Что вошло в цену",
+        body: "Стоимость авто, доставка до границы, экспедирование, растаможка, наша комиссия. [Разбивка по статьям.]",
+      },
+    ],
   },
   {
-    slug: "emblora-wyndcroft",
-    name: "Emblora Wyndcroft",
-    price: 239950,
+    slug: "case-03",
+    name: "[Марка Модель]",
+    price: 0,
+    priceLabel: "$[X] под ключ",
     year: 2024,
-    badge: "New Arrival",
+    badge: "Хоргос → Ташкент, [XX] дней",
+    country: "Китай",
+    city: "Ташкент",
+    bodyType: "Внедорожник",
     image: "/media/cars/emblora-wyndcroft.webp",
+    video: { src: "/media/cars/emblora-wyndcroft.mp4" },
+    preHeader: ["Портфолио", "Внедорожник", "Ташкент"],
+    description:
+      "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
+    vin: "[VIN]",
+    dealNo: "[№ сделки]",
+    quick: [
+      { label: "Цена под ключ", value: "$[X]" },
+      { label: "Год", value: "2024" },
+      { label: "Кузов", value: "Внедорожник" },
+      { label: "Топливо", value: "[Бензин]" },
+      { label: "Владельцев", value: "[X]" },
+    ],
+    specs: [
+      { label: "Цена под ключ ($)", value: "[X]" },
+      { label: "Пробег", value: "[XX XXX] км" },
+      { label: "Год", value: "2024" },
+      { label: "Кузов", value: "Внедорожник" },
+      { label: "Модель", value: "[Модель]" },
+      { label: "Комплектация", value: "[Комплектация]" },
+      { label: "Топливо", value: "[Бензин]" },
+      { label: "Владельцев", value: "[X]" },
+    ],
+    gallery: ["/media/cars/emblora-wyndcroft.webp"],
+    details: [
+      {
+        title: "Технические данные",
+        body: "[Двигатель, коробка, привод, расход — из аукционного листа.]",
+      },
+      {
+        title: "Состояние и история",
+        body: "[Что показал аукционный лист и диагностика: пробег, окрасы, ДТП. Пишем и то, что нашли плохого.]",
+      },
+      {
+        title: "Что вошло в цену",
+        body: "Стоимость авто, доставка до границы, экспедирование, растаможка, наша комиссия. [Разбивка по статьям.]",
+      },
+    ],
   },
 ];
 
@@ -77,14 +258,27 @@ export const formatPrice = (value: number) =>
   }).format(value);
 
 /* --- Services (§5) --- */
-export type Service = { title: string; image: string };
+/** `image` may be omitted; Framer fills that tile with the brand-logo strip. */
+export type Service = { title: string; image?: string };
 
 export const services: Service[] = [
-  { title: "Full Technical Inspection", image: "/media/services/inspection.webp" },
-  { title: "Verified History & Trusted Brand", image: "/media/services/history.jpg" },
-  { title: "Warranty Support", image: "/media/services/detailing.webp" },
-  { title: "Professional Detailing", image: "/media/services/detailing.webp" },
-  { title: "Leasing & Financing", image: "/media/services/financing.webp" },
+  {
+    title: "Мы отказываемся от машин",
+    image: "/media/services/inspection.webp",
+  },
+  {
+    title: "Один договор — одна ответственность",
+    image: "/media/services/contract.jpg",
+  },
+  { title: "Цена не меняется", image: "/media/services/warranty.webp" },
+  {
+    title: "Работаем по Узбекистану и Кыргызстану",
+    image: "/media/services/detailing.webp",
+  },
+  {
+    title: "[XX] автомобилей доставлено с [год]",
+    image: "/media/services/financing.jpg",
+  },
 ];
 
 /* --- Testimonials (§6) --- */
@@ -124,13 +318,13 @@ export type TeamMember = { name: string; role: string; image: string };
 
 export const team: TeamMember[] = [
   {
-    name: "Michael Richardson",
-    role: "Sales Director",
+    name: "[Имя Фамилия]",
+    role: "Основатель, [XX] лет в перевозке авто · Telegram: [@ник]",
     image: "/media/team/michael-richardson.webp",
   },
   {
-    name: "Sarah Thompson",
-    role: "Founder & CEO",
+    name: "[Имя Фамилия]",
+    role: "Представитель в Кыргызстане, [город] · Telegram: [@ник]",
     image: "/media/team/sarah-thompson.webp",
   },
 ];
@@ -154,8 +348,7 @@ export const posts: Post[] = [
   {
     slug: "leasing-vs-buying",
     date: "2026-05-03",
-    title:
-      "Leasing vs Buying a Luxury Car: Which Is Right for You in 2024?",
+    title: "Leasing vs Buying a Luxury Car: Which Is Right for You in 2024?",
     image: "/media/blog/leasing-vs-buying.webp",
   },
 ];
@@ -172,28 +365,81 @@ export type Faq = { question: string; answer: string };
 
 export const faqs: Faq[] = [
   {
-    question: "What financing options do you offer?",
+    question: "Как я плачу и когда?",
     answer:
-      "We work with a panel of prime and specialist lenders to arrange hire purchase, PCP and balloon structures, with terms from 24 to 84 months. Pre-approval takes under an hour and does not affect your credit score.",
+      "🇺🇿 [Схема по Узбекистану: аванс за подбор, оплата авто, остаток — кому и куда идут деньги.] 🇰🇬 [Схема по Кыргызстану — валютный контроль работает иначе, порядок отличается.]",
   },
   {
-    question: "Can I trade in my current vehicle?",
+    question: "Что, если машина придёт повреждённой?",
     answer:
-      "Yes. Send us the registration and mileage and we will return a firm valuation within one business day, held for seven days. The balance is settled against your new vehicle or paid out directly.",
+      "Автомобиль застрахован на полную стоимость. Повреждения фиксируются актом при выдаче. Претензию к перевозчику и страховой ведём мы.",
   },
   {
-    question: "Do your used vehicles come with a warranty?",
-    answer:
-      "Every vehicle leaves us with a minimum twelve-month comprehensive warranty covering the engine, transmission and electronics, extendable to thirty-six months.",
+    question: "Что, если машина не придёт вообще?",
+    answer: "[Порядок возврата средств и срок.]",
   },
   {
-    question: "How do I schedule a test drive?",
+    question: "Есть ли гарантия?",
     answer:
-      "Book online or call the showroom. Private appointments run seven days a week, and we can bring the vehicle to your home or office anywhere in the state.",
+      "[Честный ответ. Если заводской гарантии нет — сказать прямо и объяснить, что предлагается взамен: сервис-партнёр, своя гарантия или ничего.]",
   },
   {
-    question: "Do you offer vehicle delivery?",
+    question: "Сколько это занимает?",
     answer:
-      "We deliver nationwide on fully enclosed transport, fully insured. Delivery inside Washington is complimentary; anywhere else is quoted at cost before you commit.",
+      "[XX] дней от оплаты до выдачи. Сроки могут сдвинуться из-за очереди на границе — предупреждаем заранее. 🇺🇿 [срок для Узбекистана] 🇰🇬 [срок для Кыргызстана]",
+  },
+  {
+    question: "Из чего складывается растаможка?",
+    answer:
+      "🇺🇿 Таможенная пошлина зависит от возраста авто и включает надбавку за см³ объёма двигателя, плюс НДС 12% и таможенные сборы. 🇰🇬 Пошлина по ставкам ЕАЭС плюс [перечень сборов Кыргызстана: утилизационный сбор, регистрационные сборы — уточнить у брокера, ставки не совпадают с казахстанскими].",
+  },
+  {
+    question: "Почему это дешевле, чем купить здесь?",
+    answer:
+      "[Конкретный расчёт на примере одной модели для каждой страны: локальная рыночная цена против цены под ключ.]",
+  },
+  {
+    question: "Я живу в Кыргызстане — вы работаете с моей страной?",
+    answer:
+      "Да. Считаем цену под ключ по кыргызским правилам, оформляем растаможку и доставляем в Бишкек, Ош и другие города. Документы и договор — по законодательству Кыргызстана.",
+  },
+  {
+    question: "Машина новая или б/у?",
+    answer: "[Прямой ответ: типичный пробег и возраст.]",
+  },
+  {
+    question: "Я могу выбрать конкретную машину?",
+    answer:
+      "Да. Мы присылаем варианты, вы выбираете. До согласования VIN вы ничем не связаны.",
+  },
+];
+
+/* --- "Шесть шагов от заявки до ключей" (§3 лендинга) --- */
+export type Step = { title: string; body: string };
+
+export const steps: Step[] = [
+  {
+    title: "Заявка",
+    body: "Обсуждаем бюджет, модель, приоритеты. Бесплатно.",
+  },
+  {
+    title: "Подбор",
+    body: "Находим варианты под ваш запрос, присылаем список с ценами под ключ.",
+  },
+  {
+    title: "Проверка",
+    body: "Аукционный лист, фото, диагностика. Показываем всё, включая дефекты. Не подходит — ищем дальше.",
+  },
+  {
+    title: "Договор и оплата",
+    body: "Фиксируем конкретный автомобиль по VIN, цену и срок. Оплата по договору.",
+  },
+  {
+    title: "Доставка",
+    body: "[XX] дней. Держим вас в курсе на каждом этапе.",
+  },
+  {
+    title: "Растаможка и выдача",
+    body: "Оформляем документы, передаём машину с полным пакетом.",
   },
 ];

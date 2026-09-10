@@ -4,12 +4,27 @@ import { useCallback, useEffect, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Media } from "@/components/ui/media";
+import { RoundShaper } from "@/components/ui/round-shaper";
 import type { Testimonial } from "@/lib/content";
+import { cn } from "@/lib/utils";
 
-/** Testimonial carousel with the prev/next controls sitting on the photo (§6). */
-export function TestimonialCarousel({ items }: { items: Testimonial[] }) {
+/**
+ * Testimonial carousel — Framer's `Testimonials` card.
+ *
+ * The card is a #FAFAFA panel: a 12px-radius photo filling the top ~75% with
+ * the two 48px black arrow buttons carved into its top corners (the same patch
+ * + Round Shaper trick the Cars Card uses on its bottom-right), and the quote
+ * and author in a 20px-padded block underneath.
+ */
+export function TestimonialCarousel({
+  items,
+  className,
+}: {
+  items: Testimonial[];
+  className?: string;
+}) {
   const [emblaRef, embla] = useEmblaCarousel({ loop: true });
-  const [selected, setSelected] = useState(0);
+  const [, setSelected] = useState(0);
 
   useEffect(() => {
     if (!embla) return;
@@ -25,64 +40,69 @@ export function TestimonialCarousel({ items }: { items: Testimonial[] }) {
   const scrollNext = useCallback(() => embla?.scrollNext(), [embla]);
 
   return (
-    <div className="isolate overflow-hidden rounded-card bg-paper">
-      <div ref={emblaRef} className="overflow-hidden">
-        <div className="flex">
+    <div
+      className={cn(
+        "flex flex-col justify-end overflow-hidden rounded-card bg-background-mid",
+        className,
+      )}
+    >
+      <div ref={emblaRef} className="flex-1 overflow-hidden">
+        <div className="flex h-full">
           {items.map((item) => (
             <figure
               key={item.author}
-              className="flex min-w-0 shrink-0 grow-0 basis-full flex-col desktop:flex-row"
+              className="flex h-full min-w-0 shrink-0 grow-0 basis-full flex-col justify-end"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden rounded-t-card desktop:aspect-auto desktop:min-h-[420px] desktop:w-[45%] desktop:rounded-t-none desktop:rounded-l-card">
+              {/* Image */}
+              <div className="relative flex-1 overflow-hidden rounded-sm">
                 <Media src={item.image} alt={item.author} />
-                <div className="absolute bottom-4 left-4 flex gap-2">
-                  <button
-                    type="button"
-                    onClick={scrollPrev}
-                    aria-label="Previous testimonial"
-                    className="grid size-11 place-items-center rounded-full bg-paper/90 text-ink backdrop-blur-md transition-colors hover:bg-paper"
-                  >
-                    <ArrowLeft className="size-4" />
-                  </button>
-                  <button
-                    type="button"
-                    onClick={scrollNext}
-                    aria-label="Next testimonial"
-                    className="grid size-11 place-items-center rounded-full bg-paper/90 text-ink backdrop-blur-md transition-colors hover:bg-paper"
-                  >
-                    <ArrowRight className="size-4" />
-                  </button>
-                </div>
+
+                {/* Round Corner — the two carved patches */}
+                <span className="absolute top-0 left-0 z-(--z-content) flex size-[56px] items-center justify-center rounded-br-md bg-background p-1">
+                  <RoundShaper variant="lg" className="top-[56px] left-0" />
+                  <RoundShaper variant="lg" className="top-0 left-[56px]" />
+                </span>
+                <span className="absolute top-0 right-0 z-(--z-content) flex size-[56px] items-center justify-center rounded-bl-md bg-background p-1">
+                  <RoundShaper
+                    variant="lg"
+                    className="top-0 right-[56px] rotate-90"
+                  />
+                  <RoundShaper
+                    variant="lg"
+                    className="top-[56px] right-0 rotate-90"
+                  />
+                </span>
+
+                <button
+                  type="button"
+                  onClick={scrollPrev}
+                  aria-label="Previous testimonial"
+                  className="absolute top-1 left-1 z-(--z-content) grid size-12 place-items-center rounded-icon bg-black text-text-white"
+                >
+                  <ArrowLeft className="size-[18px]" />
+                </button>
+                <button
+                  type="button"
+                  onClick={scrollNext}
+                  aria-label="Next testimonial"
+                  className="absolute top-1 right-1 z-(--z-content) grid size-12 place-items-center rounded-icon bg-black text-text-white"
+                >
+                  <ArrowRight className="size-[18px]" />
+                </button>
               </div>
 
-              <div className="flex flex-1 flex-col justify-between gap-8 p-8 desktop:p-12">
-                <blockquote className="text-balance text-quote tracking-[-0.01em]">
-                  “{item.quote}”
+              {/* Texts */}
+              <figcaption className="flex flex-col items-start justify-end gap-4 p-5">
+                <blockquote className="text-body-xl">
+                  &ldquo;{item.quote}&rdquo;
                 </blockquote>
-                <figcaption className="text-body-l text-ink-subtle">
-                  {item.author} – {item.role}
-                </figcaption>
-              </div>
+                <p className="text-body text-ink-muted">
+                  {item.author} - {item.role}
+                </p>
+              </figcaption>
             </figure>
           ))}
         </div>
-      </div>
-
-      <div className="flex justify-center gap-2 pb-6">
-        {items.map((item, i) => (
-          <button
-            key={item.author}
-            type="button"
-            onClick={() => embla?.scrollTo(i)}
-            aria-label={`Go to testimonial ${i + 1}`}
-            aria-current={i === selected}
-            className={
-              i === selected
-                ? "h-1.5 w-6 rounded-full bg-ink transition-all"
-                : "h-1.5 w-1.5 rounded-full bg-ink/20 transition-all"
-            }
-          />
-        ))}
       </div>
     </div>
   );

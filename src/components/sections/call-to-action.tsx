@@ -1,27 +1,34 @@
-import { Button } from "@/components/ui/button";
+import { Container } from "@/components/ui/container";
 import { Media } from "@/components/ui/media";
+import { SectionTop } from "@/components/ui/section-top";
 
-/** Call To Action (§9) */
+/**
+ * Call To Action (§9).
+ *
+ * The photo fills the content frame (so it is inset by the page padding) with a
+ * 24px radius, and the header sits centred on top behind 124px of vertical
+ * padding. Unlike the other sections the button here is the Primary (light) one.
+ */
 export function CallToAction() {
   return (
-    <section className="relative isolate flex min-h-[495px] items-center overflow-hidden text-paper">
-      <Media src="/media/cta.jpg" alt="Car driving at speed" />
-      <div aria-hidden className="absolute inset-0 bg-ink/55" />
+    <section>
+      <Container>
+        <div className="relative isolate flex flex-col items-center overflow-hidden rounded-lg px-8 py-[124px] text-paper">
+          <Media src="/media/cta/background.png" alt="" className="-z-1" />
 
-      <div className="relative mx-auto flex w-full max-w-[1200px] flex-col gap-10 px-6 py-20 desktop:flex-row desktop:items-end desktop:justify-between">
-        <h2 className="max-w-[620px] text-balance text-h2">
-          Ready to Experience Your Dream Car?
-        </h2>
-        <div className="flex max-w-[420px] flex-col items-start gap-6">
-          <p className="text-body-l text-paper-muted">
-            Book a private test drive and feel what true performance means.
-            Every vehicle available for immediate viewing.
-          </p>
-          <Button href="/contact" variant="secondary">
-            Schedule Test Drive
-          </Button>
+          <SectionTop
+            variant="center"
+            tone="light"
+            title="Начнём с расчёта"
+            body="Расскажите, какая машина нужна и на какой бюджет. Пришлём варианты с ценой под ключ в течение [XX] часов — бесплатно и ни к чему не обязывает."
+            action={{
+              label: "Получить подборку",
+              href: "/contact",
+              variant: "primary",
+            }}
+          />
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

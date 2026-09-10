@@ -37,7 +37,10 @@ export function ContactLink({
       )}
     >
       <Sweep className="top-[-21px] h-[97px] opacity-10" />
-      <Icon className="relative z-(--z-content) size-[18px] text-background" aria-hidden />
+      <Icon
+        className="relative z-(--z-content) size-[18px] text-background"
+        aria-hidden
+      />
     </a>
   );
 }

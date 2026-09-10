@@ -1,28 +1,17 @@
 import type { Metadata } from "next";
-import { CarsCard } from "@/components/ui/cars-card";
-import { Container } from "@/components/ui/container";
-import { PageHeader } from "@/components/ui/page-header";
-import { cars } from "@/lib/content";
+import { InventoryHero } from "@/components/sections/inventory-hero";
+import { InventoryBrowser } from "@/components/sections/inventory-browser";
+import { CallToAction } from "@/components/sections/call-to-action";
 
-export const metadata: Metadata = { title: "Inventory" };
+export const metadata: Metadata = { title: "Машины, которые мы привезли" };
 
-export default function InventoryPage() {
+/** Framer page CXEtGJFlY: Hero → Inventory → Call To Action (see framer/pages/inventory.xml). */
+export default function Page() {
   return (
     <>
-      <PageHeader
-        tag="Inventory"
-        title="The Current Collection"
-        body="Every vehicle is inspected, history-verified and ready for immediate viewing."
-      />
-      <section className="bg-surface pb-24">
-        <Container>
-          <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
-            {cars.map((car) => (
-              <CarsCard key={car.slug} car={car} />
-            ))}
-          </div>
-        </Container>
-      </section>
+      <InventoryHero />
+      <InventoryBrowser />
+      <CallToAction />
     </>
   );
 }

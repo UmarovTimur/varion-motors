@@ -4,11 +4,7 @@ import { AlertCircle, Check, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type FormButtonState =
-  | "idle"
-  | "loading"
-  | "disabled"
-  | "success"
-  | "error";
+  "idle" | "loading" | "disabled" | "success" | "error";
 
 /**
  * Form Button (§4 of the Button spec) — the submit control.

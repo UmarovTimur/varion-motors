@@ -24,7 +24,10 @@ export function BlogCard({ post }: { post: Post }) {
         sizes="(min-width: 810px) 50vw, 100vw"
         className="z-(--z-decor) object-cover object-center"
       />
-      <div aria-hidden className="absolute inset-0 z-(--z-decor) overlay-linear" />
+      <div
+        aria-hidden
+        className="absolute inset-0 z-(--z-decor) overlay-linear"
+      />
 
       {/* Texts */}
       <div className="relative z-(--z-content) flex flex-col items-start gap-1 overflow-clip">
@@ -35,10 +38,13 @@ export function BlogCard({ post }: { post: Post }) {
       </div>
 
       {/* Round Corner — patch in the top-right, rounded only where it meets
-        * the photo, with the two 26px fillets turned 90deg. */}
+       * the photo, with the two 26px fillets turned 90deg. */}
       <span className="absolute top-0 right-0 z-(--z-content) size-[56px] rounded-bl-md bg-surface">
         <RoundShaper variant="sm" className="top-0 left-[-25px] rotate-90" />
-        <RoundShaper variant="sm" className="top-[55px] left-[30px] rotate-90" />
+        <RoundShaper
+          variant="sm"
+          className="top-[55px] left-[30px] rotate-90"
+        />
         <ArrowIcon tone="dark" className="absolute top-1 right-1 size-12" />
       </span>
     </Link>

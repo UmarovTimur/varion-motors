@@ -1,23 +1,30 @@
 import { Hero } from "@/components/sections/hero";
-import { FeaturedVehicles } from "@/components/sections/featured-vehicles";
+import { Steps } from "@/components/sections/steps";
 import { Services } from "@/components/sections/services";
-import { Testimonials } from "@/components/sections/testimonials";
-import { Team } from "@/components/sections/team";
-import { Blog } from "@/components/sections/blog";
-import { CallToAction } from "@/components/sections/call-to-action";
+import { FeaturedVehicles } from "@/components/sections/featured-vehicles";
 import { Faq } from "@/components/sections/faq";
+import { Team } from "@/components/sections/team";
+import { CallToAction } from "@/components/sections/call-to-action";
 
+/**
+ * Порядок блоков лендинга: первый экран → как мы работаем → почему мы →
+ * портфолио → частые вопросы → о команде → финальный CTA.
+ *
+ * Не хватает двух блоков, для которых нет компонентов: калькулятор цены под
+ * ключ (идёт сразу после первого экрана) и разбор проверки одной машины
+ * (между портфолио и FAQ). Блоки Testimonials и Blog сняты с главной: отзывов
+ * пока нет, а блога в структуре лендинга нет — сами компоненты остались.
+ */
 export default function Home() {
   return (
     <>
       <Hero />
-      <FeaturedVehicles />
+      <Steps />
       <Services />
-      <Testimonials />
-      <Team />
-      <Blog />
-      <CallToAction />
+      <FeaturedVehicles />
       <Faq />
+      <Team />
+      <CallToAction />
     </>
   );
 }

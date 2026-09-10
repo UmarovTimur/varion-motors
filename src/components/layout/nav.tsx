@@ -29,8 +29,11 @@ export function Nav() {
 
   return (
     <header className="fixed inset-x-0 top-0 z-(--z-header) flex flex-col items-center border-b border-grey bg-background">
-      {/* Content */}
-      <div className="flex w-full max-w-[600px] items-center gap-2.5 px-5 py-2 desktop:max-w-[1480px] desktop:px-8">
+      {/* Content — 600/20 on phone; from tablet up the bar is capped at the
+       * 1480 content frame on a 32px gutter, so it runs edge to edge on every
+       * screen narrower than that and centres with the page above it. Matches
+       * the published nav, which measures 985 wide at 1000px and 1480 at 1530. */}
+      <div className="flex w-full max-w-[600px] items-center gap-2.5 px-5 py-2 tablet:max-w-[1480px] tablet:px-8">
         {/* Logo Container */}
         <div className="flex shrink-0 grow-[0.5] basis-0 items-center justify-start gap-2.5">
           <Logo />
@@ -52,7 +55,7 @@ export function Nav() {
             variant="secondary"
             className="hidden desktop:inline-flex"
           >
-            Contact Sales
+            Рассчитать под ключ
           </Button>
           <MenuToggle
             open={open}
@@ -69,7 +72,7 @@ export function Nav() {
           open ? "max-h-[80vh]" : "max-h-0",
         )}
       >
-        <div className="mx-auto flex w-full max-w-[600px] flex-col gap-1 px-5 pt-1 pb-5">
+        <div className="mx-auto flex w-full max-w-[600px] flex-col gap-1 px-5 pt-1 pb-5 tablet:max-w-[1480px] tablet:px-8">
           {navLinks.map((link) => (
             <NavLink
               key={link.href}
@@ -80,8 +83,14 @@ export function Nav() {
               {link.label}
             </NavLink>
           ))}
-          <Button href="/contact" variant="secondary" className="mt-2 w-full">
-            Contact Sales
+          {/* Full width, so the arrow pins to the right edge instead of
+           * floating in the middle of the pill. */}
+          <Button
+            href="/contact"
+            variant="secondary"
+            className="mt-2 w-full justify-between"
+          >
+            Рассчитать под ключ
           </Button>
         </div>
       </div>
