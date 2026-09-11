@@ -10,7 +10,7 @@ import { typo } from "@/lib/utils";
 /** FAQ (§10) */
 export function Faq() {
   return (
-    <section className="bg-background">
+    <section id="faq" className="bg-background">
       <Container className="flex flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
         <div className="flex flex-col gap-4 desktop:flex-[445]">
           <Tag>Частые вопросы</Tag>

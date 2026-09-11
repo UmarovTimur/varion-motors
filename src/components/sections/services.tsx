@@ -26,7 +26,7 @@ export function Services() {
   const tile = "h-[224px] tablet:h-auto tablet:flex-1";
 
   return (
-    <section className="bg-background">
+    <section id="why-us" className="bg-background">
       <Container className="flex max-w-[1480px] flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-stretch desktop:gap-20 desktop:px-8">
         <SectionTop
           variant="aside"

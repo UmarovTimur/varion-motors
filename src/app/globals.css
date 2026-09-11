@@ -33,6 +33,11 @@
   --color-text-white: #ffffff; /* Text White */
   --color-grey-dark: #888888; /* Greys/Grey Dark */
 
+  /* Messenger brand colours — the lead dialog's Telegram / WhatsApp buttons.
+   * Not Framer tokens: the dialog follows the client's own reference. */
+  --color-telegram: #26a5e4;
+  --color-whatsapp: #25d366;
+
   /* --- Radii --- */
   --radius-sm: 12px;
   --radius-md: 16px;
@@ -137,6 +142,24 @@ h5 {
 
 body {
   font-weight: 500;
+}
+
+/* Menu links jump to landing sections: glide there, and stop clear of the
+ * fixed 70px header. Route changes stay instant via data-scroll-behavior on
+ * <html> (Next 16 no longer overrides smooth scrolling on its own). */
+html {
+  scroll-padding-top: 78px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* The page behind an open modal <dialog> must not scroll. */
+html:has(dialog[open]:modal) {
+  overflow: hidden;
 }
 
 /* "Linear" — the gradient overlay used on background photography (Hero, Services, CTA) */

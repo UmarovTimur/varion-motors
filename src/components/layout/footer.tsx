@@ -17,7 +17,7 @@ const [emailLocal, emailDomain] = site.email.split("@");
 
 export function Footer() {
   return (
-    <footer className="flex flex-col items-center overflow-clip border-t border-grey bg-background p-2">
+    <footer id="contacts" className="flex flex-col items-center overflow-clip border-t border-grey bg-background p-2">
       {/* Content */}
       <div className="relative z-1 flex w-full max-w-[1480px] flex-col gap-20 overflow-clip p-8">
         {/* Main */}
@@ -30,7 +30,7 @@ export function Footer() {
               <p className="max-w-[480px] text-body">{site.tagline}</p>
               {/* CTAs */}
               <div className="flex flex-wrap items-center gap-2">
-                <Button href="/contact" variant="secondary">
+                <Button href="/contact" data-lead="" variant="secondary">
                   Получить подборку
                 </Button>
                 {/* ContactLinks */}

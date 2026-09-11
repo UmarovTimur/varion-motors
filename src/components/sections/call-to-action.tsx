@@ -25,6 +25,7 @@ export function CallToAction() {
               label: "Получить подборку",
               href: "/contact",
               variant: "primary",
+              lead: true,
             }}
           />
         </div>

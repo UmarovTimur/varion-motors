@@ -31,8 +31,8 @@ export function Hero() {
           sizes="100vw"
           className="z-0 object-cover object-center"
         />
-        {/* DarkOverlay */}
-        <div aria-hidden className="absolute inset-0 z-0 bg-black-50" />
+        {/* DarkOverlay — 60%, a step darker than Framer's Black 50% token. */}
+        <div aria-hidden className="absolute inset-0 z-0 bg-black/60" />
 
         {/* Content */}
         <div className="relative z-1 flex h-full w-full max-w-[1480px] flex-1 flex-col items-center justify-center gap-8 overflow-clip rounded-md tablet:flex-row tablet:gap-10 desktop:gap-20">
@@ -73,6 +73,7 @@ export function Hero() {
               <div className="flex w-full flex-wrap items-center gap-2">
                 <Button
                   href="/contact"
+                  data-lead=""
                   variant="primary"
                   className="max-tablet:h-auto max-tablet:min-h-[54px] max-tablet:max-w-full max-tablet:py-1 max-tablet:whitespace-normal"
                 >

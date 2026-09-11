@@ -10,6 +10,7 @@ export const site = {
     kg: { label: "Кыргызстан", phone: "[+996 XXX XXX XXX]", city: "Бишкек" },
   },
   telegram: "https://t.me/[ник]",
+  whatsapp: "https://wa.me/[номер]",
   legalName: "[ИП/ООО «Varion Motors»], ИНН [XXXXXXXXX]",
   address: "[Город, улица, дом, офис]",
   email: "[mail@example.com]",

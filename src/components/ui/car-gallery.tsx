@@ -14,10 +14,16 @@ export function CarGallery({
   images,
   alt,
   className,
+  autoPlay = false,
+  interval = 3000,
 }: {
   images: string[];
   alt: string;
   className?: string;
+  /** Framer `Carousel.tsx` autoPlay control. */
+  autoPlay?: boolean;
+  /** Framer `Carousel.tsx` interval control, in ms. */
+  interval?: number;
 }) {
   const [emblaRef, embla] = useEmblaCarousel({ loop: true });
   const [selected, setSelected] = useState(0);
@@ -34,6 +40,12 @@ export function CarGallery({
 
   const prev = useCallback(() => embla?.scrollPrev(), [embla]);
   const next = useCallback(() => embla?.scrollNext(), [embla]);
+
+  useEffect(() => {
+    if (!embla || !autoPlay || images.length <= 1) return;
+    const timer = setInterval(() => embla.scrollNext(), interval);
+    return () => clearInterval(timer);
+  }, [embla, autoPlay, interval, images.length]);
 
   return (
     <div

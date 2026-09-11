@@ -95,7 +95,7 @@ export default async function CarPage({ params }: Params) {
                     {car.description}
                   </p>
                 ) : null}
-                <Button href="/contact" variant="secondary">
+                <Button href="/contact" data-lead={car.name} variant="secondary">
                   Хочу такую же
                 </Button>
               </div>

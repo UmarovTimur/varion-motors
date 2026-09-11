@@ -10,7 +10,7 @@ import { team } from "@/lib/content";
  */
 export function Team() {
   return (
-    <section className="bg-background">
+    <section id="team" className="bg-background">
       <Container className="flex flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-center desktop:gap-20">
         {/* Left */}
         <div className="flex flex-col gap-6 tablet:flex-row tablet:items-center desktop:flex-[835]">

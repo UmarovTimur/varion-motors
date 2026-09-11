@@ -6,7 +6,7 @@ import { cars } from "@/lib/content";
 /** Featured Vehicles (§4) */
 export function FeaturedVehicles() {
   return (
-    <section className="bg-background">
+    <section id="portfolio" className="bg-background">
       <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
         <SectionTop
           tag="Портфолио"

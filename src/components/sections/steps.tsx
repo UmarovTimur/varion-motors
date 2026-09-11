@@ -12,7 +12,7 @@ import { typo } from "@/lib/utils";
  */
 export function Steps() {
   return (
-    <section className="bg-background">
+    <section id="how-it-works" className="bg-background">
       <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
         <SectionTop
           tag="Как мы работаем"
@@ -21,18 +21,24 @@ export function Steps() {
           action={{ label: "Написать в Telegram", href: "/contact" }}
         />
 
-        <ol className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
+        <ol className="grid gap-8 tablet:grid-cols-2 desktop:grid-cols-3">
           {steps.map((step, i) => (
             <li
               key={step.title}
-              className="flex flex-col gap-4 rounded-card bg-background-mid p-6"
+              className="flex flex-col rounded-[20px] bg-background-mid p-1"
             >
-              <span className="text-body-xs text-ink-subtle">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              {/* Bold on request: the project's Heading 5 is medium (500) everywhere else. */}
-              <h3 className="text-h5 font-bold">{typo(step.title)}</h3>
-              <p className="text-body text-ink-muted">{step.body}</p>
+              {/* Framer `Trade-in Step Card`: white pill (number + title) inset 4px, description sits directly on the card below it. */}
+              <div className="flex items-center rounded-md bg-background-light p-1">
+                <span className="grid size-[73px] shrink-0 place-items-center rounded-md bg-black">
+                  <span className="text-body-xl text-text-white">{i + 1}</span>
+                </span>
+                <h3 className="flex-1 px-6 py-2 text-body-l">
+                  {typo(step.title)}
+                </h3>
+              </div>
+              <p className="max-w-[480px] p-6 text-body text-ink-muted">
+                {step.body}
+              </p>
             </li>
           ))}
         </ol>

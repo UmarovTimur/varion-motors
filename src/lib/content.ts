@@ -6,24 +6,39 @@
 
 export type NavLink = { label: string; href: string };
 
+/**
+ * Menu entries jump to landing sections rather than separate pages. `/#id`
+ * scrolls in place on the home page and, from any other page, goes home and
+ * lands on the section. "Контакты" is the footer, present on every page, so it
+ * never leaves the current one. "Проверка" has no landing section yet (the
+ * inspection breakdown block is still missing), so it keeps its page.
+ */
+const links = {
+  portfolio: { label: "Портфолио", href: "/#portfolio" },
+  steps: { label: "Как мы работаем", href: "/#how-it-works" },
+  inspection: { label: "Проверка", href: "/financing" },
+  team: { label: "О команде", href: "/#team" },
+  contacts: { label: "Контакты", href: "#contacts" },
+} satisfies Record<string, NavLink>;
+
 export const navLinks: NavLink[] = [
-  { label: "Портфолио", href: "/inventory" },
-  { label: "Как мы работаем", href: "/trade-in" },
-  { label: "Проверка", href: "/financing" },
-  { label: "О команде", href: "/about-us" },
-  { label: "Контакты", href: "/contact" },
+  links.portfolio,
+  links.steps,
+  links.inspection,
+  links.team,
+  links.contacts,
 ];
 
 export const footerLinksLeft: NavLink[] = [
   { label: "Главная", href: "/" },
-  { label: "Портфолио", href: "/inventory" },
-  { label: "Как мы работаем", href: "/trade-in" },
-  { label: "Проверка", href: "/financing" },
+  links.portfolio,
+  links.steps,
+  links.inspection,
 ];
 
 export const footerLinksRight: NavLink[] = [
-  { label: "О команде", href: "/about-us" },
-  { label: "Контакты", href: "/contact" },
+  links.team,
+  links.contacts,
   { label: "Блог", href: "/blog" },
 ];
 

@@ -28,7 +28,13 @@ export function SectionTop({
   tag?: string;
   title: string;
   body?: string;
-  action?: { label: string; href: string; variant?: ButtonVariant };
+  /** `lead` makes the button open the lead dialog (see ui/lead-dialog). */
+  action?: {
+    label: string;
+    href: string;
+    variant?: ButtonVariant;
+    lead?: boolean;
+  };
   tone?: "dark" | "light";
   variant?: "split" | "stack" | "center" | "aside";
   className?: string;
@@ -95,7 +101,11 @@ export function SectionTop({
             </p>
           ) : null}
           {action ? (
-            <Button href={action.href} variant={action.variant ?? "secondary"}>
+            <Button
+              href={action.href}
+              variant={action.variant ?? "secondary"}
+              data-lead={action.lead ? "" : undefined}
+            >
               {action.label}
             </Button>
           ) : null}

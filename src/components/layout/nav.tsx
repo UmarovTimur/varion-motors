@@ -52,6 +52,7 @@ export function Nav() {
         <div className="flex grow-[0.5] basis-0 items-center justify-end gap-1">
           <Button
             href="/contact"
+            data-lead=""
             variant="secondary"
             className="hidden desktop:inline-flex"
           >
@@ -87,6 +88,8 @@ export function Nav() {
            * floating in the middle of the pill. */}
           <Button
             href="/contact"
+            data-lead=""
+            onClick={() => setOpen(false)}
             variant="secondary"
             className="mt-2 w-full justify-between"
           >
