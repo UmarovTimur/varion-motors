@@ -13,15 +13,15 @@ export function Blog() {
       <Container className="flex flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
         <SectionTop
           variant="stack"
-          tag="Blog"
-          title="Insights & Expertise Now"
-          body="Market trends, buying guides, and insider knowledge to help you make smarter decisions."
-          action={{ label: "View All", href: "/blog" }}
+          tag="Блог"
+          title="Статьи"
+          body="Как устроены цена под ключ, проверка и доставка авто из Кореи и Китая."
+          action={{ label: "Все статьи", href: "/blog" }}
           className="desktop:flex-[445]"
         />
 
         <div className="flex flex-col gap-5 tablet:flex-row desktop:flex-[891]">
-          {posts.map((post) => (
+          {posts.slice(0, 2).map((post) => (
             <BlogCard key={post.slug} post={post} />
           ))}
         </div>

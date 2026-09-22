@@ -149,6 +149,9 @@ body {
  * <html> (Next 16 no longer overrides smooth scrolling on its own). */
 html {
   scroll-padding-top: 78px;
+  /* Keep the scrollbar's lane reserved, so locking the page scroll (open
+   * dialog, mobile menu) does not widen the page and shift the content. */
+  scrollbar-gutter: stable;
 }
 
 @media (prefers-reduced-motion: no-preference) {

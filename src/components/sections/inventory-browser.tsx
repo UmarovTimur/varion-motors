@@ -13,7 +13,6 @@ import {
 import {
   bodyTypes,
   cars,
-  cities,
   countries,
   priceRanges,
   type BodyType,
@@ -35,7 +34,6 @@ import {
 export function InventoryBrowser() {
   const [query, setQuery] = useState("");
   const [country, setCountry] = useState("");
-  const [city, setCity] = useState("");
   const [yearFrom, setYearFrom] = useState("");
   const [yearTo, setYearTo] = useState("");
   const [ranges, setRanges] = useState<string[]>([]);
@@ -49,7 +47,6 @@ export function InventoryBrowser() {
     return cars.filter((car) => {
       if (q && !car.name.toLowerCase().includes(q)) return false;
       if (country && car.country !== country) return false;
-      if (city && car.city !== city) return false;
       if (yearFrom && Number.isFinite(from) && car.year < from) return false;
       if (yearTo && Number.isFinite(to) && car.year > to) return false;
       if (bodyType && car.bodyType !== bodyType) return false;
@@ -68,7 +65,7 @@ export function InventoryBrowser() {
 
       return true;
     });
-  }, [query, country, city, yearFrom, yearTo, ranges, bodyType]);
+  }, [query, country, yearFrom, yearTo, ranges, bodyType]);
 
   const toggleRange = (id: string) =>
     setRanges((current) =>
@@ -103,13 +100,6 @@ export function InventoryBrowser() {
                   options={countries}
                   value={country}
                   onChange={(event) => setCountry(event.target.value)}
-                />
-              </FilterField>
-              <FilterField label="Город выдачи">
-                <FilterSelect
-                  options={cities}
-                  value={city}
-                  onChange={(event) => setCity(event.target.value)}
                 />
               </FilterField>
             </div>
@@ -155,7 +145,7 @@ export function InventoryBrowser() {
         <div className="flex w-full flex-col items-start gap-20 desktop:flex-1">
           {/* Tabs Filter — z-sticky, not z-decor: the Cars Card arrow patch is
            * z-content (10) and would otherwise scroll over the pinned bar. */}
-          <div className="sticky top-[70px] z-(--z-sticky) flex w-full flex-col items-start gap-2 bg-background">
+          <div className="sticky top-19.5 z-(--z-sticky) flex w-full flex-col items-start gap-2 bg-background">
             <div className="grid w-full grid-cols-2 gap-2 tablet:grid-cols-5">
               <Tab active={bodyType === null} onClick={() => setBodyType(null)}>
                 Все

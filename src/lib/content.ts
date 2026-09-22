@@ -14,7 +14,7 @@ export type NavLink = { label: string; href: string };
  * inspection breakdown block is still missing), so it keeps its page.
  */
 const links = {
-  portfolio: { label: "Портфолио", href: "/#portfolio" },
+  portfolio: { label: "Каталог", href: "/#portfolio" },
   steps: { label: "Как мы работаем", href: "/#how-it-works" },
   inspection: { label: "Проверка", href: "/financing" },
   team: { label: "О команде", href: "/#team" },
@@ -42,9 +42,11 @@ export const footerLinksRight: NavLink[] = [
   { label: "Блог", href: "/blog" },
 ];
 
+/** One offer link, not one per country: the two used to be told apart only by
+ * a flag emoji, and without it the labels were identical. If the offers really
+ * differ by country, give them distinct wording rather than flags. */
 export const legalLinks: NavLink[] = [
-  { label: "Договор-оферта 🇺🇿", href: "/terms" },
-  { label: "Договор-оферта 🇰🇬", href: "/cookies" },
+  { label: "Договор-оферта", href: "/terms" },
   { label: "Политика обработки персональных данных", href: "/privacy" },
 ];
 
@@ -58,8 +60,6 @@ export type Spec = { label: string; value: string };
  */
 export const countries = ["Китай", "Корея"] as const;
 export type Country = (typeof countries)[number];
-
-export const cities = ["Ташкент", "Бишкек"] as const;
 
 /** The Tabs Filter taxonomy — fixed, so a tab may legitimately match nothing. */
 export const bodyTypes = [
@@ -87,11 +87,10 @@ export type Car = {
   /** Shown instead of the formatted price while the real figures are unknown. */
   priceLabel?: string;
   year: number;
-  /** Route and delivery time, e.g. "Гуанчжоу → Ташкент, [XX] дней". */
+  /** Origin and delivery window, e.g. "Из Гуанчжоу, 20–30 дней". */
   badge?: string;
-  /** Filter facets on /inventory: country of purchase, handover city, body type. */
+  /** Filter facets on /inventory: country of purchase and body type. */
   country?: Country;
-  city?: string;
   bodyType?: BodyType;
   image: string;
   /**
@@ -100,7 +99,7 @@ export type Car = {
    * car photo — replace them with the real walk-arounds.
    */
   video?: { src: string; poster?: string };
-  /** Detail page ("Портфолио → кейс") — everything below is per-deal. */
+  /** Detail page ("Каталог → модель") — everything below is per-car. */
   preHeader?: string[];
   description?: string;
   vin?: string;
@@ -119,13 +118,12 @@ export const cars: Car[] = [
     price: 0,
     priceLabel: "$[X] под ключ",
     year: 2024,
-    badge: "Гуанчжоу → Ташкент, [XX] дней",
+    badge: "Из Гуанчжоу, 20–30 дней",
     country: "Китай",
-    city: "Ташкент",
     bodyType: "Кроссовер",
     image: "/media/cars/dreznak-karov.png",
     video: { src: "/media/cars/dreznak-karov.mp4" },
-    preHeader: ["Портфолио", "Кроссовер", "Ташкент"],
+    preHeader: ["Каталог", "Кроссовер", "Китай"],
     description:
       "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
     vin: "[VIN]",
@@ -169,13 +167,12 @@ export const cars: Car[] = [
     price: 0,
     priceLabel: "$[X] под ключ",
     year: 2023,
-    badge: "Инчхон → Бишкек, [XX] дней",
+    badge: "Из Инчхона, 20–30 дней",
     country: "Корея",
-    city: "Бишкек",
     bodyType: "Седан",
     image: "/media/cars/zethrux-infernum.webp",
     video: { src: "/media/cars/zethrux-infernum.mp4" },
-    preHeader: ["Портфолио", "Седан", "Бишкек"],
+    preHeader: ["Каталог", "Седан", "Корея"],
     description:
       "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
     vin: "[VIN]",
@@ -219,13 +216,12 @@ export const cars: Car[] = [
     price: 0,
     priceLabel: "$[X] под ключ",
     year: 2024,
-    badge: "Хоргос → Ташкент, [XX] дней",
+    badge: "Из Хоргоса, 20–30 дней",
     country: "Китай",
-    city: "Ташкент",
     bodyType: "Внедорожник",
     image: "/media/cars/emblora-wyndcroft.webp",
     video: { src: "/media/cars/emblora-wyndcroft.mp4" },
-    preHeader: ["Портфолио", "Внедорожник", "Ташкент"],
+    preHeader: ["Каталог", "Внедорожник", "Китай"],
     description:
       "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
     vin: "[VIN]",
@@ -276,6 +272,8 @@ export const formatPrice = (value: number) =>
 /** `image` may be omitted; Framer fills that tile with the brand-logo strip. */
 export type Service = { title: string; image?: string };
 
+/** Not currently rendered — kept as reference for the Framer image tiles this
+ * section used before it switched to `trustPoints` below. */
 export const services: Service[] = [
   {
     title: "Мы отказываемся от машин",
@@ -287,12 +285,51 @@ export const services: Service[] = [
   },
   { title: "Цена не меняется", image: "/media/services/warranty.webp" },
   {
-    title: "Работаем по Узбекистану и Кыргызстану",
+    title: "Работаем по всему СНГ",
     image: "/media/services/detailing.webp",
   },
   {
-    title: "[XX] автомобилей доставлено с [год]",
+    title: "Более 50 автомобилей доставлено в этом году",
     image: "/media/services/financing.jpg",
+  },
+];
+
+/** "Почему выбирают Varion Motors" cards (§5) — plain icon/title/body, no
+ * photo. `icon` is a key into the lookup in `trust-card.tsx` rather than a
+ * component here, so this file stays free of UI imports.
+ *
+ * Copy is adapted from two competitors' equivalent blocks: the legal/price
+ * points borrow netcars.ru's phrasing (with any Russia-specific facts —
+ * "российским юр.лицом", the export-control-association claim — swapped for
+ * what's actually true of this business), and the sourcing/support points
+ * borrow carexkorea.ru's "Почему выбирают" wording, generalised from
+ * Korea-only to Korea+China. */
+export type TrustPoint = {
+  icon: "shield" | "car" | "banknote" | "users";
+  title: string;
+  body: string;
+};
+
+export const trustPoints: TrustPoint[] = [
+  {
+    icon: "shield",
+    title: "Юридическая безопасность сделки",
+    body: "Договор заключается с нашим юридическим лицом с оплатой на расчётный счёт.",
+  },
+  {
+    icon: "car",
+    title: "Гарантия соответствия авто ожиданиям",
+    body: "Мы несём полную ответственность за любые отклонения от заявленных характеристик.",
+  },
+  {
+    icon: "banknote",
+    title: "Фиксированная цена без скрытых доплат",
+    body: "Все расходы и комиссии прописаны в договоре и не меняются в процессе доставки.",
+  },
+  {
+    icon: "users",
+    title: "Работаем без посредников",
+    body: "Напрямую с поставщиками и аукционами в Корее и Китае — никаких лишних комиссий.",
   },
 ];
 
@@ -333,56 +370,74 @@ export type TeamMember = { name: string; role: string; image: string };
 
 export const team: TeamMember[] = [
   {
-    name: "[Имя Фамилия]",
-    role: "Основатель, [XX] лет в перевозке авто · Telegram: [@ник]",
-    image: "/media/team/michael-richardson.webp",
+    name: "Акмаль",
+    role: "Подбор и проверка авто · Telegram: [@ник]",
+    image: "/media/team/akmal-bw.webp",
   },
   {
-    name: "[Имя Фамилия]",
-    role: "Представитель в Кыргызстане, [город] · Telegram: [@ник]",
-    image: "/media/team/sarah-thompson.webp",
+    name: "Тимур Умаров",
+    role: "Логистика и документы · Telegram: [@ник]",
+    image: "/media/team/timur-umarov.webp",
   },
 ];
 
-/* --- Blog collection (§8) --- */
-export type Post = {
-  slug: string;
-  date: string;
-  title: string;
-  image: string;
-};
+/* --- Blog collection (§8) — the articles live in posts.ts --- */
+export { posts, type Post, type PostBlock } from "./posts";
 
-export const posts: Post[] = [
-  {
-    slug: "lamborghini-urus-performante",
-    date: "2026-05-03",
-    title:
-      "The New Lamborghini Urus Performante Has Arrived—And It's Everything We Hoped For",
-    image: "/media/blog/urus-performante.webp",
-  },
-  {
-    slug: "leasing-vs-buying",
-    date: "2026-05-03",
-    title: "Leasing vs Buying a Luxury Car: Which Is Right for You in 2024?",
-    image: "/media/blog/leasing-vs-buying.webp",
-  },
-];
-
+/** "18 сентября 2026" — Intl adds a trailing "г.", which reads as clutter
+ * next to a date on a card. */
 export const formatDate = (iso: string) =>
-  new Intl.DateTimeFormat("en-US", {
-    month: "long",
+  new Intl.DateTimeFormat("ru-RU", {
     day: "numeric",
+    month: "long",
     year: "numeric",
-  }).format(new Date(iso));
+  })
+    .format(new Date(iso))
+    .replace(/\s?г\.$/, "");
 
 /* --- FAQ (§10) --- */
 export type Faq = { question: string; answer: string };
 
 export const faqs: Faq[] = [
   {
-    question: "Как я плачу и когда?",
+    question: "Можно ли проверить авто перед покупкой?",
     answer:
-      "🇺🇿 [Схема по Узбекистану: аванс за подбор, оплата авто, остаток — кому и куда идут деньги.] 🇰🇬 [Схема по Кыргызстану — валютный контроль работает иначе, порядок отличается.]",
+      "Да, и это обязательный этап — мы не предлагаем машину, которую не смотрели сами. Проверяем историю, пробег, юридическую чистоту и техническое состояние, присылаем фото- и видеоотчёт. Рекомендацию к покупке даём только после проверки.",
+  },
+  {
+    question: "Мне придётся выбирать машину только по фото?",
+    answer:
+      "Нет. Когда вариант вам предварительно подошёл, наш русскоязычный специалист на месте проводит видеообзор: толщина ЛКП, состояние кузова и днища, салон, двигатель, электроника. Вы смотрите машину глазами человека, который стоит рядом с ней.",
+  },
+  {
+    question: "Что входит в стоимость доставки?",
+    answer:
+      "Выкуп и перегон авто от дилера или с аукциона, снятие с учёта и экспортная декларация, осмотр и хранение на нашей площадке, доставка до границы, фрахт и оформление документов. Всё это уже в цене под ключ — по дороге доплат не появляется.",
+  },
+  {
+    question: "Сколько занимает доставка?",
+    answer:
+      "От 20 до 30 дней от оплаты до выдачи. Сроки могут сдвинуться из-за очереди на границе — предупреждаем заранее, а не ставим перед фактом.",
+  },
+  {
+    question: "Какие машины выгоднее всего везти?",
+    answer:
+      "Выгода почти всегда упирается в возраст авто: от него зависит размер пошлины. Поэтому мы считаем сразу несколько вариантов и показываем, где разница в итоговой цене действительно существенная, а где переплата не стоит ожидания.",
+  },
+  {
+    question: "Можно ли отложить отправку и оставить машину на стоянке?",
+    answer:
+      "Да. Купленный автомобиль может подождать на нашей площадке — например, чтобы дособрать сумму или дождаться более выгодного по пошлине возраста. Условия хранения оговариваем заранее.",
+  },
+  {
+    question: "Зачем нужен депозит и паспортные данные?",
+    answer:
+      "Депозит закрепляет за вами подбор, проверку и бронь конкретного авто — он возвратный и засчитывается в стоимость. Паспортные данные нужны для договора и оформления автомобиля сразу на вас, а не на посредника.",
+  },
+  {
+    question: "Из чего складывается растаможка?",
+    answer:
+      "Пошлина считается по правилам страны ввоза и зависит от возраста авто и объёма двигателя, к ней добавляются НДС, утилизационный и регистрационные сборы. Считаем по вашей стране и показываем разбивку по статьям до оплаты.",
   },
   {
     question: "Что, если машина придёт повреждённой?",
@@ -390,42 +445,9 @@ export const faqs: Faq[] = [
       "Автомобиль застрахован на полную стоимость. Повреждения фиксируются актом при выдаче. Претензию к перевозчику и страховой ведём мы.",
   },
   {
-    question: "Что, если машина не придёт вообще?",
-    answer: "[Порядок возврата средств и срок.]",
-  },
-  {
-    question: "Есть ли гарантия?",
+    question: "Как вам доверять, если я покупаю машину дистанционно?",
     answer:
-      "[Честный ответ. Если заводской гарантии нет — сказать прямо и объяснить, что предлагается взамен: сервис-партнёр, своя гарантия или ничего.]",
-  },
-  {
-    question: "Сколько это занимает?",
-    answer:
-      "[XX] дней от оплаты до выдачи. Сроки могут сдвинуться из-за очереди на границе — предупреждаем заранее. 🇺🇿 [срок для Узбекистана] 🇰🇬 [срок для Кыргызстана]",
-  },
-  {
-    question: "Из чего складывается растаможка?",
-    answer:
-      "🇺🇿 Таможенная пошлина зависит от возраста авто и включает надбавку за см³ объёма двигателя, плюс НДС 12% и таможенные сборы. 🇰🇬 Пошлина по ставкам ЕАЭС плюс [перечень сборов Кыргызстана: утилизационный сбор, регистрационные сборы — уточнить у брокера, ставки не совпадают с казахстанскими].",
-  },
-  {
-    question: "Почему это дешевле, чем купить здесь?",
-    answer:
-      "[Конкретный расчёт на примере одной модели для каждой страны: локальная рыночная цена против цены под ключ.]",
-  },
-  {
-    question: "Я живу в Кыргызстане — вы работаете с моей страной?",
-    answer:
-      "Да. Считаем цену под ключ по кыргызским правилам, оформляем растаможку и доставляем в Бишкек, Ош и другие города. Документы и договор — по законодательству Кыргызстана.",
-  },
-  {
-    question: "Машина новая или б/у?",
-    answer: "[Прямой ответ: типичный пробег и возраст.]",
-  },
-  {
-    question: "Я могу выбрать конкретную машину?",
-    answer:
-      "Да. Мы присылаем варианты, вы выбираете. До согласования VIN вы ничем не связаны.",
+      "Только в этом году мы привезли более 50 автомобилей. Договор заключается напрямую с вами, авто оформляется на ваше имя, на каждом этапе — фото, видео и документы. Мы не берём деньги за «воздух»: до согласования конкретного VIN вы ничем не связаны.",
   },
 ];
 
@@ -451,7 +473,7 @@ export const steps: Step[] = [
   },
   {
     title: "Доставка",
-    body: "[XX] дней. Держим вас в курсе на каждом этапе.",
+    body: "От 20 до 30 дней. Держим вас в курсе на каждом этапе.",
   },
   {
     title: "Растаможка и выдача",

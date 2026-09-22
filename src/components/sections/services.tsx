@@ -1,56 +1,46 @@
 import { Container } from "@/components/ui/container";
 import { SectionTop } from "@/components/ui/section-top";
-import { ServiceBlock } from "@/components/ui/service-block";
-import { services } from "@/lib/content";
+import { TrustCard } from "@/components/ui/trust-card";
+import { trustPoints } from "@/lib/content";
 
 /**
- * Services (§5).
+ * Services (§5) — "Почему выбирают Varion Motors".
  *
- * Desktop puts Section Top and the tiles side by side in one 80px-gap row,
- * split 0.8fr / 1fr, both 636px tall; the header runs as a column with its copy
- * and button at the bottom. Tablet drops the header above the tiles (64px gap)
- * and the row shrinks to 587px. Below 810px everything stacks into 224px tiles.
+ * Desktop puts Section Top and the cards side by side in one 80px-gap row,
+ * split 0.8fr / 1fr; the header runs as a column with its copy and button at
+ * the bottom. Tablet drops the header above the cards (64px gap). Below 810px
+ * everything stacks.
  *
- * The tiles themselves are two equal columns with a 24px gap — two on the left,
- * three on the right, each column splitting its height evenly.
- *
- * Framer's Block 03 ("Verified History & Trusted Brand") is the black tile with
- * the brand-logo marquee inside; the marquee is not ported yet.
+ * Four cards now (up from the original two), so from tablet up they run a
+ * 2x2 grid instead of a single row — a row of four got too narrow next to
+ * the header column. The cards themselves used to be Framer's five photo
+ * tiles (`ServiceBlock`, still in `service-block.tsx` with its data in
+ * `content.ts`'s `services`); swapped for plain icon/title/body cards to
+ * carry the client's trust copy, which doesn't fit a bottom-left title over
+ * a photo.
  *
  * NOTE: this section uses Framer's real content frame (1480px / 32px padding on
  * desktop). The shared `Container` is still the 1200px / 24px tablet frame, so
  * the other sections read narrower than the Framer original.
  */
 export function Services() {
-  const [inspection, history, warranty, detailing, financing] = services;
-  const tile = "h-[224px] tablet:h-auto tablet:flex-1";
-
   return (
     <section id="why-us" className="bg-background">
       <Container className="flex max-w-[1480px] flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-stretch desktop:gap-20 desktop:px-8">
         <SectionTop
           variant="aside"
           tag="Почему мы"
-          title="На чём держится наша работа"
+          title="Почему выбирают Varion Motors"
           body="Мы зарабатываем на доставке, а не на конкретной машине. Поэтому если проверка нашла скрытое ДТП или скрученный пробег — говорим об этом и ищем другую."
-          action={{ label: "Посмотреть портфолио", href: "/inventory" }}
+          action={{ label: "Смотреть каталог", href: "/inventory" }}
           className="desktop:flex-[0.8]"
         />
 
-        {/* Container */}
-        <div className="flex flex-col gap-6 tablet:h-[587px] tablet:flex-row tablet:items-end desktop:h-[636px] desktop:flex-1">
-          {/* Left */}
-          <div className="flex flex-1 flex-col gap-6 tablet:h-full">
-            <ServiceBlock {...inspection} className={tile} />
-            <ServiceBlock {...detailing} className={tile} />
-          </div>
-
-          {/* Right */}
-          <div className="flex flex-1 flex-col gap-6 tablet:h-full">
-            <ServiceBlock {...history} className={tile} />
-            <ServiceBlock {...warranty} className={tile} />
-            <ServiceBlock {...financing} className={tile} />
-          </div>
+        {/* Cards */}
+        <div className="grid grid-cols-1 gap-6 tablet:grid-cols-2 desktop:flex-1">
+          {trustPoints.map((point) => (
+            <TrustCard key={point.title} {...point} />
+          ))}
         </div>
       </Container>
     </section>

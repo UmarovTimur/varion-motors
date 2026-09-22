@@ -16,25 +16,25 @@ export function InventoryHero() {
         {/* Left */}
         <div className="flex w-full flex-col items-start justify-end gap-4 desktop:flex-1">
           <h1 className="w-full max-w-[550px] text-balance text-[34px] leading-[1.05] tracking-heading tablet:text-[42px] desktop:text-h1">
-            {typo("Машины, которые мы привезли")}
+            {typo("Каталог автомобилей")}
           </h1>
 
           {/* Text & Button */}
           <div className="flex w-full flex-col items-start justify-end gap-6">
             <p className="w-full max-w-[480px] text-body text-ink-muted">
-              Каждая карточка — закрытая сделка: маршрут, срок доставки и
-              итоговая цена под ключ. Так же будет выглядеть и ваша.
+              Модели из Кореи и Китая с ценой под ключ и сроком доставки.
+              Подберём любую из них — или ту, которой здесь нет.
             </p>
             <Button href="#inventory" variant="secondary">
-              Смотреть портфолио
+              Смотреть каталог
             </Button>
           </div>
         </div>
 
         {/* Right */}
         <div className="flex w-full flex-row items-start gap-2 desktop:flex-1 desktop:flex-col desktop:items-end desktop:justify-end">
-          <HeroSocialProof metric="[XX]" label="авто доставлено" />
-          <HeroSocialProof metric="[XX] дн." label="средний срок" />
+          <HeroSocialProof metric="50+" label="авто доставлено в 2026" />
+          <HeroSocialProof metric="20–30 дн." label="срок доставки" />
         </div>
       </Container>
     </section>

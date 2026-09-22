@@ -44,18 +44,11 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Реквизиты и контакты — по каждой стране отдельно */}
+            {/* Реквизиты и контакты */}
             <div className="flex flex-col gap-1 text-body text-ink-muted">
               <p>{site.legalName}</p>
               <p>{site.address}</p>
-              <p>
-                {site.contacts.uz.label} ({site.contacts.uz.city}):{" "}
-                {site.contacts.uz.phone}
-              </p>
-              <p>
-                {site.contacts.kg.label} ({site.contacts.kg.city}):{" "}
-                {site.contacts.kg.phone}
-              </p>
+              <p>{site.phones.join(", ")}</p>
               <p>
                 <a href={site.telegram}>Telegram</a> ·{" "}
                 {/* Cloudflare's Email Address Obfuscation (Scrape Shield) finds

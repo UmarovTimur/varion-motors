@@ -9,10 +9,10 @@ export function FeaturedVehicles() {
     <section id="portfolio" className="bg-background">
       <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
         <SectionTop
-          tag="Портфолио"
-          title="Машины, которые мы привезли"
-          body="Каждая карточка — закрытая сделка: маршрут, срок доставки и итоговая цена под ключ. Так же будет выглядеть и ваша."
-          action={{ label: "Все машины", href: "/inventory" }}
+          tag="Авто под заказ"
+          title="Каталог автомобилей"
+          body="Модели из Кореи и Китая с ценой под ключ и сроком доставки. Подберём любую из них — или ту, которой здесь нет."
+          action={{ label: "Весь каталог", href: "/inventory" }}
         />
 
         <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
