@@ -14,7 +14,8 @@ export type NavLink = { label: string; href: string };
  * scrolls in place on the home page and, from any other page, goes home and
  * lands on the section. "Контакты" is the footer, present on every page, so it
  * never leaves the current one. "Проверка" has no landing section yet (the
- * inspection breakdown block is still missing), so it keeps its page.
+ * inspection breakdown block is still missing), so it keeps its page — and
+ * is left out of the header menu for now, only the footer links to it.
  */
 const links = {
   portfolio: { label: "Каталог", href: "/#portfolio" },
@@ -29,7 +30,6 @@ const catalogLinks = SHOW_CATALOG ? [links.portfolio] : [];
 export const navLinks: NavLink[] = [
   ...catalogLinks,
   links.steps,
-  links.inspection,
   links.team,
   links.contacts,
 ];
