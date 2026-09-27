@@ -1,6 +1,6 @@
 /** The catalog (/inventory, the home-page block and every link to it) is off
  * until there are enough cars to show — see TODO.md ("Каталог"). */
-export const SHOW_CATALOG = false;
+export const SHOW_CATALOG = true;
 
 export const site = {
   name: "VARION MOTORS",
@@ -8,7 +8,6 @@ export const site = {
     "Подбираем, проверяем и привозим автомобили из Китая и Кореи по всему СНГ — с документами и итоговой ценой, известной заранее.",
   /** Empty until the client sends it; the footer hides every empty field. */
   mapsUrl: "",
-  credit: "Made By Akem in Framer",
   /** Working numbers, in display order. They used to be split per country;
    * now that the offer is CIS-wide they are just the lines you can call. */
   phones: ["+998 90 345 38 43", "+7 991 139 3253"],

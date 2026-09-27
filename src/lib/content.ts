@@ -4,6 +4,7 @@
  * what the components consume, so only this file needs to change.
  */
 
+import type { CarPricing } from "./pricing";
 import { SHOW_CATALOG } from "./site";
 
 export type NavLink = { label: string; href: string };
@@ -112,6 +113,8 @@ export type Car = {
   quick?: Spec[];
   specs?: Spec[];
   gallery?: string[];
+  /** "Цена под ключ" block: Korean price plus per-destination costs. */
+  pricing?: CarPricing;
   details?: { title: string; body: string }[];
 };
 
@@ -151,6 +154,35 @@ export const cars: Car[] = [
       { label: "Владельцев", value: "1" },
     ],
     gallery: [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `/media/cars/bmw-x3/0${n}.jpg`),
+    pricing: {
+      krw: 73_000_000,
+      destinations: [
+        {
+          id: "ru",
+          label: "Россия",
+          delivery: [
+            { label: "Доставка из Кореи", amount: 3500, currency: "USD" },
+            { label: "Дорога до города", amount: 1500, currency: "USD" },
+          ],
+          customs: [
+            { label: "Таможенная пошлина", amount: 13200, currency: "USD" },
+            { label: "Услуги декларанта", amount: 1200, currency: "USD" },
+            { label: "Лаборатория (СБКТС)", amount: 40000, currency: "RUB" },
+            { label: "Утильсбор", amount: 952800, currency: "RUB" },
+          ],
+        },
+        {
+          id: "uz",
+          label: "Узбекистан",
+          delivery: [
+            { label: "Доставка из Кореи", amount: null, currency: "USD" },
+          ],
+          customs: [
+            { label: "Растаможка и оформление", amount: null, currency: "USD" },
+          ],
+        },
+      ],
+    },
     details: [
       {
         title: "Технические данные",
@@ -159,10 +191,6 @@ export const cars: Car[] = [
       {
         title: "Состояние и история",
         body: "Пробег 4 800 км, авто 2025 года. По данным Encar залогов и арестов нет. Есть панорамная крыша, задняя камера, датчики парковки, навигация, климат-контроль, бесключевой доступ, кожаный салон с подогревом и вентиляцией сидений — всего 43 опции. [Данные по ДТП и окрасам — после проверки.]",
-      },
-      {
-        title: "Из чего складывается цена",
-        body: "Цена в Корее — 73 000 000 ₩. Дорога — $3 500. Таможня — $13 200. Декларант — $1 200. Дорога до города — $1 500. Лаборатория — 40 000 ₽. Утильсбор — 952 800 ₽. Стоимость самой машины — $70 900.",
       },
     ],
   },

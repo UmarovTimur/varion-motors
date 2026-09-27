@@ -1,14 +1,17 @@
 # Deploying to production
 
-The site runs on a shared VPS, alongside several unrelated projects. There is
-no git remote and no CI — deploys are a manual rsync + build + pm2 restart.
+The site runs on a shared VPS, alongside several unrelated projects. Code goes
+through GitHub: commit and push locally, then `git pull` + build + pm2
+restart on the box. There is no CI.
 
 ## Server
 
 - Host: `ubuntu@57.129.62.155` (sudo without password)
-- Code: `/srv/apex/varion-motors` — a plain copy of this working tree (no
-  `node_modules`, `.next`, or `.git`; there's no git remote, so the code on
-  the box exists only because it was rsynced there)
+- Code: `/srv/apex/varion-motors` — a git checkout of branch `framer-port`
+  from `github.com/UmarovTimur/varion-motors`. It fetches over HTTPS (public
+  repo) and pushes over SSH with its own deploy key (host alias
+  `github.com-varion` in `~/.ssh/config`). Server-only files (`HANDOFF.md`,
+  `.deployed-at`, the old patch) are listed in `.git/info/exclude`.
 - Process: pm2 app **`varion-motors`**, running `npm start` on
   `127.0.0.1:3002`
 - Public domain: **camping-rent.uz** / **www.camping-rent.uz**, proxied to
@@ -16,9 +19,8 @@ no git remote and no CI — deploys are a manual rsync + build + pm2 restart.
   HTTP only — Cloudflare terminates TLS at the edge, there's no origin cert
   for this domain.
 - A second pm2 app, **`varion-dev`** (`next dev -p 3003`, same directory),
-  exists for on-box editing but is normally **stopped**. Don't start it
-  unless you're intentionally switching the domain to a live dev server —
-  that also means flipping nginx's `proxy_pass` between `:3002`/`:3003`.
+  is **stopped**: development happens locally, the box only runs the build.
+  Don't edit code on the server — change it locally, push, and pull there.
 
 **Other apps on the same box — never touch their config or restart them as a
 side effect:** `admin` / `az` (`/home/ubuntu/srv/MBC_NEXT`), `incilaz.com`
@@ -28,69 +30,26 @@ side effect:** `admin` / `az` (`/home/ubuntu/srv/MBC_NEXT`), `incilaz.com`
 ## Deploy script
 
 ```bash
-./scripts/deploy.sh              # local build -> rsync -> server build -> pm2 restart -> curl check
-SKIP_CHECK=1 ./scripts/deploy.sh # overwrite even if the server has newer edits
+./scripts/deploy.sh   # clean tree check -> local build -> git push -> server pull -> build -> pm2 restart -> curl check
 ```
-
-It does every step below. After each deploy it touches `.deployed-at` on the
-server; the next run aborts if any file there is newer than that stamp (edits
-made on the box), so nothing gets overwritten silently.
 
 ## Deploy steps (manual)
 
-Run these from the local repo root.
-
-1. **Build locally first**, as a smoke test. A failed build *on the box*
-   deletes the old `.next` before the new one exists, which means downtime —
-   catch compile/type errors here instead:
-
-   ```bash
-   npm run build
-   ```
-
-   This clobbers a locally running `next dev` server's `.next` directory —
-   restart `npm run dev` afterwards if you had one running.
-
-2. **Check for on-box edits before overwriting anything.** People
-   (including Claude sessions) sometimes edit directly on the server. Dry-run
-   a pull in the opposite direction and make sure every listed file is one
-   *you* changed locally this session — if something unexpected shows up,
-   stop and reconcile it first instead of overwriting it:
+1. **Build locally first** (`npm run build`), as a smoke test. A failed build
+   *on the box* deletes the old `.next` before the new one exists, which means
+   downtime. It also clobbers a running local `next dev` — restart it after.
+2. **Commit and push** `framer-port` to GitHub.
+3. **On the server:**
 
    ```bash
-   rsync -rlcni --exclude node_modules --exclude .next --exclude .git \
-     ubuntu@57.129.62.155:/srv/apex/varion-motors/ ./
+   ssh ubuntu@57.129.62.155 "cd /srv/apex/varion-motors && git pull --ff-only && npm ci && npm run build && pm2 restart varion-motors"
    ```
 
-3. **Push the working tree to the server.** Never add `--delete` —
-   `HANDOFF.md` and other files live only on the box.
-
-   ```bash
-   rsync -rlc --info=stats1,name \
-     --exclude node_modules --exclude .next --exclude .git \
-     ./ ubuntu@57.129.62.155:/srv/apex/varion-motors/
-   ```
-
-4. **Install deps and build on the server:**
-
-   ```bash
-   ssh ubuntu@57.129.62.155 "cd /srv/apex/varion-motors && npm ci && npm run build"
-   ```
-
-5. **Restart the running process:**
-
-   ```bash
-   ssh ubuntu@57.129.62.155 "pm2 restart varion-motors"
-   ```
-
-6. **Verify:**
-
-   ```bash
-   curl -s -o /dev/null -w '%{http_code}\n' http://camping-rent.uz/
-   ```
-
-   `pm2 list` on the box should show `varion-motors` as `online` with a
-   fresh uptime; `pm2 logs varion-motors --lines 50` if it isn't.
+   `--ff-only` makes the pull stop instead of merging if someone did edit or
+   commit on the box — check `git status` there and bring those changes
+   through GitHub first.
+4. **Verify:** `curl -s -o /dev/null -w '%{http_code}\n' http://camping-rent.uz/`,
+   and `pm2 list` should show `varion-motors` online with a fresh uptime.
 
 ## Known gaps
 

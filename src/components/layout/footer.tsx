@@ -88,16 +88,17 @@ export function Footer() {
            * columns side by side even on phone, but its labels are single
            * English words; "Как мы работаем" in a 24px-padded pill cannot fit
            * two columns into a 310px content width, so below tablet the two
-           * navs stack into one list instead of running off the right edge. */}
-          <div className="flex flex-col gap-4 tablet:flex-row tablet:gap-16 desktop:flex-[0.8] desktop:items-start">
-            <nav className="flex flex-1 flex-col items-start gap-4">
+           * navs dissolve (`contents`) into one wrapping row of pills instead of
+           * running off the right edge or stacking into a tall column. */}
+          <div className="flex flex-wrap gap-2 tablet:flex-nowrap tablet:gap-16 desktop:flex-[0.8] desktop:items-start">
+            <nav className="contents tablet:flex tablet:flex-1 tablet:flex-col tablet:items-start tablet:gap-4">
               {footerLinksLeft.map((link) => (
                 <NavLink key={link.href} href={link.href}>
                   {link.label}
                 </NavLink>
               ))}
             </nav>
-            <nav className="flex flex-1 flex-col items-start gap-4">
+            <nav className="contents tablet:flex tablet:flex-1 tablet:flex-col tablet:items-start tablet:gap-4">
               {footerLinksRight.map((link) => (
                 <NavLink key={link.href} href={link.href}>
                   {link.label}
@@ -126,24 +127,6 @@ export function Footer() {
             <div className="flex flex-1 flex-col items-start gap-1">
               <p className="text-ink-muted">
                 © 2026 {site.name} — все права защищены
-              </p>
-              <p className="flex flex-wrap items-center gap-1">
-                <span>Made By</span>
-                <a
-                  href="https://marketplace.framer.com/@akem-design/"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Akem
-                </a>
-                <span>in</span>
-                <a
-                  href="https://framer.link/akem-design"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Framer
-                </a>
               </p>
             </div>
 

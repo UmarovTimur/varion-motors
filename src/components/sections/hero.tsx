@@ -52,8 +52,8 @@ export function Hero() {
             {/* TextButton */}
           <div className="flex w-full flex-col items-start justify-end gap-6">
               <p className="w-full max-w-[480px] text-body text-text-white">
-                Подбираем, проверяем и привозим по всему СНГ. Вы получаете
-                машину с документами и полным расчётом на руках.
+                Подбираем, проверяем и привозим под ключ. Вы получаете машину
+                с документами и полным расчётом на руках.
               </p>
 
               {/* Буллеты */}

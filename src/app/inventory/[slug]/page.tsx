@@ -9,6 +9,7 @@ import { CarGallery } from "@/components/ui/car-gallery";
 import { Container } from "@/components/ui/container";
 import { CopyButton } from "@/components/ui/copy-button";
 import { Media } from "@/components/ui/media";
+import { PriceBreakdown } from "@/components/ui/price-breakdown";
 import { Tag } from "@/components/ui/tag";
 import { VideoPlayer } from "@/components/ui/video-player";
 import { cars, type Spec } from "@/lib/content";
@@ -162,6 +163,11 @@ export default async function CarPage({ params }: Params) {
               </div>
             </div>
           </div>
+
+          {/* Цена под ключ — не из Framer */}
+          {car.pricing ? (
+            <PriceBreakdown pricing={car.pricing} carName={car.name} />
+          ) : null}
 
           {/* Видео осмотра — не из Framer: в оригинале видеоблока нет */}
           {car.video ? (

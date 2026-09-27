@@ -215,14 +215,11 @@ export function LeadDialog() {
                 className="mt-0.5 size-5 shrink-0 cursor-pointer accent-ink"
               />
               <span>
-                Я ознакомлен(-а) и соглашаюсь с{" "}
+                Я ознакомлен(-а) с{" "}
                 <Link href="/privacy" target="_blank" className={legalLink}>
-                  политикой конфиденциальности
+                  Политикой обработки персональных данных
                 </Link>{" "}
-                и даю согласие на{" "}
-                <Link href="/privacy" target="_blank" className={legalLink}>
-                  обработку персональных данных
-                </Link>
+                и даю согласие на обработку моих персональных данных
               </span>
             </label>
           </form>
