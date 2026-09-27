@@ -1,3 +1,4 @@
+import { site } from "@/lib/site";
 import { Container } from "@/components/ui/container";
 import { SectionTop } from "@/components/ui/section-top";
 import { steps } from "@/lib/content";
@@ -13,15 +14,15 @@ import { typo } from "@/lib/utils";
 export function Steps() {
   return (
     <section id="how-it-works" className="bg-background">
-      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
+      <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">
         <SectionTop
           tag="Как мы работаем"
           title="Шесть шагов от заявки до ключей"
           body="От заявки до ключей — от 20 до 30 дней. На каждом этапе присылаем фото и статус в Telegram, так что вы всегда знаете, где машина."
-          action={{ label: "Написать в Telegram", href: "/contact" }}
+          action={{ label: "Написать в Telegram", href: site.telegram }}
         />
 
-        <ol className="grid gap-8 tablet:grid-cols-2 desktop:grid-cols-3">
+        <ol className="grid gap-4 tablet:gap-8 tablet:grid-cols-2 desktop:grid-cols-3">
           {steps.map((step, i) => (
             <li
               key={step.title}
@@ -29,14 +30,14 @@ export function Steps() {
             >
               {/* Framer `Trade-in Step Card`: white pill (number + title) inset 4px, description sits directly on the card below it. */}
               <div className="flex items-center rounded-md bg-background-light p-1">
-                <span className="grid size-[73px] shrink-0 place-items-center rounded-md bg-black">
-                  <span className="text-body-xl text-text-white">{i + 1}</span>
+                <span className="grid size-14 shrink-0 place-items-center rounded-md bg-black tablet:size-[73px]">
+                  <span className="text-body-l text-text-white tablet:text-body-xl">{i + 1}</span>
                 </span>
-                <h3 className="flex-1 px-6 py-2 text-body-l">
+                <h3 className="flex-1 px-4 py-2 text-body tablet:px-6 tablet:text-body-l">
                   {typo(step.title)}
                 </h3>
               </div>
-              <p className="max-w-[480px] p-6 text-body text-ink-muted">
+              <p className="max-w-[480px] p-4 text-body-xs text-ink-muted tablet:p-6 tablet:text-body">
                 {step.body}
               </p>
             </li>

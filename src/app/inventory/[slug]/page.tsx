@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { SHOW_CATALOG } from "@/lib/site";
 import * as Accordion from "@radix-ui/react-accordion";
 import { Button } from "@/components/ui/button";
 import { CallToAction } from "@/components/sections/call-to-action";
@@ -24,7 +25,7 @@ import { typo } from "@/lib/utils";
 type Params = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return cars.map((car) => ({ slug: car.slug }));
+  return SHOW_CATALOG ? cars.map((car) => ({ slug: car.slug })) : [];
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -68,7 +69,7 @@ function SpecTile({ spec }: { spec: Spec }) {
 export default async function CarPage({ params }: Params) {
   const { slug } = await params;
   const car = cars.find((c) => c.slug === slug);
-  if (!car) notFound();
+  if (!car || !SHOW_CATALOG) notFound();
 
   const [price, ...quick] = car.quick ?? [];
   const quickIcons = [Calendar, CarFront, Fuel, User];
@@ -120,7 +121,7 @@ export default async function CarPage({ params }: Params) {
 
             {/* Quick Infos */}
             {car.quick ? (
-              <div className="flex w-[280px] flex-col gap-2 rounded-md bg-background-mid p-1 desktop:absolute desktop:right-4 desktop:bottom-4">
+              <div className="flex w-full flex-col gap-2 rounded-md bg-background-mid p-1 desktop:absolute desktop:w-[280px] desktop:right-4 desktop:bottom-4">
                 <QuickTile icon={TagIcon} value={price.value} />
                 <div className="grid grid-cols-2 gap-1">
                   {quick.map((item, i) => (
@@ -139,7 +140,7 @@ export default async function CarPage({ params }: Params) {
 
       {/* Inventory */}
       <section className="bg-background">
-        <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
+        <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">
           {/* Gallery & Specs */}
           <div className="flex flex-col gap-12 desktop:flex-row desktop:items-start desktop:gap-20">
             <CarGallery

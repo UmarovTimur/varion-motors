@@ -16,7 +16,7 @@ export function MenuToggle({
   className?: string;
 }) {
   const bar =
-    "absolute left-1/2 h-px w-[17px] -translate-x-1/2 bg-background transition-all duration-300";
+    "absolute left-1/2 h-px w-3 -translate-x-1/2 bg-background transition-all duration-300 tablet:w-[17px]";
 
   return (
     <button
@@ -25,17 +25,19 @@ export function MenuToggle({
       aria-expanded={open}
       aria-label={open ? "Close menu" : "Open menu"}
       className={cn(
-        "relative size-[54px] shrink-0 overflow-hidden rounded-icon bg-black",
+        "relative size-11 shrink-0 overflow-hidden rounded-icon bg-black tablet:size-[54px]",
         className,
       )}
     >
       <span
-        className={cn(bar, open ? "top-1/2 rotate-45" : "top-[22px] rotate-0")}
+        className={cn(bar, open ? "top-1/2 rotate-45" : "top-[18px] rotate-0 tablet:top-[22px]")}
       />
       <span
         className={cn(
           bar,
-          open ? "top-1/2 -rotate-45" : "top-[calc(100%-22px)] rotate-0",
+          open
+            ? "top-1/2 -rotate-45"
+            : "top-[calc(100%-18px)] rotate-0 tablet:top-[calc(100%-22px)]",
         )}
       />
     </button>

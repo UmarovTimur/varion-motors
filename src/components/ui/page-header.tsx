@@ -13,7 +13,7 @@ export function PageHeader({
   body: string;
 }) {
   return (
-    <section className="bg-surface pt-[150px] pb-20">
+    <section className="bg-surface pt-28 pb-12 tablet:pt-[150px] tablet:pb-20">
       <Container className="flex max-w-[720px] flex-col gap-5">
         <Tag>{tag}</Tag>
         <h1 className="text-balance text-h1">{typo(title)}</h1>

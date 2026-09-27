@@ -11,7 +11,7 @@ import { typo } from "@/lib/utils";
 export function Faq() {
   return (
     <section id="faq" className="bg-background">
-      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
+      <Container className="flex flex-col gap-8 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
         <div className="flex flex-col gap-4 desktop:flex-[445]">
           <Tag>Частые вопросы</Tag>
           <h2 className="max-w-[480px] text-balance text-h2">
@@ -37,7 +37,7 @@ export function Faq() {
               className="border-b border-ink/10"
             >
               <Accordion.Header>
-                <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-6 text-left text-h5 font-medium">
+                <Accordion.Trigger className="group flex w-full items-center justify-between gap-6 py-4 text-left text-h5 tablet:py-6 font-medium">
                   {faq.question}
                   <ChevronDown className="size-5 shrink-0 text-ink-subtle transition-transform duration-200 group-data-[state=open]:rotate-180" />
                 </Accordion.Trigger>

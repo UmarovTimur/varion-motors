@@ -55,17 +55,19 @@
   --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
 
   /* --- Type scale (§14) --- */
-  --text-h1: 3.5rem; /* Heading 1 — 56 / 1.0 */
+  /* Headings scale fluidly from phone (425px) to desktop (1200px) — fixed
+   * desktop sizes made section titles take half a phone screen. */
+  --text-h1: clamp(2.25rem, 1.564rem + 2.581vw, 3.5rem); /* Heading 1 — 36→56 / 1.0 */
   --text-h1--line-height: 1;
-  --text-h2: 3rem; /* Heading 2 — 48 / 1.1 */
+  --text-h2: clamp(1.875rem, 1.258rem + 2.323vw, 3rem); /* Heading 2 — 30→48 / 1.1 */
   --text-h2--line-height: 1.1;
-  --text-h3: 1.625rem; /* Heading 3 — 26 / 1.2 */
+  --text-h3: clamp(1.375rem, 1.238rem + 0.516vw, 1.625rem); /* Heading 3 — 22→26 / 1.2 */
   --text-h3--line-height: 1.2;
   --text-h4: 1.375rem; /* Heading 4 — 22 / 1.2 */
   --text-h4--line-height: 1.2;
   --text-h5: 1.125rem; /* Heading 5 — 18 / 1.3 */
   --text-h5--line-height: 1.3;
-  --text-quote: 2rem; /* Quote — 32 / 1.2 */
+  --text-quote: clamp(1.5rem, 1.226rem + 1.032vw, 2rem); /* Quote — 24→32 / 1.2 */
   --text-quote--line-height: 1.2;
   --text-body-xxl: 1.5rem; /* Body XXL — 24 / 1.4 */
   --text-body-xxl--line-height: 1.4;
@@ -79,7 +81,7 @@
   --text-body-xs--line-height: 1.5;
   --text-tag: 1rem; /* TAG — 16 / 1.5 */
   --text-tag--line-height: 1.5;
-  --text-metric: 3.625rem; /* Metric — 58 / 1.0 */
+  --text-metric: clamp(2.5rem, 1.883rem + 2.323vw, 3.625rem); /* Metric — 40→58 / 1.0 */
   --text-metric--line-height: 1;
 
   /* --- Animation (tokens.md §6) ---
@@ -148,6 +150,8 @@ body {
  * fixed 70px header. Route changes stay instant via data-scroll-behavior on
  * <html> (Next 16 no longer overrides smooth scrolling on its own). */
 html {
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
   scroll-padding-top: 78px;
   /* Keep the scrollbar's lane reserved, so locking the page scroll (open
    * dialog, mobile menu) does not widen the page and shift the content. */
@@ -224,4 +228,14 @@ html:has(dialog[open]:modal) {
   .animate-search-dot {
     animation: none;
   }
+}
+
+/* iOS Safari: never show the native play button / controls over a
+ * background video. */
+video::-webkit-media-controls,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-overlay-play-button,
+video::-webkit-media-controls-panel {
+  display: none !important;
+  -webkit-appearance: none;
 }

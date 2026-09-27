@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import { Container } from "@/components/ui/container";
 import { HeroSocialProof } from "@/components/ui/hero-social-proof";
 import { typo } from "@/lib/utils";
@@ -12,28 +11,24 @@ import { typo } from "@/lib/utils";
 export function InventoryHero() {
   return (
     <section className="flex w-full flex-col items-center gap-2.5 overflow-clip bg-background desktop:h-[80vh]">
-      <Container className="flex flex-1 flex-col items-start justify-end gap-8 pt-[104px] tablet:gap-10 desktop:flex-row desktop:items-end desktop:gap-20">
+      <Container className="flex flex-1 flex-col items-start justify-end gap-8 pt-[90px] tablet:gap-10 tablet:pt-[104px] desktop:flex-row desktop:items-end desktop:gap-20">
         {/* Left */}
         <div className="flex w-full flex-col items-start justify-end gap-4 desktop:flex-1">
           <h1 className="w-full max-w-[550px] text-balance text-[34px] leading-[1.05] tracking-heading tablet:text-[42px] desktop:text-h1">
             {typo("Каталог автомобилей")}
           </h1>
 
-          {/* Text & Button */}
+          {/* Text */}
           <div className="flex w-full flex-col items-start justify-end gap-6">
             <p className="w-full max-w-[480px] text-body text-ink-muted">
               Модели из Кореи и Китая с ценой под ключ и сроком доставки.
               Подберём любую из них — или ту, которой здесь нет.
             </p>
-            <Button href="#inventory" variant="secondary">
-              Смотреть каталог
-            </Button>
           </div>
         </div>
 
         {/* Right */}
         <div className="flex w-full flex-row items-start gap-2 desktop:flex-1 desktop:flex-col desktop:items-end desktop:justify-end">
-          <HeroSocialProof metric="50+" label="авто доставлено в 2026" />
           <HeroSocialProof metric="20–30 дн." label="срок доставки" />
         </div>
       </Container>

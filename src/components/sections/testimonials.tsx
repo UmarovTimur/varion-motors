@@ -38,7 +38,7 @@ function MetricTile({
 export function Testimonials() {
   return (
     <section className="bg-background">
-      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
+      <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">
         <SectionTop
           tag="Testimonials"
           title="Great Numbers, Happy Owners."

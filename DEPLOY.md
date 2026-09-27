@@ -25,7 +25,18 @@ side effect:** `admin` / `az` (`/home/ubuntu/srv/MBC_NEXT`), `incilaz.com`
 (`:3001`, `/payload/` → `:8001`), `rentent.uz` (`:5173`), `calendars2026`
 (the default/IP-only nginx site).
 
-## Deploy steps
+## Deploy script
+
+```bash
+./scripts/deploy.sh              # local build -> rsync -> server build -> pm2 restart -> curl check
+SKIP_CHECK=1 ./scripts/deploy.sh # overwrite even if the server has newer edits
+```
+
+It does every step below. After each deploy it touches `.deployed-at` on the
+server; the next run aborts if any file there is newer than that stamp (edits
+made on the box), so nothing gets overwritten silently.
+
+## Deploy steps (manual)
 
 Run these from the local repo root.
 

@@ -31,6 +31,13 @@ import {
  * Framer's own filters are Make / Condition / Year / Max Mileage; the facets
  * here are the ones a portfolio of closed deals actually has (see content.ts).
  */
+/**
+ * The filters are hidden while the catalog holds a single car — they'd filter
+ * nothing. The state and markup stay so they can come back as-is; see
+ * TODO.md ("Фильтры каталога").
+ */
+const SHOW_FILTERS = false;
+
 export function InventoryBrowser() {
   const [query, setQuery] = useState("");
   const [country, setCountry] = useState("");
@@ -76,91 +83,98 @@ export function InventoryBrowser() {
 
   return (
     <section id="inventory" className="bg-background">
-      <Container className="flex flex-col items-start gap-12 tablet:gap-16 desktop:flex-row desktop:gap-20">
+      <Container className="flex flex-col items-start gap-8 tablet:gap-16 desktop:flex-row desktop:gap-20">
         {/* Filters Bar */}
-        <div className="flex w-full flex-col items-start gap-4 desktop:sticky desktop:top-[94px] desktop:z-(--z-sticky) desktop:w-[250px] desktop:shrink-0">
-          {/* Title & Search */}
-          <div className="flex w-full flex-col items-start gap-4">
-            <h2 className="text-h3">Фильтры</h2>
-            <FilterInput
-              type="search"
-              placeholder="Поиск по названию…"
-              aria-label="Поиск по названию"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-          </div>
-
-          {/* Filters */}
-          <div className="flex w-full flex-col items-start gap-4">
-            {/* Wrap — a column, except on tablet where the bar runs full width */}
-            <div className="flex w-full flex-col items-center gap-4 tablet:flex-row desktop:flex-col">
-              <FilterField label="Страна">
-                <FilterSelect
-                  options={countries}
-                  value={country}
-                  onChange={(event) => setCountry(event.target.value)}
-                />
-              </FilterField>
-            </div>
-
-            {/* Wrap */}
-            <div className="flex w-full flex-row items-center gap-4">
-              <FilterField label="Год от">
-                <FilterInput
-                  type="number"
-                  inputMode="numeric"
-                  placeholder="2020"
-                  value={yearFrom}
-                  onChange={(event) => setYearFrom(event.target.value)}
-                />
-              </FilterField>
-              <FilterField label="Год до">
-                <FilterInput
-                  type="number"
-                  inputMode="numeric"
-                  placeholder="2026"
-                  value={yearTo}
-                  onChange={(event) => setYearTo(event.target.value)}
-                />
-              </FilterField>
-            </div>
-          </div>
-
-          {/* Price Range */}
-          <fieldset className="flex w-full flex-col items-start gap-2">
-            <legend className="text-body">Цена под ключ</legend>
-            {priceRanges.map((range) => (
-              <FilterCheckbox
-                key={range.id}
-                label={range.label}
-                checked={ranges.includes(range.id)}
-                onChange={() => toggleRange(range.id)}
+        {SHOW_FILTERS && (
+          <div className="flex w-full flex-col items-start gap-4 desktop:sticky desktop:top-[94px] desktop:z-(--z-sticky) desktop:w-[250px] desktop:shrink-0">
+            {/* Title & Search */}
+            <div className="flex w-full flex-col items-start gap-4">
+              <h2 className="text-h3">Фильтры</h2>
+              <FilterInput
+                type="search"
+                placeholder="Поиск по названию…"
+                aria-label="Поиск по названию"
+                value={query}
+                onChange={(event) => setQuery(event.target.value)}
               />
-            ))}
-          </fieldset>
-        </div>
+            </div>
+
+            {/* Filters */}
+            <div className="flex w-full flex-col items-start gap-4">
+              {/* Wrap — a column, except on tablet where the bar runs full width */}
+              <div className="flex w-full flex-col items-center gap-4 tablet:flex-row desktop:flex-col">
+                <FilterField label="Страна">
+                  <FilterSelect
+                    options={countries}
+                    value={country}
+                    onChange={(event) => setCountry(event.target.value)}
+                  />
+                </FilterField>
+              </div>
+
+              {/* Wrap */}
+              <div className="flex w-full flex-row items-center gap-4">
+                <FilterField label="Год от">
+                  <FilterInput
+                    type="number"
+                    inputMode="numeric"
+                    placeholder="2020"
+                    value={yearFrom}
+                    onChange={(event) => setYearFrom(event.target.value)}
+                  />
+                </FilterField>
+                <FilterField label="Год до">
+                  <FilterInput
+                    type="number"
+                    inputMode="numeric"
+                    placeholder="2026"
+                    value={yearTo}
+                    onChange={(event) => setYearTo(event.target.value)}
+                  />
+                </FilterField>
+              </div>
+            </div>
+
+            {/* Price Range */}
+            <fieldset className="flex w-full flex-col items-start gap-2">
+              <legend className="text-body">Цена под ключ</legend>
+              {priceRanges.map((range) => (
+                <FilterCheckbox
+                  key={range.id}
+                  label={range.label}
+                  checked={ranges.includes(range.id)}
+                  onChange={() => toggleRange(range.id)}
+                />
+              ))}
+            </fieldset>
+          </div>
+        )}
 
         {/* Container */}
         <div className="flex w-full flex-col items-start gap-20 desktop:flex-1">
           {/* Tabs Filter — z-sticky, not z-decor: the Cars Card arrow patch is
            * z-content (10) and would otherwise scroll over the pinned bar. */}
-          <div className="sticky top-19.5 z-(--z-sticky) flex w-full flex-col items-start gap-2 bg-background">
-            <div className="grid w-full grid-cols-2 gap-2 tablet:grid-cols-5">
-              <Tab active={bodyType === null} onClick={() => setBodyType(null)}>
-                Все
-              </Tab>
-              {bodyTypes.map((type) => (
+          {SHOW_FILTERS && (
+            <div className="sticky top-19.5 z-(--z-sticky) flex w-full flex-col items-start gap-2 bg-background">
+              <div className="grid w-full grid-cols-2 gap-2 tablet:grid-cols-5">
                 <Tab
-                  key={type}
-                  active={bodyType === type}
-                  onClick={() => setBodyType(type)}
+                  active={bodyType === null}
+                  onClick={() => setBodyType(null)}
                 >
-                  {type}
+                  Все
                 </Tab>
-              ))}
+                {bodyTypes.map((type) => (
+                  <Tab
+                    key={type}
+                    active={bodyType === type}
+                    onClick={() => setBodyType(type)}
+                  >
+                    {type}
+                  </Tab>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Inventories */}
           {results.length > 0 ? (

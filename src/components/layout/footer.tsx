@@ -17,7 +17,10 @@ const [emailLocal, emailDomain] = site.email.split("@");
 
 export function Footer() {
   return (
-    <footer id="contacts" className="flex flex-col items-center overflow-clip border-t border-grey bg-background p-2">
+    <footer
+      id="contacts"
+      className="flex flex-col items-center overflow-clip border-t border-grey bg-background p-2"
+    >
       {/* Content */}
       <div className="relative z-1 flex w-full max-w-[1480px] flex-col gap-20 overflow-clip p-8">
         {/* Main */}
@@ -34,33 +37,49 @@ export function Footer() {
                   Получить подборку
                 </Button>
                 {/* ContactLinks */}
-                <div className="flex items-start gap-2">
-                  <ContactLink
-                    icon="Location"
-                    href={site.mapsUrl}
-                    ariaLabel="Maps"
-                  />
-                </div>
+                {site.mapsUrl && (
+                  <div className="flex items-start gap-2">
+                    <ContactLink
+                      icon="Location"
+                      href={site.mapsUrl}
+                      ariaLabel="Maps"
+                    />
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Реквизиты и контакты */}
             <div className="flex flex-col gap-1 text-body text-ink-muted">
-              <p>{site.legalName}</p>
-              <p>{site.address}</p>
+              {site.legalName && <p>{site.legalName}</p>}
+              {site.address && <p>{site.address}</p>}
               <p>{site.phones.join(", ")}</p>
               <p>
                 <a href={site.telegram}>Telegram</a> ·{" "}
-                {/* Cloudflare's Email Address Obfuscation (Scrape Shield) finds
-                 * any address in the HTML and swaps it for a placeholder link
-                 * in flight, so what React hydrates is not what it rendered and
-                 * the subtree throws a mismatch. Splitting the address across
-                 * elements is what defeats the scan — its own <!--email_off-->
-                 * opt-out cannot work here, since Cloudflare eats the comments
-                 * and the innerHTML then differs from what React expects. */}
-                <span>{emailLocal}</span>
-                <span>@</span>
-                <span>{emailDomain}</span>
+                <a
+                  href={site.telegramChannel}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="underline underline-offset-4"
+                >
+                  Наш Telegram-канал
+                </a>
+                {emailLocal && (
+                  <>
+                    {" "}
+                    ·{" "}
+                    {/* Cloudflare's Email Address Obfuscation (Scrape Shield) finds
+                     * any address in the HTML and swaps it for a placeholder link
+                     * in flight, so what React hydrates is not what it rendered and
+                     * the subtree throws a mismatch. Splitting the address across
+                     * elements is what defeats the scan — its own <!--email_off-->
+                     * opt-out cannot work here, since Cloudflare eats the comments
+                     * and the innerHTML then differs from what React expects. */}
+                    <span>{emailLocal}</span>
+                    <span>@</span>
+                    <span>{emailDomain}</span>
+                  </>
+                )}
               </p>
             </div>
           </div>

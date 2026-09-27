@@ -86,7 +86,7 @@ export default async function PostPage({ params }: Params) {
 
       {others.length > 0 ? (
         <section className="bg-background">
-          <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
+          <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">
             <SectionTop
               tag="Блог"
               title="Читайте также"

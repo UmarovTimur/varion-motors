@@ -10,7 +10,7 @@ import { posts } from "@/lib/content";
 export function Blog() {
   return (
     <section className="bg-background">
-      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
+      <Container className="flex flex-col gap-8 tablet:gap-16 desktop:flex-row desktop:items-start desktop:gap-20">
         <SectionTop
           variant="stack"
           tag="Блог"

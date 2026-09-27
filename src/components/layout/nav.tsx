@@ -62,10 +62,10 @@ export function Nav() {
     >
       {/* Content — 8px on every side, matching the bar's vertical padding
        * (see the width note above). */}
-      <div className="flex w-full items-center gap-2.5 p-2">
+      <div className="flex w-full items-center gap-1.5 p-1.5 tablet:gap-2.5 tablet:p-2">
         {/* Logo Container — natural width now the logo is mark-only, so the
          * links can sit right beside it instead of centred in a 0.5-share box. */}
-        <div className="flex shrink-0 items-center justify-start gap-2.5">
+        <div className="flex shrink-0 items-center justify-start gap-2.5 pl-2">
           <Logo />
         </div>
 
@@ -105,14 +105,14 @@ export function Nav() {
             label="Написать в Telegram"
             className="bg-telegram"
           >
-            <TelegramIcon className="size-5" />
+            <TelegramIcon className="size-4 tablet:size-5" />
           </MessengerLink>
           <MessengerLink
             href={site.whatsapp}
             label="Написать в WhatsApp"
             className="bg-whatsapp"
           >
-            <WhatsAppIcon className="size-5" />
+            <WhatsAppIcon className="size-4 tablet:size-5" />
           </MessengerLink>
           <Button
             href="/contact"
@@ -143,12 +143,12 @@ export function Nav() {
               key={link.href}
               href={link.href}
               onClick={() => setOpen(false)}
-              className="w-full justify-start"
+              className="h-11 w-full justify-start px-4"
             >
               {link.label}
             </NavLink>
           ))}
-          <div className="mt-2 flex flex-col gap-1 px-6 min-[590px]:hidden">
+          <div className="mt-2 flex flex-col gap-1 px-4 min-[590px]:hidden">
             {site.phones.map((phone) => (
               <a
                 key={phone}
@@ -166,6 +166,7 @@ export function Nav() {
             data-lead=""
             onClick={() => setOpen(false)}
             variant="secondary"
+            size="sm"
             className="mt-2 w-full justify-between"
           >
             Рассчитать под ключ
@@ -196,7 +197,7 @@ function MessengerLink({
       rel="noreferrer noopener"
       aria-label={label}
       className={cn(
-        "grid size-[54px] shrink-0 place-items-center rounded-btn text-paper transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink",
+        "grid size-11 shrink-0 place-items-center rounded-btn text-paper transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink tablet:size-[54px]",
         className,
       )}
     >

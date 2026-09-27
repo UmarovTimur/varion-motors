@@ -1,16 +1,15 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { HeroVideo } from "@/components/ui/hero-video";
 import { site } from "@/lib/site";
-import { HeroSocialProof } from "@/components/ui/hero-social-proof";
 import { typo } from "@/lib/utils";
 
 /**
  * Hero (§3).
  * Full-bleed section holding a black container inset 8px on the sides and
- * bottom, 96px from the top: the floating navbar's own bottom edge sits at
- * 80px (8px top offset + 72px tall row, border included), so this leaves a
- * clear 16px gap rather than butting the black container right up against
- * the bar.
+ * bottom, offset from the top to clear the fixed navbar plus a 16px gap:
+ * 96px on tablet+ (navbar bottom at 80px = 8px top offset + 72px tall row,
+ * border included) and 82px below that, where the navbar itself is shorter
+ * (smaller logo/icons, tighter padding).
  *
  * Layout below desktop follows §7: the columns stack on phone, the gap steps
  * 32 -> 40 -> 80, and the height drops the fixed 100vh for 100svh so the mobile
@@ -21,19 +20,12 @@ export function Hero() {
     <section
       id="hero"
       aria-labelledby="hero-title"
-      className="flex h-auto min-h-[100svh] w-full flex-col items-center justify-start gap-2.5 overflow-clip bg-background px-2 pt-24 pb-2 tablet:min-h-screen"
+      className="flex h-auto min-h-[100svh] w-full flex-col items-center justify-start gap-2.5 overflow-clip bg-background px-2 pt-[82px] pb-2 tablet:min-h-screen tablet:pt-24"
     >
       {/* Container */}
       <div className="relative z-1 flex w-full flex-1 items-center justify-center overflow-clip rounded-md bg-black">
         {/* Background */}
-        <Image
-          src="/media/hero.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="z-0 object-cover object-center"
-        />
+        <HeroVideo className="pointer-events-none absolute inset-0 z-0 size-full object-cover object-center" />
         {/* DarkOverlay — 60%, a step darker than Framer's Black 50% token. */}
         <div aria-hidden className="absolute inset-0 z-0 bg-black/60" />
 
@@ -61,12 +53,12 @@ export function Hero() {
           <div className="flex w-full flex-col items-start justify-end gap-6">
               <p className="w-full max-w-[480px] text-body text-text-white">
                 Подбираем, проверяем и привозим по всему СНГ. Вы получаете
-                машину с документами и итоговой ценой, известной заранее.
+                машину с документами и полным расчётом на руках.
               </p>
 
               {/* Буллеты */}
               {/* <ul className="flex w-full max-w-[480px] flex-col gap-2 text-body text-text-white">
-                <li>Фиксированная цена под ключ — без доплат по дороге</li>
+                <li>Прозрачная цена под ключ — без сюрпризов по дороге</li>
                 <li>Проверка до покупки: аукционный лист, фото, диагностика</li>
                 <li>Срок от 20 до 30 дней от оплаты до выдачи</li>
               </ul> */}
@@ -96,24 +88,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right */}
-          {/* Framer puts the Search Bar at the top of this column; it is
-           * hidden for now, so the column just bottom-aligns the pills.
-           * The component itself stays in ui/search-bar.tsx. */}
-          {/* `self-stretch` rather than `h-full`: the row is `items-center`, so
-           * a percentage height here resolves against the column's own content
-           * box and left the pill floating mid-frame. Stretching just this
-           * column makes `justify-end` pin the pill to the bottom of the hero
-           * without disturbing the headline column's centring. */}
-          <div className="flex w-full flex-1 flex-col items-start justify-end gap-2.5 p-5 tablet:items-end tablet:self-stretch tablet:p-8">
-            {/* SocialProof */}
-            {/* Framer stacks the two pills on phone as well; side by side they
-             * add up to 429px and get clipped on a 390px screen. */}
-            <div className="flex w-full flex-col items-start justify-start gap-2.5 tablet:items-end">
-              <HeroSocialProof metric="50+" label="авто доставлено в 2026" />
-              {/* <HeroSocialProof metric="20–30 дн." label="срок доставки" /> */}
-            </div>
-          </div>
         </div>
       </div>
     </section>

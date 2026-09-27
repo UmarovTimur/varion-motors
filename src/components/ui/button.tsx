@@ -35,6 +35,8 @@ type CommonProps = {
   variant?: ButtonVariant;
   /** `false` reproduces the Hoverless variants — same geometry, no arrow move. */
   animateOnHover?: boolean;
+  /** `sm`: 44px body with a 36px arrow square, for tight spots like the mobile menu. */
+  size?: "md" | "sm";
   className?: string;
 };
 
@@ -53,6 +55,7 @@ export function Button(props: AnchorProps | NativeProps) {
     children,
     variant = "primary",
     animateOnHover = true,
+    size = "md",
     className,
     ...rest
   } = props;
@@ -63,18 +66,29 @@ export function Button(props: AnchorProps | NativeProps) {
         className={cn("top-[-21px] h-[97px]", sweepOpacity[variant])}
         animate={animateOnHover}
       />
-      <span className="relative z-(--z-content) text-body leading-6 font-medium">
+      <span
+        className={cn(
+          "relative z-(--z-content) leading-6 font-medium",
+          size === "sm" ? "text-body-xs" : "text-body",
+        )}
+      >
         {children}
       </span>
       <ArrowIcon
         tone={arrowTone[variant]}
         animate={animateOnHover}
+        size={size}
         className="relative z-(--z-content)"
       />
     </>
   );
 
-  const classes = cn(base, variants[variant], className);
+  const classes = cn(
+    base,
+    variants[variant],
+    size === "sm" && "h-11 gap-3 pl-4",
+    className,
+  );
 
   if (rest.href !== undefined) {
     const { href, ...anchorRest } = rest as AnchorProps;

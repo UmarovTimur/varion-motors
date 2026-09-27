@@ -13,14 +13,14 @@ export function CallToAction() {
   return (
     <section>
       <Container>
-        <div className="relative isolate flex flex-col items-center overflow-hidden rounded-lg px-8 py-[124px] text-paper">
+        <div className="relative isolate flex flex-col items-center overflow-hidden rounded-lg px-6 py-16 text-paper tablet:px-8 tablet:py-[124px]">
           <Media src="/media/cta/background.png" alt="" className="-z-1" />
 
           <SectionTop
             variant="center"
             tone="light"
             title="Начнём с расчёта"
-            body="Расскажите, какая машина нужна и на какой бюджет. Пришлём варианты с ценой под ключ в течение [XX] часов — бесплатно и ни к чему не обязывает."
+            body="Расскажите, какая машина нужна и на какой бюджет. Пришлём варианты с ценой под ключ в рабочее время — бесплатно и ни к чему не обязывает."
             action={{
               label: "Получить подборку",
               href: "/contact",

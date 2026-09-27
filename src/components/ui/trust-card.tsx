@@ -24,11 +24,11 @@ export function TrustCard({
   return (
     <article
       className={cn(
-        "flex flex-1 flex-col gap-6 rounded-card border border-grey bg-background-light p-6",
+        "flex flex-1 flex-col gap-4 rounded-card border border-grey bg-background-light p-5 tablet:gap-6 tablet:p-6",
         className,
       )}
     >
-      <Icon className="size-8 text-ink" strokeWidth={1.5} aria-hidden />
+      <Icon className="size-7 text-ink tablet:size-8" strokeWidth={1.5} aria-hidden />
       <div className="flex flex-col gap-2">
         <h3 className="text-h5 text-ink">{typo(title)}</h3>
         <p className="text-body text-ink-muted">{typo(body)}</p>

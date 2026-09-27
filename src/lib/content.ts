@@ -4,6 +4,8 @@
  * what the components consume, so only this file needs to change.
  */
 
+import { SHOW_CATALOG } from "./site";
+
 export type NavLink = { label: string; href: string };
 
 /**
@@ -21,8 +23,10 @@ const links = {
   contacts: { label: "Контакты", href: "#contacts" },
 } satisfies Record<string, NavLink>;
 
+const catalogLinks = SHOW_CATALOG ? [links.portfolio] : [];
+
 export const navLinks: NavLink[] = [
-  links.portfolio,
+  ...catalogLinks,
   links.steps,
   links.inspection,
   links.team,
@@ -31,7 +35,7 @@ export const navLinks: NavLink[] = [
 
 export const footerLinksLeft: NavLink[] = [
   { label: "Главная", href: "/" },
-  links.portfolio,
+  ...catalogLinks,
   links.steps,
   links.inspection,
 ];
@@ -113,149 +117,52 @@ export type Car = {
 
 export const cars: Car[] = [
   {
-    slug: "case-01",
-    name: "[Марка Модель]",
-    price: 0,
-    priceLabel: "$[X] под ключ",
-    year: 2024,
-    badge: "Из Гуанчжоу, 20–30 дней",
-    country: "Китай",
-    bodyType: "Кроссовер",
-    image: "/media/cars/dreznak-karov.png",
-    video: { src: "/media/cars/dreznak-karov.mp4" },
-    preHeader: ["Каталог", "Кроссовер", "Китай"],
-    description:
-      "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
-    vin: "[VIN]",
-    dealNo: "[№ сделки]",
-    quick: [
-      { label: "Цена под ключ", value: "$[X]" },
-      { label: "Год", value: "2024" },
-      { label: "Кузов", value: "Кроссовер" },
-      { label: "Топливо", value: "[Бензин]" },
-      { label: "Владельцев", value: "[X]" },
-    ],
-    specs: [
-      { label: "Цена под ключ ($)", value: "[X]" },
-      { label: "Пробег", value: "[XX XXX] км" },
-      { label: "Год", value: "2024" },
-      { label: "Кузов", value: "Кроссовер" },
-      { label: "Модель", value: "[Модель]" },
-      { label: "Комплектация", value: "[Комплектация]" },
-      { label: "Топливо", value: "[Бензин]" },
-      { label: "Владельцев", value: "[X]" },
-    ],
-    gallery: ["/media/cars/dreznak-karov.png"],
-    details: [
-      {
-        title: "Технические данные",
-        body: "[Двигатель, коробка, привод, расход — из аукционного листа.]",
-      },
-      {
-        title: "Состояние и история",
-        body: "[Что показал аукционный лист и диагностика: пробег, окрасы, ДТП. Пишем и то, что нашли плохого.]",
-      },
-      {
-        title: "Что вошло в цену",
-        body: "Стоимость авто, доставка до границы, экспедирование, растаможка, наша комиссия. [Разбивка по статьям.]",
-      },
-    ],
-  },
-  {
-    slug: "case-02",
-    name: "[Марка Модель]",
-    price: 0,
-    priceLabel: "$[X] под ключ",
-    year: 2023,
-    badge: "Из Инчхона, 20–30 дней",
+    slug: "case-04",
+    name: "BMW X3 xDrive20 M Sport",
+    price: 70900,
+    priceLabel: "$70 900",
+    year: 2025,
+    badge: "Из Кореи, 20–30 дней",
     country: "Корея",
-    bodyType: "Седан",
-    image: "/media/cars/zethrux-infernum.webp",
-    video: { src: "/media/cars/zethrux-infernum.mp4" },
-    preHeader: ["Каталог", "Седан", "Корея"],
+    bodyType: "Кроссовер",
+    image: "/media/cars/bmw-x3/01.jpg",
+    preHeader: ["Каталог", "Кроссовер", "Корея"],
     description:
-      "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
-    vin: "[VIN]",
-    dealNo: "[№ сделки]",
+      "BMW X3 (G45) xDrive20 M Sport 2025 года с пробегом 4 800 км — почти новый бензиновый кроссовер в белом цвете. Цена в Корее 73 000 000 ₩, без залогов и арестов. Привезём под ключ с проверкой и документами.",
     quick: [
-      { label: "Цена под ключ", value: "$[X]" },
-      { label: "Год", value: "2023" },
-      { label: "Кузов", value: "Седан" },
-      { label: "Топливо", value: "[Бензин]" },
-      { label: "Владельцев", value: "[X]" },
+      { label: "Стоимость авто", value: "$70 900" },
+      { label: "Год", value: "2025" },
+      { label: "Кузов", value: "Кроссовер" },
+      { label: "Топливо", value: "Бензин" },
+      { label: "Владельцев", value: "1" },
     ],
     specs: [
-      { label: "Цена под ключ ($)", value: "[X]" },
-      { label: "Пробег", value: "[XX XXX] км" },
-      { label: "Год", value: "2023" },
-      { label: "Кузов", value: "Седан" },
-      { label: "Модель", value: "[Модель]" },
-      { label: "Комплектация", value: "[Комплектация]" },
-      { label: "Топливо", value: "[Бензин]" },
-      { label: "Владельцев", value: "[X]" },
+      { label: "Цена в Корее", value: "73 000 000 ₩" },
+      { label: "Стоимость авто", value: "$70 900" },
+      { label: "Пробег", value: "4 800 км" },
+      { label: "Год", value: "2025 (10/2025)" },
+      { label: "Кузов", value: "Кроссовер" },
+      { label: "Модель", value: "BMW X3 (G45)" },
+      { label: "Комплектация", value: "xDrive20 M Sport" },
+      { label: "Топливо", value: "Бензин, 2.0 л (1 998 см³)" },
+      { label: "Коробка", value: "Автомат" },
+      { label: "Цвет", value: "Белый" },
+      { label: "Мест", value: "5" },
+      { label: "Владельцев", value: "1" },
     ],
-    gallery: ["/media/cars/zethrux-infernum.webp"],
+    gallery: [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `/media/cars/bmw-x3/0${n}.jpg`),
     details: [
       {
         title: "Технические данные",
-        body: "[Двигатель, коробка, привод, расход — из аукционного листа.]",
+        body: "Двигатель 2.0 л бензиновый (1 998 см³), автоматическая коробка, полный привод xDrive, пять мест. Гарантия производителя на кузов — 24 месяца, на двигатель и коробку — 36 месяцев или 60 000 км.",
       },
       {
         title: "Состояние и история",
-        body: "[Что показал аукционный лист и диагностика: пробег, окрасы, ДТП. Пишем и то, что нашли плохого.]",
+        body: "Пробег 4 800 км, авто 2025 года. По данным Encar залогов и арестов нет. Есть панорамная крыша, задняя камера, датчики парковки, навигация, климат-контроль, бесключевой доступ, кожаный салон с подогревом и вентиляцией сидений — всего 43 опции. [Данные по ДТП и окрасам — после проверки.]",
       },
       {
-        title: "Что вошло в цену",
-        body: "Стоимость авто, доставка до границы, экспедирование, растаможка, наша комиссия. [Разбивка по статьям.]",
-      },
-    ],
-  },
-  {
-    slug: "case-03",
-    name: "[Марка Модель]",
-    price: 0,
-    priceLabel: "$[X] под ключ",
-    year: 2024,
-    badge: "Из Хоргоса, 20–30 дней",
-    country: "Китай",
-    bodyType: "Внедорожник",
-    image: "/media/cars/emblora-wyndcroft.webp",
-    video: { src: "/media/cars/emblora-wyndcroft.mp4" },
-    preHeader: ["Каталог", "Внедорожник", "Китай"],
-    description:
-      "[Пара предложений о машине: почему выбрали именно её и для какой задачи брал клиент.]",
-    vin: "[VIN]",
-    dealNo: "[№ сделки]",
-    quick: [
-      { label: "Цена под ключ", value: "$[X]" },
-      { label: "Год", value: "2024" },
-      { label: "Кузов", value: "Внедорожник" },
-      { label: "Топливо", value: "[Бензин]" },
-      { label: "Владельцев", value: "[X]" },
-    ],
-    specs: [
-      { label: "Цена под ключ ($)", value: "[X]" },
-      { label: "Пробег", value: "[XX XXX] км" },
-      { label: "Год", value: "2024" },
-      { label: "Кузов", value: "Внедорожник" },
-      { label: "Модель", value: "[Модель]" },
-      { label: "Комплектация", value: "[Комплектация]" },
-      { label: "Топливо", value: "[Бензин]" },
-      { label: "Владельцев", value: "[X]" },
-    ],
-    gallery: ["/media/cars/emblora-wyndcroft.webp"],
-    details: [
-      {
-        title: "Технические данные",
-        body: "[Двигатель, коробка, привод, расход — из аукционного листа.]",
-      },
-      {
-        title: "Состояние и история",
-        body: "[Что показал аукционный лист и диагностика: пробег, окрасы, ДТП. Пишем и то, что нашли плохого.]",
-      },
-      {
-        title: "Что вошло в цену",
-        body: "Стоимость авто, доставка до границы, экспедирование, растаможка, наша комиссия. [Разбивка по статьям.]",
+        title: "Из чего складывается цена",
+        body: "Цена в Корее — 73 000 000 ₩. Дорога — $3 500. Таможня — $13 200. Декларант — $1 200. Дорога до города — $1 500. Лаборатория — 40 000 ₽. Утильсбор — 952 800 ₽. Стоимость самой машины — $70 900.",
       },
     ],
   },
@@ -283,7 +190,7 @@ export const services: Service[] = [
     title: "Один договор — одна ответственность",
     image: "/media/services/contract.jpg",
   },
-  { title: "Цена не меняется", image: "/media/services/warranty.webp" },
+  { title: "Гарантия соответствия авто", image: "/media/services/warranty.webp" },
   {
     title: "Работаем по всему СНГ",
     image: "/media/services/detailing.webp",
@@ -323,8 +230,8 @@ export const trustPoints: TrustPoint[] = [
   },
   {
     icon: "banknote",
-    title: "Фиксированная цена без скрытых доплат",
-    body: "Все расходы и комиссии прописаны в договоре и не меняются в процессе доставки.",
+    title: "Прозрачный расчёт без скрытых комиссий",
+    body: "Все расходы и комиссии прописаны в договоре — никаких сюрпризов в переписке задним числом.",
   },
   {
     icon: "users",
@@ -366,18 +273,27 @@ export const testimonials: Testimonial[] = [
 ];
 
 /* --- Team (§7) --- */
-export type TeamMember = { name: string; role: string; image: string };
+export type TeamMember = {
+  name: string;
+  role: string;
+  image: string;
+  /** Optional first-person bio. Long enough to need the card's clamp/expand
+   * treatment — see `team-member-card.tsx`. */
+  bio?: string;
+};
 
 export const team: TeamMember[] = [
   {
     name: "Акмаль",
-    role: "Подбор и проверка авто · Telegram: [@ник]",
+    role: "Эксперт по подбору и проверке авто · Telegram: @aim_team1",
     image: "/media/team/akmal-bw.webp",
+    bio: "Подбираю лучшие предложения на рынке Кореи и лично проверяю каждое авто — техническое состояние и юридическую чистоту. Организую доставку и оформление, чтобы покупка была безопасной и спокойной.",
   },
   {
     name: "Тимур Умаров",
-    role: "Логистика и документы · Telegram: [@ник]",
+    role: "Эксперт по клиентскому сервису и сопровождению сделок · Telegram: @status_3",
     image: "/media/team/timur-umarov.webp",
+    bio: "Веду вас от первой заявки до получения ключей: согласовываю договор и оплату, держу в курсе на каждом этапе доставки и растаможки. На связи всегда один человек, который знает всё о вашей сделке.",
   },
 ];
 

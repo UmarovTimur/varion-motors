@@ -6,6 +6,7 @@ import { Consultation } from "@/components/sections/consultation";
 import { Faq } from "@/components/sections/faq";
 import { Team } from "@/components/sections/team";
 import { CallToAction } from "@/components/sections/call-to-action";
+import { SHOW_CATALOG } from "@/lib/site";
 
 /**
  * Порядок блоков лендинга: первый экран → как мы работаем → почему мы →
@@ -22,7 +23,7 @@ export default function Home() {
       <Hero />
       <Steps />
       <Services />
-      <FeaturedVehicles />
+      {SHOW_CATALOG && <FeaturedVehicles />}
       <Consultation />
       <Faq />
       <Team />

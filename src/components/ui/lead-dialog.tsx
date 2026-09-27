@@ -112,7 +112,7 @@ export function LeadDialog() {
           <p className="max-w-[360px] text-balance text-body text-ink-muted">
             {typo(
               sent
-                ? "Спасибо! Мы свяжемся с вами в течение [XX] часов."
+                ? "Спасибо! Мы свяжемся с вами в рабочее время."
                 : "Ответьте на вопросы, и мы свяжемся с вами",
             )}
           </p>

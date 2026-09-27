@@ -7,7 +7,7 @@ import { cars } from "@/lib/content";
 export function FeaturedVehicles() {
   return (
     <section id="portfolio" className="bg-background">
-      <Container className="flex flex-col gap-12 tablet:gap-16 desktop:gap-20">
+      <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">
         <SectionTop
           tag="Авто под заказ"
           title="Каталог автомобилей"
