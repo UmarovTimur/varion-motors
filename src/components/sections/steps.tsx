@@ -30,8 +30,8 @@ export function Steps() {
             >
               {/* Framer `Trade-in Step Card`: white pill (number + title) inset 4px, description sits directly on the card below it. */}
               <div className="flex items-center rounded-md bg-background-light p-1">
-                <span className="grid size-14 shrink-0 place-items-center rounded-md bg-black tablet:size-[73px]">
-                  <span className="text-body-l text-text-white tablet:text-body-xl">{i + 1}</span>
+                <span className="grid size-14 shrink-0 place-items-center rounded-md bg-ink tablet:size-[73px]">
+                  <span className="text-body-l text-paper tablet:text-body-xl">{i + 1}</span>
                 </span>
                 <h3 className="flex-1 px-4 py-2 text-body tablet:px-6 tablet:text-body-l">
                   {typo(step.title)}

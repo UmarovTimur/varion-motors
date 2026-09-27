@@ -63,14 +63,14 @@ export function SectionTop({
         )}
       >
         {tag ? (
-          <Tag className={tone === "light" ? "text-paper-muted" : undefined}>
+          <Tag className={tone === "light" ? "text-white/75" : undefined}>
             {tag}
           </Tag>
         ) : null}
         <h2
           className={cn(
             "max-w-[480px] text-balance text-h2",
-            tone === "light" ? "text-paper" : "text-ink",
+            tone === "light" ? "text-white" : "text-ink",
           )}
         >
           {typo(title)}
@@ -94,7 +94,7 @@ export function SectionTop({
               className={cn(
                 "max-w-[480px] text-body",
                 variant === "split" && "desktop:text-right",
-                tone === "light" ? "text-paper" : "text-ink-muted",
+                tone === "light" ? "text-white" : "text-ink-muted",
               )}
             >
               {body}

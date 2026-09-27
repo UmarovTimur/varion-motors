@@ -57,6 +57,17 @@ window.addEventListener('orientationchange',function(){setTimeout(apply,150);});
 new MutationObserver(apply).observe(document.head,{childList:true,subtree:true,attributes:true,attributeFilter:['content']});
 })();`;
 
+/** Applies the theme before first paint (no light flash on a dark page): the
+ * visitor's saved choice from ThemeToggle, else the OS setting, which is
+ * followed live until they pick one themselves. */
+const themeScript = `(function(){
+var d=document.documentElement,m=window.matchMedia('(prefers-color-scheme: dark)');
+function saved(){try{return localStorage.getItem('theme')}catch(e){return null}}
+function apply(){var t=saved();d.dataset.theme=t==='dark'||t==='light'?t:(m.matches?'dark':'light');}
+apply();
+m.addEventListener('change',function(){if(!saved())apply();});
+})();`;
+
 /** Template component (§1) — Nav and Footer wrap every page. */
 export default function RootLayout({
   children,
@@ -66,8 +77,11 @@ export default function RootLayout({
       lang="en"
       data-scroll-behavior="smooth"
       className={spaceGrotesk.variable}
+      // themeScript sets data-theme before React hydrates.
+      suppressHydrationWarning
     >
       <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script dangerouslySetInnerHTML={{ __html: minWidthScript }} />
       </head>
       <body className="font-sans antialiased">

@@ -49,7 +49,7 @@ function QuickTile({
     <div
       className={`flex h-[52px] flex-1 items-center gap-2 rounded-md bg-paper p-1 ${className ?? ""}`}
     >
-      <span className="grid size-11 shrink-0 place-items-center rounded-icon bg-black">
+      <span className="grid size-11 shrink-0 place-items-center rounded-icon bg-ink">
         <Icon className="size-5 text-surface" aria-hidden />
       </span>
       <span className="truncate pr-2 text-body">{value}</span>

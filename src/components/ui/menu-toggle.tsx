@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 
 /**
- * Mobile Menu (§5) — 54x54 black square, radius 12, holding two 17x1px bars at
+ * Mobile Menu (§5) — 54x54 ink square (black; light in the dark theme), radius 12, holding two 17x1px bars at
  * top:22 / bottom:22. The Close variant folds the same two bars into a cross.
  */
 export function MenuToggle({
@@ -25,7 +25,7 @@ export function MenuToggle({
       aria-expanded={open}
       aria-label={open ? "Close menu" : "Open menu"}
       className={cn(
-        "relative size-11 shrink-0 overflow-hidden rounded-icon bg-black tablet:size-[54px]",
+        "relative size-11 shrink-0 overflow-hidden rounded-icon bg-ink tablet:size-[54px]",
         className,
       )}
     >

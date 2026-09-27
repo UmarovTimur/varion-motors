@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { MenuToggle } from "@/components/ui/menu-toggle";
 import { TelegramIcon, WhatsAppIcon } from "@/components/ui/messenger-icons";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { NavLink } from "@/components/ui/nav-link";
 import { navLinks } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -114,6 +115,7 @@ export function Nav() {
           >
             <WhatsAppIcon className="size-4 tablet:size-5" />
           </MessengerLink>
+          <ThemeToggle />
           <Button
             href="/contact"
             data-lead=""
@@ -197,7 +199,7 @@ function MessengerLink({
       rel="noreferrer noopener"
       aria-label={label}
       className={cn(
-        "grid size-11 shrink-0 place-items-center rounded-btn text-paper transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink tablet:size-[54px]",
+        "grid size-11 shrink-0 place-items-center rounded-btn text-white transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink tablet:size-[54px]",
         className,
       )}
     >

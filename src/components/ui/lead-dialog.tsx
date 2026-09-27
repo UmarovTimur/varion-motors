@@ -126,7 +126,7 @@ export function LeadDialog() {
             target="_blank"
             rel="noreferrer noopener"
             aria-label="Написать в Telegram"
-            className="grid h-[54px] place-items-center rounded-btn bg-telegram text-paper transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="grid h-[54px] place-items-center rounded-btn bg-telegram text-white transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           >
             <TelegramIcon className="size-7" />
           </a>
@@ -135,7 +135,7 @@ export function LeadDialog() {
             target="_blank"
             rel="noreferrer noopener"
             aria-label="Написать в WhatsApp"
-            className="grid h-[54px] place-items-center rounded-btn bg-whatsapp text-paper transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="grid h-[54px] place-items-center rounded-btn bg-whatsapp text-white transition-opacity duration-(--dur-fast) hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           >
             <WhatsAppIcon className="size-7" />
           </a>

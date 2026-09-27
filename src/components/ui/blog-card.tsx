@@ -31,10 +31,10 @@ export function BlogCard({ post }: { post: Post }) {
 
       {/* Texts */}
       <div className="relative z-(--z-content) flex flex-col items-start gap-1 overflow-clip">
-        <time dateTime={post.date} className="text-body text-paper-muted">
+        <time dateTime={post.date} className="text-body text-white/75">
           {formatDate(post.date)}
         </time>
-        <p className="text-body text-paper">{post.title}</p>
+        <p className="text-body text-white">{post.title}</p>
       </div>
 
       {/* Round Corner — patch in the top-right, rounded only where it meets

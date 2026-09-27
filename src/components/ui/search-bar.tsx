@@ -72,10 +72,10 @@ export function SearchBar({
       <button
         type="submit"
         aria-label="Search"
-        className="relative z-1 flex size-[45px] shrink-0 flex-row items-center justify-center gap-2.5 overflow-clip rounded-icon bg-black"
+        className="relative z-1 flex size-[45px] shrink-0 flex-row items-center justify-center gap-2.5 overflow-clip rounded-icon bg-ink"
       >
         <Search
-          className="size-3.5 text-text-white"
+          className="size-3.5 text-paper"
           aria-hidden
           strokeWidth={2}
         />

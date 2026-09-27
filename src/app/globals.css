@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Dark theme: `data-theme="dark"` on <html>, set before paint by the script in
+ * layout.tsx (saved choice, else the OS setting). `dark:` targets it. */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 /*
  * Design tokens ported from the Framer project "CAR DEALER©".
  * Comments map each token back to its Framer style name so the two stay traceable.
@@ -112,6 +116,34 @@
   --z-header: 500;
   --z-overlay: 900;
   --z-modal: 1000;
+}
+
+/*
+ * Dark theme — the same monochrome palette turned inside out: pages and cards
+ * go near-black, text goes light, and the black buttons / icon tiles (bg-ink)
+ * become light ones with dark glyphs. Tokens that must stay put in both themes:
+ * `black` (photo and video backdrops), `text-white` (copy on photos) and the
+ * messenger colours. `white` from Tailwind's own palette is used for the same
+ * reason wherever copy sits on a photo.
+ */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --color-ink: #f2f2f2;
+  --color-ink-muted: #a6a6a6;
+  --color-ink-subtle: #7a7a7a;
+  --color-paper: #1c1c1c;
+  --color-paper-muted: #5c5c5c;
+  --color-surface: #0b0b0b;
+  --color-surface-mid: #141414;
+  --color-text-black: #f2f2f2;
+  --color-ink-soft: #1a1a1a;
+  --color-grey: #2b2b2b;
+  --color-grey-dark: #6e6e6e;
+
+  --color-background: #0b0b0b;
+  --color-background-mid: #161616;
+  --color-background-light: #222222;
 }
 
 body {

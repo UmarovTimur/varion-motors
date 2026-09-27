@@ -180,7 +180,7 @@ export function VideoPlayer({
           aria-label="Воспроизвести видео"
           className="absolute inset-0 z-(--z-content) grid place-items-center bg-black/25 transition-colors duration-(--dur-fast) ease-out hover:bg-black/35"
         >
-          <span className="grid size-[72px] place-items-center rounded-icon bg-paper text-ink shadow-[inset_-10px_-10px_20px_0_rgb(0_0_0/0.08)] transition-transform duration-(--dur-base) ease-out group-hover:scale-105">
+          <span className="grid size-[72px] place-items-center rounded-icon bg-white text-black shadow-[inset_-10px_-10px_20px_0_rgb(0_0_0/0.08)] transition-transform duration-(--dur-base) ease-out group-hover:scale-105">
             <Play className="ml-0.5 size-6 fill-current" aria-hidden />
           </span>
         </button>
@@ -202,11 +202,11 @@ export function VideoPlayer({
         <div className="relative flex h-4 w-full items-center">
           <span
             aria-hidden
-            className="absolute inset-x-0 h-1 rounded-full bg-paper/25"
+            className="absolute inset-x-0 h-1 rounded-full bg-white/25"
           />
           <span
             aria-hidden
-            className="absolute left-0 h-1 rounded-full bg-paper/40"
+            className="absolute left-0 h-1 rounded-full bg-white/40"
             style={{ width: `${bufferedPct}%` }}
           />
           <span
@@ -259,9 +259,9 @@ export function VideoPlayer({
             )}
           </ControlButton>
 
-          <p className="text-body-xs text-paper tabular-nums">
+          <p className="text-body-xs text-white tabular-nums">
             {formatTime(current)}{" "}
-            <span className="text-paper-muted">/ {formatTime(duration)}</span>
+            <span className="text-white/75">/ {formatTime(duration)}</span>
           </p>
 
           <ControlButton
@@ -300,9 +300,9 @@ function ControlButton({
       aria-label={label}
       title={label}
       className={cn(
-        "grid size-10 shrink-0 place-items-center rounded-icon bg-paper/10 text-paper",
-        "transition-colors duration-(--dur-fast) ease-out hover:bg-paper/20",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-paper",
+        "grid size-10 shrink-0 place-items-center rounded-icon bg-white/10 text-white",
+        "transition-colors duration-(--dur-fast) ease-out hover:bg-white/20",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
         className,
       )}
     >

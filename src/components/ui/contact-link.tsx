@@ -32,7 +32,7 @@ export function ContactLink({
       aria-label={ariaLabel}
       className={cn(
         "group relative isolate grid size-[52px] shrink-0 place-items-center overflow-hidden rounded-btn",
-        variant === "primary" ? "bg-black" : "bg-grey",
+        variant === "primary" ? "bg-ink" : "bg-grey",
         className,
       )}
     >

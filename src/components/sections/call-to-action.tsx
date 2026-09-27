@@ -13,7 +13,7 @@ export function CallToAction() {
   return (
     <section>
       <Container>
-        <div className="relative isolate flex flex-col items-center overflow-hidden rounded-lg px-6 py-16 text-paper tablet:px-8 tablet:py-[124px]">
+        <div className="relative isolate flex flex-col items-center overflow-hidden rounded-lg px-6 py-16 text-white tablet:px-8 tablet:py-[124px]">
           <Media src="/media/cta/background.png" alt="" className="-z-1" />
 
           <SectionTop

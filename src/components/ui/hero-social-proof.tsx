@@ -35,7 +35,7 @@ export function HeroSocialProof({
         className,
       )}
     >
-      <span className="grid size-[70px] shrink-0 place-items-center rounded-md bg-black">
+      <span className="grid size-[70px] shrink-0 place-items-center rounded-md bg-ink">
         <Car className="size-7 text-background" aria-hidden />
       </span>
       <span className="flex flex-col items-start">

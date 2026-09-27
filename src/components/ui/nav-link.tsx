@@ -32,7 +32,7 @@ export function NavLink({
       )}
     >
       <Sweep className="top-[-35px] h-[127px]" animate={animateOnHover} />
-      <p className="relative z-(--z-content) font-display text-body-xs font-medium tracking-normal whitespace-nowrap text-text-black mix-blend-darken">
+      <p className="relative z-(--z-content) font-display text-body-xs font-medium tracking-normal whitespace-nowrap text-text-black mix-blend-darken dark:mix-blend-lighten">
         {children}
       </p>
     </Link>

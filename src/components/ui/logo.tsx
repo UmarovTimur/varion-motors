@@ -10,7 +10,8 @@ import { cn } from "@/lib/utils";
  * height its lettering would be a few pixels tall, so only the mark is cut out
  * (`public/media/brand/mark.png`, 289x240, transparent) and the wordmark is
  * dropped rather than set as text beside it. `public/logo.svg` is the Framer
- * template's "CAR DEALERSHIP" lettering and is not used.
+ * template's "CAR DEALERSHIP" lettering and is not used. The dark theme swaps
+ * in `mark-light.png`, the same cut with the black "M" turned light grey.
  */
 export function Logo({ className }: { className?: string }) {
   return (
@@ -25,7 +26,15 @@ export function Logo({ className }: { className?: string }) {
         width={289}
         height={240}
         priority
-        className="h-7 w-auto tablet:h-9"
+        className="h-7 w-auto tablet:h-9 dark:hidden"
+      />
+      <Image
+        src="/media/brand/mark-light.png"
+        alt=""
+        width={289}
+        height={240}
+        priority
+        className="hidden h-7 w-auto tablet:h-9 dark:block"
       />
     </Link>
   );
