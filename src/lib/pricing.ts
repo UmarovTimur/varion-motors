@@ -26,12 +26,41 @@ export type CostLine = {
 };
 
 export type Destination = {
-  id: string;
+  id: DestinationId;
   /** Tab label, e.g. "Россия". */
   label: string;
   delivery: CostLine[];
   customs: CostLine[];
 };
+
+/**
+ * Every country the site delivers to, in tab order. `id` is the ISO code the
+ * flag is looked up by. A car lists only the destinations it has figures for;
+ * the rest show as unpriced ("по запросу").
+ */
+export const destinationCountries = [
+  { id: "ru", label: "Россия" },
+  { id: "uz", label: "Узбекистан" },
+  { id: "kz", label: "Казахстан" },
+  { id: "kg", label: "Кыргызстан" },
+  { id: "tj", label: "Таджикистан" },
+] as const;
+
+export type DestinationId = (typeof destinationCountries)[number]["id"];
+
+/** A car's own figures for each country, falling back to unpriced lines. */
+export function destinationsFor(pricing: CarPricing): Destination[] {
+  return destinationCountries.map(
+    (country) =>
+      pricing.destinations.find((d) => d.id === country.id) ?? {
+        ...country,
+        delivery: [{ label: "Доставка из Кореи", amount: null, currency: "USD" }],
+        customs: [
+          { label: "Растаможка и оформление", amount: null, currency: "USD" },
+        ],
+      },
+  );
+}
 
 export type CarPricing = {
   /** Listing price in Korea. */

@@ -94,16 +94,6 @@ function fromEncar(l: EncarListing): Car {
             { label: "Таможня и утильсбор", amount: null, currency: "USD" },
           ],
         },
-        {
-          id: "uz",
-          label: "Узбекистан",
-          delivery: [
-            { label: "Доставка из Кореи", amount: null, currency: "USD" },
-          ],
-          customs: [
-            { label: "Растаможка и оформление", amount: null, currency: "USD" },
-          ],
-        },
       ],
     },
     details: [

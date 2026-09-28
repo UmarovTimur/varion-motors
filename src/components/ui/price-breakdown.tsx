@@ -2,12 +2,15 @@
 
 import { useState } from "react";
 import { MapPin } from "lucide-react";
+import { KG, KZ, RU, TJ, UZ } from "country-flag-icons/react/3x2";
 import { Button } from "@/components/ui/button";
 import { Tab } from "@/components/ui/tab";
 import { Tag } from "@/components/ui/tag";
 import {
   type CarPricing,
   type CostLine,
+  type DestinationId,
+  destinationsFor,
   formatMoney,
   koreaLines,
   rates,
@@ -15,6 +18,9 @@ import {
   toUsd,
 } from "@/lib/pricing";
 import { typo } from "@/lib/utils";
+
+/** SVG, not emoji: Windows renders flag emoji as two bare letters. */
+const flags: Record<DestinationId, typeof RU> = { ru: RU, uz: UZ, kz: KZ, kg: KG, tj: TJ };
 
 /** Rounded up to $100 — a turnkey quote, not an invoice. */
 const roundUp = (usd: number) => Math.ceil(usd / 100) * 100;
@@ -78,10 +84,9 @@ export function PriceBreakdown({
   pricing: CarPricing;
   carName: string;
 }) {
-  const [destId, setDestId] = useState(pricing.destinations[0]?.id);
-  const dest =
-    pricing.destinations.find((d) => d.id === destId) ?? pricing.destinations[0];
-  if (!dest) return null;
+  const destinations = destinationsFor(pricing);
+  const [destId, setDestId] = useState<DestinationId>(destinations[0].id);
+  const dest = destinations.find((d) => d.id === destId) ?? destinations[0];
 
   const korea = koreaLines(pricing);
   const total = sumUsd([...korea, ...dest.delivery, ...dest.customs]);
@@ -93,28 +98,36 @@ export function PriceBreakdown({
         <h2 className="text-h2">{typo("Из чего складывается цена")}</h2>
       </div>
 
-      <div className="flex w-full flex-col gap-6 desktop:flex-row desktop:items-start desktop:gap-10">
-        {/* Destination + lines */}
-        <div className="flex w-full flex-col gap-4 desktop:flex-[3]">
-          <fieldset className="flex flex-col gap-3">
-            <legend className="mb-3 flex items-center gap-2 text-body text-ink-muted">
-              <MapPin className="size-4" aria-hidden />
-              Куда доставить
-            </legend>
-            <div className="flex flex-wrap gap-2">
-              {pricing.destinations.map((d) => (
-                <Tab
-                  key={d.id}
-                  active={d.id === dest.id}
-                  onClick={() => setDestId(d.id)}
-                  className="w-auto min-w-32 flex-1 tablet:flex-none"
-                >
-                  {d.label}
-                </Tab>
-              ))}
-            </div>
-          </fieldset>
+      {/* Destination — full width: five countries don't fit the left column */}
+      <fieldset className="flex w-full flex-col gap-3">
+        <legend className="mb-3 flex items-center gap-2 text-body text-ink-muted">
+          <MapPin className="size-4" aria-hidden />
+          Куда доставить
+        </legend>
+        <div className="flex flex-wrap gap-2 desktop:grid desktop:grid-cols-5">
+          {destinations.map((d) => {
+            const Flag = flags[d.id];
+            return (
+              <Tab
+                key={d.id}
+                active={d.id === dest.id}
+                onClick={() => setDestId(d.id)}
+                className="w-auto min-w-36 flex-1"
+              >
+                <Flag
+                  aria-hidden
+                  className="h-4 w-6 shrink-0 rounded-[3px] shadow-[0_0_0_1px_rgb(0_0_0/0.08)]"
+                />
+                {d.label}
+              </Tab>
+            );
+          })}
+        </div>
+      </fieldset>
 
+      <div className="flex w-full flex-col gap-6 desktop:flex-row desktop:items-start desktop:gap-10">
+        {/* Cost lines */}
+        <div className="flex w-full flex-col gap-4 desktop:flex-[3]">
           <Group step={1} title="В Корее" lines={korea} />
           <Group step={2} title="Доставка" lines={dest.delivery} />
           <Group step={3} title="Растаможка и оформление" lines={dest.customs} />

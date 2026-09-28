@@ -175,16 +175,6 @@ export const cars: Car[] = [
             { label: "Утильсбор", amount: 952800, currency: "RUB" },
           ],
         },
-        {
-          id: "uz",
-          label: "Узбекистан",
-          delivery: [
-            { label: "Доставка из Кореи", amount: null, currency: "USD" },
-          ],
-          customs: [
-            { label: "Растаможка и оформление", amount: null, currency: "USD" },
-          ],
-        },
       ],
     },
     details: [
