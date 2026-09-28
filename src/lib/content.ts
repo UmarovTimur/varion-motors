@@ -5,6 +5,7 @@
  */
 
 import type { CarPricing } from "./pricing";
+import { encarCars } from "./encar-cars";
 import { SHOW_CATALOG } from "./site";
 
 export type NavLink = { label: string; href: string };
@@ -116,6 +117,9 @@ export type Car = {
   /** "Цена под ключ" block: Korean price plus per-destination costs. */
   pricing?: CarPricing;
   details?: { title: string; body: string }[];
+  /** Where the listing, its photos and figures come from — linked on the car
+   * page so the original seller and site are credited. */
+  source?: { label: string; url: string };
 };
 
 export const cars: Car[] = [
@@ -194,6 +198,7 @@ export const cars: Car[] = [
       },
     ],
   },
+  ...encarCars,
 ];
 
 export const formatPrice = (value: number) =>

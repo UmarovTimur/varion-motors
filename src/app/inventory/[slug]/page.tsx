@@ -12,9 +12,10 @@ import { Media } from "@/components/ui/media";
 import { PriceBreakdown } from "@/components/ui/price-breakdown";
 import { Tag } from "@/components/ui/tag";
 import { VideoPlayer } from "@/components/ui/video-player";
-import { cars, type Spec } from "@/lib/content";
+import { cars, type Car, type Spec } from "@/lib/content";
 import {
   AlignLeft,
+  ArrowUpRight,
   Calendar,
   CarFront,
   Fuel,
@@ -32,7 +33,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
   const car = cars.find((c) => c.slug === slug);
-  return { title: car ? `${car.name} — ${car.badge ?? "кейс"}` : "Кейс" };
+  return { title: car ? `${car.name}, ${car.year}` : "Каталог" };
 }
 
 /** Quick Infos tile: 44px black icon square, 16px label, on white, radius 16. */
@@ -64,6 +65,25 @@ function SpecTile({ spec }: { spec: Spec }) {
       <span className="text-body font-medium">{spec.label}</span>
       <span className="text-body-xs text-ink-muted">{spec.value}</span>
     </div>
+  );
+}
+
+/** Credit for a listing taken from another site: its photos and figures are
+ * the seller's, so the original ad is always one click away. */
+function SourceLink({ source }: { source: NonNullable<Car["source"]> }) {
+  return (
+    <p className="text-body-xs text-ink-subtle">
+      Фото и данные из объявления:{" "}
+      <a
+        href={source.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex items-center gap-0.5 text-ink underline underline-offset-2"
+      >
+        {source.label}
+        <ArrowUpRight className="size-3.5" aria-hidden />
+      </a>
+    </p>
   );
 }
 
@@ -111,6 +131,8 @@ export default async function CarPage({ params }: Params) {
                   <CopyButton label="Копировать № сделки" value={car.dealNo} />
                 ) : null}
               </div>
+
+              {car.source ? <SourceLink source={car.source} /> : null}
             </div>
           </div>
 
@@ -144,11 +166,25 @@ export default async function CarPage({ params }: Params) {
         <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">
           {/* Gallery & Specs */}
           <div className="flex flex-col gap-12 desktop:flex-row desktop:items-start desktop:gap-20">
-            <CarGallery
-              images={car.gallery?.length ? car.gallery : [car.image]}
-              alt={car.name}
-              className="desktop:flex-[668]"
-            />
+            <div className="flex flex-col gap-3 desktop:flex-[668]">
+              <CarGallery
+                images={car.gallery?.length ? car.gallery : [car.image]}
+                alt={car.name}
+              />
+              {car.source ? (
+                <p className="text-body-xs text-ink-subtle">
+                  Фото:{" "}
+                  <a
+                    href={car.source.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline underline-offset-2 hover:text-ink"
+                  >
+                    {car.source.label}
+                  </a>
+                </p>
+              ) : null}
+            </div>
 
             {/* Specs */}
             <div className="flex flex-col items-start gap-8 desktop:flex-[668]">

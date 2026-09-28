@@ -16,7 +16,7 @@ export function FeaturedVehicles() {
         />
 
         <div className="grid gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
-          {cars.map((car) => (
+          {cars.slice(0, 6).map((car) => (
             <CarsCard key={car.slug} car={car} />
           ))}
         </div>
