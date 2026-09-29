@@ -45,11 +45,11 @@ const roundUp = (usd: number) => Math.ceil(usd / 100) * 100;
 function Line({ line, rates }: { line: CostLine; rates: Rates }) {
   const known = line.amount !== null;
   return (
-    <li className="flex items-center gap-3 py-3">
+    <li className="flex items-baseline gap-3 py-3">
       <span className="flex-1 text-body tablet:flex-none">{line.label}</span>
       <span
         aria-hidden
-        className="hidden min-w-4 flex-1 border-b border-dotted border-grey-dark/60 tablet:block"
+        className="mb-1 hidden min-w-4 flex-1 self-end border-b border-dotted border-grey-dark/60 tablet:block"
       />
       <span className="flex shrink-0 flex-col items-end text-right whitespace-nowrap">
         <span
@@ -88,7 +88,7 @@ function Group({
           <span className="grid size-8 shrink-0 place-items-center rounded-full bg-ink text-body-xs text-paper">
             {step}
           </span>
-          <h3 className="text-body-l font-medium">{title}</h3>
+          <h3 className="text-h5">{title}</h3>
         </div>
         <span className="shrink-0 text-body whitespace-nowrap text-ink-muted">
           {subtotal !== null ? `≈ ${formatMoney(subtotal, "USD")}` : "—"}
@@ -140,7 +140,7 @@ export function PriceBreakdown({
     <div className="flex w-full flex-col items-start gap-8">
       <div className="flex flex-col items-start gap-4">
         <Tag>{SHOW_DESTINATIONS ? "Цена под ключ" : "Расходы в Корее"}</Tag>
-        <h2 className="text-h3">{typo("Из чего складывается цена")}</h2>
+        <h2 className="text-h2">{typo("Из чего складывается цена")}</h2>
       </div>
 
       {/* Destination — full width: six countries don't fit the left column */}
@@ -203,11 +203,11 @@ export function PriceBreakdown({
                 : "Итого в Корее"}
             </span>
             {total !== null ? (
-              <span className="font-display text-h2 font-semibold tabular-nums">
+              <span className="font-display text-h1 font-semibold tabular-nums">
                 {formatMoney(roundUp(total), "USD")}
               </span>
             ) : (
-              <span className="text-h4">
+              <span className="text-h3">
                 {typo("Рассчитаем под ваш город")}
               </span>
             )}
