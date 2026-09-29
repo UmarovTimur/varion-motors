@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { MapPin } from "lucide-react";
-import { KG, KZ, RU, TJ, UZ } from "country-flag-icons/react/3x2";
+import { BY, KG, KZ, RU, TJ, UZ } from "country-flag-icons/react/3x2";
 import { Button } from "@/components/ui/button";
 import { Tab } from "@/components/ui/tab";
 import { Tag } from "@/components/ui/tag";
@@ -20,7 +20,7 @@ import {
 import { typo } from "@/lib/utils";
 
 /** SVG, not emoji: Windows renders flag emoji as two bare letters. */
-const flags: Record<DestinationId, typeof RU> = { ru: RU, uz: UZ, kz: KZ, kg: KG, tj: TJ };
+const flags: Record<DestinationId, typeof RU> = { ru: RU, uz: UZ, kz: KZ, by: BY, kg: KG, tj: TJ };
 
 /** Rounded up to $100 — a turnkey quote, not an invoice. */
 const roundUp = (usd: number) => Math.ceil(usd / 100) * 100;
@@ -98,13 +98,13 @@ export function PriceBreakdown({
         <h2 className="text-h2">{typo("Из чего складывается цена")}</h2>
       </div>
 
-      {/* Destination — full width: five countries don't fit the left column */}
+      {/* Destination — full width: six countries don't fit the left column */}
       <fieldset className="flex w-full flex-col gap-3">
         <legend className="mb-3 flex items-center gap-2 text-body text-ink-muted">
           <MapPin className="size-4" aria-hidden />
           Куда доставить
         </legend>
-        <div className="flex flex-wrap gap-2 desktop:grid desktop:grid-cols-5">
+        <div className="flex flex-wrap gap-2 desktop:grid desktop:grid-cols-6">
           {destinations.map((d) => {
             const Flag = flags[d.id];
             return (

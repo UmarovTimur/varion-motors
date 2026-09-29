@@ -42,6 +42,7 @@ export const destinationCountries = [
   { id: "ru", label: "Россия" },
   { id: "uz", label: "Узбекистан" },
   { id: "kz", label: "Казахстан" },
+  { id: "by", label: "Беларусь" },
   { id: "kg", label: "Кыргызстан" },
   { id: "tj", label: "Таджикистан" },
 ] as const;
