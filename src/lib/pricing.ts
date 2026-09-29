@@ -8,12 +8,23 @@
 
 export type Currency = "USD" | "KRW" | "RUB";
 
-/** Units of each currency per 1 USD. Update together with `asOf`. */
-export const rates = {
+/** Units of each currency per 1 USD, as of `asOf` (YYYY-MM-DD). Live values
+ * come from the Bank of Russia via `getRates()` in rates.ts. */
+export type Rates = {
+  asOf: string;
+  KRW: number;
+  RUB: number;
+  source: "cbr" | "fallback";
+};
+
+/** Used when the Bank of Russia can't be reached, and wherever a price only
+ * needs to be roughly right (search, metadata). */
+export const fallbackRates: Rates = {
   asOf: "2026-09-27",
   KRW: 1390,
   RUB: 82,
-} as const;
+  source: "fallback",
+};
 
 /** Logistics and costs in Korea — the same for every car. */
 export const KOREA_BASE_KRW = 1_500_000;
@@ -69,7 +80,7 @@ export type CarPricing = {
   destinations: Destination[];
 };
 
-export const toUsd = (amount: number, currency: Currency) =>
+export const toUsd = (amount: number, currency: Currency, rates: Rates) =>
   currency === "USD" ? amount : amount / rates[currency];
 
 const symbols: Record<Currency, string> = { USD: "$", KRW: "₩", RUB: "₽" };
@@ -91,11 +102,11 @@ export function koreaLines(pricing: CarPricing): CostLine[] {
 }
 
 /** Sum in USD, or `null` if any line is still unpriced. */
-export function sumUsd(lines: CostLine[]): number | null {
+export function sumUsd(lines: CostLine[], rates: Rates): number | null {
   let total = 0;
   for (const line of lines) {
     if (line.amount === null) return null;
-    total += toUsd(line.amount, line.currency);
+    total += toUsd(line.amount, line.currency, rates);
   }
   return total;
 }

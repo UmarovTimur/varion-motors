@@ -4,8 +4,8 @@
  * what the components consume, so only this file needs to change.
  */
 
-import type { CarPricing } from "./pricing";
-import { encarCars } from "./encar-cars";
+import { fallbackRates, type CarPricing, type Rates } from "./pricing";
+import { encarCarsAt } from "./encar-cars";
 import { SHOW_CATALOG } from "./site";
 
 export type NavLink = { label: string; href: string };
@@ -122,7 +122,7 @@ export type Car = {
   source?: { label: string; url: string };
 };
 
-export const cars: Car[] = [
+const ownCars: Car[] = [
   {
     slug: "case-04",
     name: "BMW X3 xDrive20 M Sport",
@@ -188,8 +188,18 @@ export const cars: Car[] = [
       },
     ],
   },
-  ...encarCars,
 ];
+
+/** The catalog with USD prices at the given rates — pages that show prices
+ * pass the live ones from `getRates()`. */
+export const carsAt = (rates: Rates): Car[] => [
+  ...ownCars,
+  ...encarCarsAt(rates),
+];
+
+/** For everything that doesn't depend on the exact rate: slugs, names,
+ * search, metadata. */
+export const cars = carsAt(fallbackRates);
 
 export const formatPrice = (value: number) =>
   new Intl.NumberFormat("en-US", {

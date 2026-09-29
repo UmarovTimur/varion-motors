@@ -1,10 +1,12 @@
 import { CarsCard } from "@/components/ui/cars-card";
 import { Container } from "@/components/ui/container";
 import { SectionTop } from "@/components/ui/section-top";
-import { cars } from "@/lib/content";
+import { carsAt } from "@/lib/content";
+import { getRates } from "@/lib/rates";
 
 /** Featured Vehicles (§4) */
-export function FeaturedVehicles() {
+export async function FeaturedVehicles() {
+  const cars = carsAt(await getRates());
   return (
     <section id="portfolio" className="bg-background">
       <Container className="flex flex-col gap-8 tablet:gap-16 desktop:gap-20">

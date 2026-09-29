@@ -8,7 +8,7 @@ import { CallToAction } from "@/components/sections/call-to-action";
 import { Faq } from "@/components/sections/faq";
 import { Steps } from "@/components/sections/steps";
 
-const map: Record<string, () => React.ReactElement> = {
+const map: Record<string, () => React.ReactElement | Promise<React.ReactElement>> = {
   hero: Hero,
   featured: FeaturedVehicles,
   services: Services,

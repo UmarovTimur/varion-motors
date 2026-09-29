@@ -17,6 +17,10 @@ import { SHOW_CATALOG } from "@/lib/site";
  * (между каталогом и FAQ). Блоки Testimonials и Blog сняты с главной: отзывов
  * пока нет, а блога в структуре лендинга нет — сами компоненты остались.
  */
+/** Prices follow the Bank of Russia rate (RATES_REVALIDATE in rates.ts);
+ * the page is re-rendered in the background at most this often. */
+export const revalidate = 43200;
+
 export default function Home() {
   return (
     <>

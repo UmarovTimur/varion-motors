@@ -12,10 +12,10 @@ import {
 } from "@/components/ui/filter-field";
 import {
   bodyTypes,
-  cars,
   countries,
   priceRanges,
   type BodyType,
+  type Car,
 } from "@/lib/content";
 
 /**
@@ -38,7 +38,8 @@ import {
  */
 const SHOW_FILTERS = false;
 
-export function InventoryBrowser() {
+/** `cars` come priced at the live rate from the server page. */
+export function InventoryBrowser({ cars }: { cars: Car[] }) {
   const [query, setQuery] = useState("");
   const [country, setCountry] = useState("");
   const [yearFrom, setYearFrom] = useState("");
@@ -72,7 +73,7 @@ export function InventoryBrowser() {
 
       return true;
     });
-  }, [query, country, yearFrom, yearTo, ranges, bodyType]);
+  }, [cars, query, country, yearFrom, yearTo, ranges, bodyType]);
 
   const toggleRange = (id: string) =>
     setRanges((current) =>

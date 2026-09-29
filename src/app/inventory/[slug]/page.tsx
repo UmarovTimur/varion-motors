@@ -12,7 +12,8 @@ import { Media } from "@/components/ui/media";
 import { PriceBreakdown } from "@/components/ui/price-breakdown";
 import { Tag } from "@/components/ui/tag";
 import { VideoPlayer } from "@/components/ui/video-player";
-import { cars, type Car, type Spec } from "@/lib/content";
+import { cars, carsAt, type Car, type Spec } from "@/lib/content";
+import { getRates } from "@/lib/rates";
 import {
   AlignLeft,
   ArrowUpRight,
@@ -25,6 +26,10 @@ import {
 import { typo } from "@/lib/utils";
 
 type Params = { params: Promise<{ slug: string }> };
+
+/** Prices follow the Bank of Russia rate (RATES_REVALIDATE in rates.ts);
+ * the page is re-rendered in the background at most this often. */
+export const revalidate = 43200;
 
 export function generateStaticParams() {
   return SHOW_CATALOG ? cars.map((car) => ({ slug: car.slug })) : [];
@@ -89,7 +94,8 @@ function SourceLink({ source }: { source: NonNullable<Car["source"]> }) {
 
 export default async function CarPage({ params }: Params) {
   const { slug } = await params;
-  const car = cars.find((c) => c.slug === slug);
+  const rates = await getRates();
+  const car = carsAt(rates).find((c) => c.slug === slug);
   if (!car || !SHOW_CATALOG) notFound();
 
   const [price, ...quick] = car.quick ?? [];
@@ -202,7 +208,11 @@ export default async function CarPage({ params }: Params) {
 
           {/* Цена под ключ — не из Framer */}
           {car.pricing ? (
-            <PriceBreakdown pricing={car.pricing} carName={car.name} />
+            <PriceBreakdown
+              pricing={car.pricing}
+              carName={car.name}
+              rates={rates}
+            />
           ) : null}
 
           {/* Видео осмотра — не из Framer: в оригинале видеоблока нет */}

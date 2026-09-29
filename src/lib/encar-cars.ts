@@ -1,5 +1,5 @@
 import type { BodyType, Car } from "./content";
-import { formatMoney, rates } from "./pricing";
+import { formatMoney, type Rates } from "./pricing";
 
 /**
  * Cars currently on sale on Encar, picked on 2026-09-28: 2024–2025, low
@@ -35,7 +35,7 @@ type EncarListing = {
 /** "16 754 км" — same thousands spacing as `formatMoney`. */
 const km = (n: number) => `${formatMoney(n, "KRW").slice(0, -2)} км`;
 
-function fromEncar(l: EncarListing): Car {
+function fromEncar(l: EncarListing, rates: Rates): Car {
   const usd = Math.round(l.krw / rates.KRW / 100) * 100;
   const priceLabel = formatMoney(usd, "USD");
   const fuelShort = l.fuel.split(",")[0];
@@ -283,4 +283,6 @@ const listings: EncarListing[] = [
   },
 ];
 
-export const encarCars = listings.map(fromEncar);
+/** The listings as cars, with USD prices at the given exchange rates. */
+export const encarCarsAt = (rates: Rates) =>
+  listings.map((l) => fromEncar(l, rates));
