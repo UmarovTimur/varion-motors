@@ -18,11 +18,10 @@ restart on the box. There is no CI.
   by nginx (`/etc/nginx/sites-available/varion-motors.com`, symlinked into
   `sites-enabled`). DNS is on Cloudflare, proxied, SSL mode **Full**:
   Cloudflare connects to the origin over HTTPS on 443. The origin cert in
-  `/etc/ssl/cloudflare/varion-motors.com.{pem,key}` is **self-signed** (valid
-  to 2036) — fine for "Full", rejected by "Full (strict)". To go strict, issue
-  a Cloudflare Origin Certificate (SSL/TLS → Origin Server), save it over
-  those two files, `sudo nginx -t && sudo systemctl reload nginx`, then
-  switch the zone to strict.
+  `/etc/ssl/cloudflare/varion-motors.com.{pem,key}` is a **Cloudflare Origin
+  Certificate** for `varion-motors.com` and `*.varion-motors.com`, valid to
+  2041-09-28, so the zone can run in "Full (strict)". The self-signed cert
+  used before it is kept next to it as `*.selfsigned.{pem,key}.bak`.
 - Redirects (301, path and query kept, all to `https://varion-motors.com`):
   `http://` and `www.varion-motors.com`, and the old domain
   **camping-rent.uz** / **www.camping-rent.uz**
