@@ -12,7 +12,8 @@ import {
   type DestinationId,
   destinationsFor,
   formatMoney,
-  koreaLines,
+  originLines,
+  originOf,
   type Rates,
   sumUsd,
   toUsd,
@@ -29,14 +30,21 @@ const flags: Record<DestinationId, typeof RU> = {
   tj: TJ,
 };
 
-/** "Курс ЦБ РФ на 29.09.2026: 1 $ = 84,41 ₽, 1 $ = 1 352 ₩." */
-function rateNote(rates: Rates) {
+/** "Курс ЦБ РФ на 29.09.2026: 1 $ = 84,41 ₽, 1 $ = 1 352 ₩." — the second
+ * pair is in the currency the car is priced in. */
+function rateNote(rates: Rates, local: "KRW" | "CNY", withEur: boolean) {
   const [y, m, d] = rates.asOf.split("-");
   const rub = rates.RUB.toFixed(2).replace(".", ",");
-  const krw = formatMoney(rates.KRW, "KRW");
+  const other =
+    local === "CNY"
+      ? `${rates.CNY.toFixed(2).replace(".", ",")} ¥`
+      : formatMoney(rates.KRW, "KRW");
+  const eur = withEur
+    ? `, 1 € = $${(1 / rates.EUR).toFixed(2).replace(".", ",")}`
+    : "";
   return rates.source === "cbr"
-    ? `Курс ЦБ РФ на ${d}.${m}.${y}: 1 $ = ${rub} ₽, 1 $ = ${krw}.`
-    : `Пересчёт по курсу: 1 $ = ${rub} ₽, 1 $ = ${krw}.`;
+    ? `Курс ЦБ РФ на ${d}.${m}.${y}: 1 $ = ${rub} ₽, 1 $ = ${other}${eur}.`
+    : `Пересчёт по курсу: 1 $ = ${rub} ₽, 1 $ = ${other}${eur}.`;
 }
 
 /** Rounded up to $100 — a turnkey quote, not an invoice. */
@@ -130,16 +138,22 @@ export function PriceBreakdown({
   const [destId, setDestId] = useState<DestinationId>(destinations[0].id);
   const dest = destinations.find((d) => d.id === destId) ?? destinations[0];
 
-  const korea = koreaLines(pricing);
+  const origin = originOf(pricing);
+  const atOrigin = originLines(pricing);
+  const extras = pricing.extras;
+  const known = [...atOrigin, ...(extras?.lines ?? [])];
   const total = sumUsd(
-    SHOW_DESTINATIONS ? [...korea, ...dest.delivery, ...dest.customs] : korea,
+    SHOW_DESTINATIONS ? [...known, ...dest.delivery, ...dest.customs] : known,
     rates,
   );
+  const withEur = known.some((l) => l.currency === "EUR");
+  const note = rateNote(rates, origin.currency, withEur);
+  let step = 1;
 
   return (
     <div className="flex w-full flex-col items-start gap-8">
       <div className="flex flex-col items-start gap-4">
-        <Tag>{SHOW_DESTINATIONS ? "Цена под ключ" : "Расходы в Корее"}</Tag>
+        <Tag>{SHOW_DESTINATIONS ? "Цена под ключ" : origin.tag}</Tag>
         <h2 className="text-h2">{typo("Из чего складывается цена")}</h2>
       </div>
 
@@ -175,17 +189,25 @@ export function PriceBreakdown({
       <div className="flex w-full flex-col gap-6 desktop:flex-row desktop:items-start desktop:gap-10">
         {/* Cost lines */}
         <div className="flex w-full flex-col gap-4 desktop:flex-[3]">
-          <Group step={1} title="В Корее" lines={korea} rates={rates} />
+          <Group step={step++} title={origin.group} lines={atOrigin} rates={rates} />
+          {extras ? (
+            <Group
+              step={step++}
+              title={extras.title}
+              lines={extras.lines}
+              rates={rates}
+            />
+          ) : null}
           {SHOW_DESTINATIONS ? (
             <>
               <Group
-                step={2}
+                step={step++}
                 title="Доставка"
                 lines={dest.delivery}
                 rates={rates}
               />
               <Group
-                step={3}
+                step={step++}
                 title="Растаможка и оформление"
                 lines={dest.customs}
                 rates={rates}
@@ -200,7 +222,9 @@ export function PriceBreakdown({
             <span className="text-tag text-paper-muted uppercase">
               {SHOW_DESTINATIONS
                 ? `Итого под ключ · ${dest.label}`
-                : "Итого в Корее"}
+                : extras
+                  ? "Итого"
+                  : origin.total}
             </span>
             {total !== null ? (
               <span className="font-display text-h1 font-semibold tabular-nums">
@@ -215,9 +239,13 @@ export function PriceBreakdown({
 
           <p className="text-body-xs text-paper-muted">
             {!SHOW_DESTINATIONS
-              ? `Без доставки и растаможки — их посчитаем под ваш город и страну бесплатно. ${rateNote(rates)}`
+              ? `${
+                  extras
+                    ? `Без доставки ${origin.from} до вашего города — посчитаем бесплатно.`
+                    : "Без доставки и растаможки — их посчитаем под ваш город и страну бесплатно."
+                } ${note}`
               : total !== null
-                ? `${rateNote(rates)} Точную сумму фиксируем в договоре.`
+                ? `${note} Точную сумму фиксируем в договоре.`
                 : "Для этого направления пришлём полный расчёт в рабочее время — бесплатно."}
           </p>
 

@@ -1,12 +1,13 @@
 /**
  * Turnkey price model for the car page ("Цена под ключ").
  *
- * A car's price is its Korean listing price plus the fixed Korean costs, plus
- * delivery and customs lines that depend on where the car is going. Lines keep
+ * A car's price is its price at the origin — a Korean listing plus the fixed
+ * Korean costs, or a Chinese FOB price at the border — plus delivery and
+ * customs lines that depend on where the car is going. Lines keep
  * the currency they are paid in; the total is converted to USD with `rates`.
  */
 
-export type Currency = "USD" | "KRW" | "RUB";
+export type Currency = "USD" | "KRW" | "RUB" | "CNY" | "EUR";
 
 /** Units of each currency per 1 USD, as of `asOf` (YYYY-MM-DD). Live values
  * come from the Bank of Russia via `getRates()` in rates.ts. */
@@ -14,6 +15,8 @@ export type Rates = {
   asOf: string;
   KRW: number;
   RUB: number;
+  CNY: number;
+  EUR: number;
   source: "cbr" | "fallback";
 };
 
@@ -23,6 +26,8 @@ export const fallbackRates: Rates = {
   asOf: "2026-09-27",
   KRW: 1390,
   RUB: 82,
+  CNY: 7.1,
+  EUR: 0.86,
   source: "fallback",
 };
 
@@ -62,11 +67,12 @@ export type DestinationId = (typeof destinationCountries)[number]["id"];
 
 /** A car's own figures for each country, falling back to unpriced lines. */
 export function destinationsFor(pricing: CarPricing): Destination[] {
+  const from = originOf(pricing).from;
   return destinationCountries.map(
     (country) =>
       pricing.destinations.find((d) => d.id === country.id) ?? {
         ...country,
-        delivery: [{ label: "Доставка из Кореи", amount: null, currency: "USD" }],
+        delivery: [{ label: `Доставка ${from}`, amount: null, currency: "USD" }],
         customs: [
           { label: "Растаможка и оформление", amount: null, currency: "USD" },
         ],
@@ -74,16 +80,59 @@ export function destinationsFor(pricing: CarPricing): Destination[] {
   );
 }
 
-export type CarPricing = {
+type CommonPricing = {
+  destinations: Destination[];
+  /** Known costs past the origin that apply whatever the destination (duty,
+   * our fee) — shown as their own group and counted in the total. */
+  extras?: { title: string; lines: CostLine[] };
+};
+
+/** Bought in Korea: the listing price, plus KOREA_BASE_KRW on top. */
+type KoreaPricing = CommonPricing & {
   /** Listing price in Korea. */
   krw: number;
-  destinations: Destination[];
 };
+
+/** Bought in China at a price that already covers the way to the border. */
+type ChinaPricing = CommonPricing & {
+  /** Price in yuan on `basis` terms. */
+  cny: number;
+  /** Where the price is quoted, e.g. "FOB Хоргос"; omitted while the seller
+   * hasn't said which terms the yuan price is on. */
+  basis?: string;
+};
+
+export type CarPricing = KoreaPricing | ChinaPricing;
+
+/** Wording that depends on where the car is bought. */
+export function originOf(pricing: CarPricing) {
+  return "cny" in pricing
+    ? {
+        currency: "CNY" as const,
+        group: "В Китае",
+        tag: `Цена ${pricing.basis ?? "в Китае"}`,
+        total: `Итого ${pricing.basis ?? "в Китае"}`,
+        from: "из Китая",
+      }
+    : {
+        currency: "KRW" as const,
+        group: "В Корее",
+        tag: "Расходы в Корее",
+        total: "Итого в Корее",
+        from: "из Кореи",
+      };
+}
 
 export const toUsd = (amount: number, currency: Currency, rates: Rates) =>
   currency === "USD" ? amount : amount / rates[currency];
 
-const symbols: Record<Currency, string> = { USD: "$", KRW: "₩", RUB: "₽" };
+const symbols: Record<Currency, string> = {
+  USD: "$",
+  KRW: "₩",
+  RUB: "₽",
+  CNY: "¥",
+  EUR: "€",
+};
 
 /** "$3 500", "73 000 000 ₩", "40 000 ₽" — the site writes prices with spaces. */
 export function formatMoney(amount: number, currency: Currency) {
@@ -93,8 +142,18 @@ export function formatMoney(amount: number, currency: Currency) {
   return currency === "USD" ? `$${n}` : `${n} ${symbols[currency]}`;
 }
 
-/** Korean lines shared by every destination. */
-export function koreaLines(pricing: CarPricing): CostLine[] {
+/** Costs at the origin, shared by every destination. */
+export function originLines(pricing: CarPricing): CostLine[] {
+  if ("cny" in pricing)
+    return [
+      {
+        label: pricing.basis
+          ? `Цена автомобиля, ${pricing.basis}`
+          : "Цена автомобиля в Китае",
+        amount: pricing.cny,
+        currency: "CNY",
+      },
+    ];
   return [
     { label: "Цена автомобиля в Корее", amount: pricing.krw, currency: "KRW" },
     { label: "Логистика и затраты в Корее", amount: KOREA_BASE_KRW, currency: "KRW" },

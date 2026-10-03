@@ -11,7 +11,7 @@ export const site = {
   /** Working numbers, in display order. They used to be split per country;
    * now that the offer is CIS-wide they are just the lines you can call. */
   phones: ["+998 90 345 38 43", "+7 991 139 3253"],
-  telegram: "https://t.me/aim_team1",
+  telegram: "https://t.me/varion_taem",
   /** Public channel with news and new arrivals — not the chat above. */
   telegramChannel: "https://t.me/name_qili",
   whatsapp: "https://wa.me/998903453843",
