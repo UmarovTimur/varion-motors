@@ -160,6 +160,18 @@ export function originLines(pricing: CarPricing): CostLine[] {
   ];
 }
 
+/** Sum of the priced lines in USD; `partial` when some line is still unpriced,
+ * which makes the sum a minimum rather than a total. */
+export function sumKnownUsd(lines: CostLine[], rates: Rates) {
+  let usd = 0;
+  let partial = false;
+  for (const line of lines) {
+    if (line.amount === null) partial = true;
+    else usd += toUsd(line.amount, line.currency, rates);
+  }
+  return { usd, partial };
+}
+
 /** Sum in USD, or `null` if any line is still unpriced. */
 export function sumUsd(lines: CostLine[], rates: Rates): number | null {
   let total = 0;

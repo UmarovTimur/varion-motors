@@ -179,7 +179,7 @@ export function InventoryBrowser({ cars }: { cars: Car[] }) {
 
           {/* Inventories */}
           {results.length > 0 ? (
-            <div className="grid w-full grid-cols-1 gap-6 tablet:grid-cols-2">
+            <div className="grid w-full grid-cols-1 gap-6 tablet:grid-cols-2 desktop:grid-cols-3">
               {results.map((car) => (
                 <CarsCard key={car.slug} car={car} />
               ))}

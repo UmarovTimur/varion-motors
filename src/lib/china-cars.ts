@@ -5,7 +5,7 @@ import {
   formatMoney,
   originLines,
   type Rates,
-  sumUsd,
+  sumKnownUsd,
 } from "./pricing";
 
 /**
@@ -64,9 +64,12 @@ function fromChina(l: ChinaListing, rates: Rates): Car {
     extras: l.extras,
     destinations: [],
   };
-  const total = sumUsd([...originLines(pricing), ...(l.extras?.lines ?? [])], rates);
-  const usd = total === null ? 0 : Math.ceil(total / 100) * 100;
-  const priceLabel = formatMoney(usd, "USD");
+  const { usd: total, partial } = sumKnownUsd(
+    [...originLines(pricing), ...(l.extras?.lines ?? [])],
+    rates,
+  );
+  const usd = Math.ceil(total / 100) * 100;
+  const priceLabel = `${partial ? "от " : ""}${formatMoney(usd, "USD")}`;
   const body = l.bodyLabel ?? l.bodyType;
   const terms = l.basis ?? "в Китае";
   return {
@@ -165,7 +168,7 @@ const listings: ChinaListing[] = [
   },
   {
     slug: "zeekr-001-you-2025",
-    name: "Zeekr 001 YOU 100 кВт·ч 4WD",
+    name: "Zeekr 001 YOU 100 кВт·ч 4WD, серый",
     year: 2025,
     registered: "03.07.2025",
     mileage: 2900,
@@ -184,6 +187,30 @@ const listings: ChinaListing[] = [
     equipment:
       "Версия YOU, батарея 100 кВт·ч, полный привод. Светлый салон с перфорированной кожей, панорамная крыша, большой центральный дисплей и экран для задних пассажиров, тормоза с оранжевыми суппортами.",
     photos: 8,
+  },
+  {
+    slug: "zeekr-001-you-2025-white",
+    name: "Zeekr 001 YOU 100 кВт·ч 4WD, белый",
+    year: 2025,
+    registered: "23.07.2025",
+    mileage: 3600,
+    bodyType: "Седан",
+    bodyLabel: "Лифтбек",
+    model: "Zeekr 001",
+    trim: "YOU, батарея 100 кВт·ч",
+    fuel: "Электро",
+    engine: "Два электромотора, 100 кВт·ч",
+    drive: "Полный (4WD)",
+    color: "Белый",
+    condition:
+      "Весь в заводском окрасе: оригинальные кузовные детали, без подкрасов",
+    cny: 237_300,
+    basis: "FOB Хоргос",
+    description:
+      "Электрический Zeekr 001 2025 года в версии YOU с батареей 100 кВт·ч и полным приводом, белый кузов. Пробег 3 600 км, оригинальные кузовные детали без подкрасов.",
+    equipment:
+      "Версия YOU, батарея 100 кВт·ч, полный привод. Светлый салон с тёмно-синими вставками, стеклянная крыша, оранжевые тормозные суппорты.",
+    photos: 5,
   },
 ];
 

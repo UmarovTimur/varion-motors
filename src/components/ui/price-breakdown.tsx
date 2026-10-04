@@ -15,7 +15,7 @@ import {
   originLines,
   originOf,
   type Rates,
-  sumUsd,
+  sumKnownUsd,
   toUsd,
 } from "@/lib/pricing";
 import { typo } from "@/lib/utils";
@@ -88,7 +88,8 @@ function Group({
   lines: CostLine[];
   rates: Rates;
 }) {
-  const subtotal = sumUsd(lines, rates);
+  const { usd, partial } = sumKnownUsd(lines, rates);
+  const priced = lines.some((l) => l.amount !== null);
   return (
     <div className="rounded-md bg-background-mid p-5 tablet:p-6">
       <div className="flex items-center justify-between gap-4 border-b border-grey pb-4">
@@ -99,7 +100,7 @@ function Group({
           <h3 className="text-h5">{title}</h3>
         </div>
         <span className="shrink-0 text-body whitespace-nowrap text-ink-muted">
-          {subtotal !== null ? `≈ ${formatMoney(subtotal, "USD")}` : "—"}
+          {priced ? `${partial ? "от " : ""}≈ ${formatMoney(usd, "USD")}` : "—"}
         </span>
       </div>
       <ul className="divide-y divide-grey/60">
@@ -121,7 +122,7 @@ const SHOW_DESTINATIONS = false;
 /**
  * "Цена под ключ" on the car page: pick a destination, see the Korean costs,
  * delivery and customs lines, and the USD total. A destination with any
- * unpriced line shows "рассчитаем" instead of a total that would be wrong.
+ * unpriced line shows the sum of the priced ones as "от …" — a minimum.
  * With SHOW_DESTINATIONS off it is just the Korean costs and their total.
  */
 export function PriceBreakdown({
@@ -142,7 +143,7 @@ export function PriceBreakdown({
   const atOrigin = originLines(pricing);
   const extras = pricing.extras;
   const known = [...atOrigin, ...(extras?.lines ?? [])];
-  const total = sumUsd(
+  const { usd: total, partial } = sumKnownUsd(
     SHOW_DESTINATIONS ? [...known, ...dest.delivery, ...dest.customs] : known,
     rates,
   );
@@ -226,15 +227,10 @@ export function PriceBreakdown({
                   ? "Итого"
                   : origin.total}
             </span>
-            {total !== null ? (
-              <span className="font-display text-h1 font-semibold tabular-nums">
-                {formatMoney(roundUp(total), "USD")}
-              </span>
-            ) : (
-              <span className="text-h3">
-                {typo("Рассчитаем под ваш город")}
-              </span>
-            )}
+            <span className="font-display text-h1 font-semibold tabular-nums">
+              {partial ? "от " : ""}
+              {formatMoney(roundUp(total), "USD")}
+            </span>
           </div>
 
           <p className="text-body-xs text-paper-muted">
@@ -243,10 +239,12 @@ export function PriceBreakdown({
                   extras
                     ? `Без доставки ${origin.from} до вашего города — посчитаем бесплатно.`
                     : "Без доставки и растаможки — их посчитаем под ваш город и страну бесплатно."
-                } ${note}`
-              : total !== null
-                ? `${note} Точную сумму фиксируем в договоре.`
-                : "Для этого направления пришлём полный расчёт в рабочее время — бесплатно."}
+                }`
+              : "Точную сумму фиксируем в договоре."}{" "}
+            {partial
+              ? "Часть расходов пока уточняем, поэтому это минимум: итог будет не меньше. "
+              : ""}
+            {note}
           </p>
 
           <Button
@@ -255,7 +253,7 @@ export function PriceBreakdown({
             variant="primary"
             className="w-full justify-between"
           >
-            {SHOW_DESTINATIONS && total !== null
+            {SHOW_DESTINATIONS && !partial
               ? "Хочу такую же"
               : "Рассчитать под ключ"}
           </Button>
