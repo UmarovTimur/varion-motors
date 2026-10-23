@@ -37,10 +37,12 @@
   --color-text-white: #ffffff; /* Text White */
   --color-grey-dark: #888888; /* Greys/Grey Dark */
 
-  /* Messenger brand colours — the lead dialog's Telegram / WhatsApp buttons.
+  /* Messenger brand colours — the lead dialog's Telegram / WhatsApp buttons
+   * and the footer's contact glyphs.
    * Not Framer tokens: the dialog follows the client's own reference. */
   --color-telegram: #26a5e4;
   --color-whatsapp: #25d366;
+  --color-instagram: #e4405f;
 
   /* --- Radii --- */
   --radius-sm: 12px;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ContactLink } from "@/components/ui/contact-link";
+import { InstagramIcon, TelegramIcon } from "@/components/ui/messenger-icons";
 import { NavLink } from "@/components/ui/nav-link";
 import { footerLinksLeft, footerLinksRight, legalLinks } from "@/lib/content";
 import { site } from "@/lib/site";
@@ -14,6 +15,9 @@ import { typo } from "@/lib/utils";
  */
 /** See the note by the address below: it is rendered in pieces on purpose. */
 const [emailLocal, emailDomain] = site.email.split("@");
+
+/** Messenger links in the contacts line: brand glyph sized to the text. */
+const iconLink = "inline-flex items-center gap-1.5 align-bottom";
 
 export function Footer() {
   return (
@@ -65,23 +69,33 @@ export function Footer() {
               {site.address && <p>{site.address}</p>}
               <p>{site.phones.join(", ")}</p>
               <p>
-                <a href={site.telegram}>Telegram</a> ·{" "}
+                <a href={site.telegram} className={iconLink}>
+                  <TelegramIcon className="size-[1em] text-telegram" />
+                  Telegram
+                </a>{" "}
+                ·{" "}
                 <a
                   href={site.telegramChannel}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="underline underline-offset-4"
+                  className={iconLink}
                 >
-                  Наш Telegram-канал
+                  <TelegramIcon className="size-[1em] text-telegram" />
+                  <span className="underline underline-offset-4">
+                    Наш Telegram-канал
+                  </span>
                 </a>{" "}
                 ·{" "}
                 <a
                   href={site.instagram}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="underline underline-offset-4"
+                  className={iconLink}
                 >
-                  Instagram
+                  <InstagramIcon className="size-[1em] text-instagram" />
+                  <span className="underline underline-offset-4">
+                    Instagram
+                  </span>
                 </a>
                 {emailLocal && (
                   <>
