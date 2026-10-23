@@ -150,7 +150,7 @@ export default async function CarPage({ params }: Params) {
 
             {/* Quick Infos */}
             {car.quick ? (
-              <div className="flex w-full flex-col gap-2 rounded-md bg-background-mid p-1 desktop:absolute desktop:w-[280px] desktop:right-4 desktop:bottom-4">
+              <div className="flex w-full flex-col gap-2 rounded-md bg-background-mid p-1 desktop:absolute desktop:w-[330px] desktop:right-4 desktop:bottom-4">
                 <QuickTile icon={TagIcon} value={price.value} />
                 <div className="grid grid-cols-2 gap-1">
                   {quick.map((item, i) => (

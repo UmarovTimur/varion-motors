@@ -24,7 +24,7 @@ export function CarsCard({ car }: { car: Car }) {
           src={car.image}
           alt={car.name}
           fill
-          sizes="(min-width: 1200px) 456px, (min-width: 810px) 50vw, 100vw"
+          sizes="(min-width: 1200px) 320px, (min-width: 810px) 50vw, 100vw"
           className="object-cover object-center"
         />
 

@@ -3,7 +3,7 @@ import { fallbackRates, type Rates } from "./pricing";
 /**
  * Official Bank of Russia rates for today (XML_daily.asp): roubles per unit of
  * each currency, in windows-1251 with decimal commas. RUB per USD is the USD
- * rate itself; KRW per USD goes through the rouble (the Bank does not quote
+ * rate itself; KRW, CNY and EUR per USD go through the rouble (the Bank does not quote
  * cross rates).
  */
 const CBR_URL = "https://www.cbr.ru/scripts/XML_daily.asp";
@@ -40,6 +40,8 @@ export async function getRates(): Promise<Rates> {
       asOf: `${date[3]}-${date[2]}-${date[1]}`,
       RUB: Math.round(usd * 100) / 100,
       KRW: Math.round(usd / rubPer(xml, "KRW")),
+      CNY: Math.round((usd / rubPer(xml, "CNY")) * 100) / 100,
+      EUR: Math.round((usd / rubPer(xml, "EUR")) * 1000) / 1000,
       source: "cbr",
     };
   } catch (error) {

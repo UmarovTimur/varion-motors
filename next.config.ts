@@ -15,8 +15,8 @@ const nextConfig: NextConfig = {
     "*.local",
     // The dev server also runs on the VPS behind nginx, served on the real
     // domain, so the domain itself has to be a trusted dev origin.
-    "camping-rent.uz",
-    "www.camping-rent.uz",
+    "varion-motors.com",
+    "www.varion-motors.com",
     "57.129.62.155",
   ],
 };

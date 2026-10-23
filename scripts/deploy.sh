@@ -8,7 +8,7 @@ HOST="ubuntu@57.129.62.155"
 DIR="/srv/apex/varion-motors"
 APP="varion-motors"
 BRANCH="framer-port"
-URL="http://camping-rent.uz"
+URL="https://varion-motors.com"
 
 cd "$(dirname "$0")/.."
 

@@ -5,6 +5,7 @@
  */
 
 import { fallbackRates, type CarPricing, type Rates } from "./pricing";
+import { chinaCarsAt } from "./china-cars";
 import { encarCarsAt } from "./encar-cars";
 import { SHOW_CATALOG } from "./site";
 
@@ -194,6 +195,7 @@ const ownCars: Car[] = [
  * pass the live ones from `getRates()`. */
 export const carsAt = (rates: Rates): Car[] => [
   ...ownCars,
+  ...chinaCarsAt(rates),
   ...encarCarsAt(rates),
 ];
 
