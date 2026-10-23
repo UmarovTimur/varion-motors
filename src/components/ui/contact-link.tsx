@@ -1,8 +1,21 @@
+import type { ComponentType } from "react";
 import { MapPin, Mail, Phone } from "lucide-react";
+import { InstagramIcon, TelegramIcon } from "@/components/ui/messenger-icons";
 import { Sweep } from "@/components/ui/sweep";
 import { cn } from "@/lib/utils";
 
-const icons = { Location: MapPin, Mail, Phone } as const;
+type IconComponent = ComponentType<{
+  className?: string;
+  "aria-hidden"?: boolean;
+}>;
+
+const icons = {
+  Location: MapPin,
+  Mail,
+  Phone,
+  Instagram: InstagramIcon,
+  Telegram: TelegramIcon,
+} satisfies Record<string, IconComponent>;
 
 /**
  * Contact Link (§7) — 52x52 icon link, radius 16.
@@ -22,7 +35,7 @@ export function ContactLink({
   variant?: "primary" | "secondary";
   className?: string;
 }) {
-  const Icon = icons[icon];
+  const Icon: IconComponent = icons[icon];
 
   return (
     <a

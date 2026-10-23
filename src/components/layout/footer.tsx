@@ -37,15 +37,25 @@ export function Footer() {
                   Получить подборку
                 </Button>
                 {/* ContactLinks */}
-                {site.mapsUrl && (
-                  <div className="flex items-start gap-2">
+                <div className="flex items-start gap-2">
+                  {site.mapsUrl && (
                     <ContactLink
                       icon="Location"
                       href={site.mapsUrl}
                       ariaLabel="Maps"
                     />
-                  </div>
-                )}
+                  )}
+                  <ContactLink
+                    icon="Instagram"
+                    href={site.instagram}
+                    ariaLabel="Instagram"
+                  />
+                  <ContactLink
+                    icon="Telegram"
+                    href={site.telegramChannel}
+                    ariaLabel="Telegram-канал"
+                  />
+                </div>
               </div>
             </div>
 
@@ -63,6 +73,15 @@ export function Footer() {
                   className="underline underline-offset-4"
                 >
                   Наш Telegram-канал
+                </a>{" "}
+                ·{" "}
+                <a
+                  href={site.instagram}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="underline underline-offset-4"
+                >
+                  Instagram
                 </a>
                 {emailLocal && (
                   <>
