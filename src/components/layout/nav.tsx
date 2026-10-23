@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { MenuToggle } from "@/components/ui/menu-toggle";
-import { TelegramIcon, WhatsAppIcon } from "@/components/ui/messenger-icons";
+import {
+  InstagramIcon,
+  TelegramIcon,
+  WhatsAppIcon,
+} from "@/components/ui/messenger-icons";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { NavLink } from "@/components/ui/nav-link";
 import { navLinks } from "@/lib/content";
@@ -114,6 +118,13 @@ export function Nav() {
             className="bg-whatsapp"
           >
             <WhatsAppIcon className="size-4 tablet:size-5" />
+          </MessengerLink>
+          <MessengerLink
+            href={site.instagram}
+            label="Instagram"
+            className="bg-instagram-gradient"
+          >
+            <InstagramIcon className="size-4 tablet:size-5" />
           </MessengerLink>
           <ThemeToggle />
           <Button

@@ -43,6 +43,16 @@
   --color-telegram: #26a5e4;
   --color-whatsapp: #25d366;
   --color-instagram: #e4405f;
+  /* Instagram's own gradient — the header button; a flat colour does not read
+   * as Instagram the way Telegram blue and WhatsApp green do. */
+  --background-image-instagram-gradient: radial-gradient(
+    circle at 30% 107%,
+    #fdf497 0%,
+    #fdf497 5%,
+    #fd5949 45%,
+    #d6249f 60%,
+    #285aeb 90%
+  );
 
   /* --- Radii --- */
   --radius-sm: 12px;
